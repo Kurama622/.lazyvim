@@ -62,8 +62,8 @@ return {
           float_hl = "Normal",
           border_hl = "FloatBorder",
           blend = 0,
-          height = 0.8,
-          width = 0.8,
+          height = 0.5,
+          width = 0.9,
           x = 0.5,
           y = 0.5,
         },
@@ -77,5 +77,11 @@ return {
       }
     end,
     keys = { { "<F5>", "<cmd>FloatRunToggle<cr>" } },
+  },
+
+  -- ai
+  {
+    "Exafunction/codeium.vim",
+    event = "BufEnter",
   },
 }
