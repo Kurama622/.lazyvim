@@ -53,9 +53,8 @@ return {
   -- run code
   {
     "StubbornVegeta/FloatRun",
-    cmd = "FloatRunToggle",
+    cmd = { "FloatRunToggle", "FloatTermToggle" },
     opts = function()
-      local file = vim.api.nvim_buf_get_name(0)
       return {
         ui = {
           border = "single",
@@ -68,17 +67,43 @@ return {
           y = 0.5,
         },
         run_command = {
-          cpp = "g++ -std=c++11 " .. file .. " -Wall -o " .. vim.fn.expand("%<") .. " && ./" .. vim.fn.expand("%<"),
-          python = "python " .. file,
-          lua = "luafile " .. file,
-          sh = "sh " .. file,
+          cpp = "g++ -std=c++11 %s -Wall -o {} && {}",
+          python = "python %s",
+          lua = "lua %s",
+          sh = "sh %s",
           [""] = "",
         },
       }
     end,
-    keys = { { "<F5>", "<cmd>FloatRunToggle<cr>" } },
+    keys = {
+      { "<F5>", "<cmd>FloatRunToggle<cr>" },
+      { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
+    },
   },
 
+  {
+    "StubbornVegeta/markdown-org",
+    ft = "markdown",
+    config = function()
+      return {
+        default_quick_keys = 0,
+        vim.api.nvim_set_var("org#style#border", 2),
+        vim.api.nvim_set_var("org#style#bordercolor", "FloatBorder"),
+        vim.api.nvim_set_var("org#style#color", "String"),
+        language_path = {
+          python = "python",
+          python3 = "python3",
+          go = "go",
+          c = "gcc",
+          cpp = "g++",
+        },
+      }
+    end,
+    keys = {
+      { "<leader>mb", "<cmd>call org#main#runCodeBlock()<cr>" },
+      { "<leader>ml", "<cmd>call org#main#runLanguage()<cr>" },
+    },
+  },
   -- ai
   {
     "Exafunction/codeium.vim",
