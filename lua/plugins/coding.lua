@@ -109,4 +109,36 @@ return {
     "Exafunction/codeium.vim",
     event = "BufEnter",
   },
+  -- format
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+        python = { "autopep8" },
+      },
+    },
+  },
+  {
+    "StubbornVegeta/style-transfer.nvim",
+    cmd = { "TransferCamelCase", "TransferMixedCase", "TransferStrCase" },
+    config = function()
+      require("style_transfer").setup()
+    end,
+    keys = {
+      { "crc", mode = "n", "<cmd>TransferCamelCase<cr>" },
+      { "crm", mode = "n", "<cmd>TransferMixedCase<cr>" },
+      { "crs", mode = "n", "<cmd>TransferStrCase _<cr>" },
+      { "cr-", mode = "n", "<cmd>TransferStrCase -<cr>" },
+      { "cr.", mode = "n", "<cmd>TransferStrCase .<cr>" },
+      { "rc", mode = "x", "<cmd>TransferCamelCase<cr>" },
+      { "rm", mode = "x", "<cmd>TransferMixedCase<cr>" },
+      { "rs", mode = "x", "<cmd>TransferStrCase _<cr>" },
+      { "r-", mode = "x", "<cmd>TransferStrCase -<cr>" },
+      { "r.", mode = "x", "<cmd>TransferStrCase .<cr>" },
+    },
+  },
 }
