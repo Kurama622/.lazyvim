@@ -122,6 +122,7 @@ return {
       },
     },
   },
+
   {
     "StubbornVegeta/style-transfer.nvim",
     cmd = { "TransferCamelCase", "TransferMixedCase", "TransferStrCase" },
@@ -131,12 +132,12 @@ return {
     keys = {
       { "crc", mode = "n", "<cmd>TransferCamelCase<cr>" },
       { "crm", mode = "n", "<cmd>TransferMixedCase<cr>" },
-      { "crs", mode = "n", "<cmd>TransferStrCase _<cr>" },
+      { "cr_", mode = "n", "<cmd>TransferStrCase _<cr>" },
       { "cr-", mode = "n", "<cmd>TransferStrCase -<cr>" },
       { "cr.", mode = "n", "<cmd>TransferStrCase .<cr>" },
       { "rc", mode = "x", "<cmd>TransferCamelCase<cr>" },
       { "rm", mode = "x", "<cmd>TransferMixedCase<cr>" },
-      { "rs", mode = "x", "<cmd>TransferStrCase _<cr>" },
+      { "r_", mode = "x", "<cmd>TransferStrCase _<cr>" },
       { "r-", mode = "x", "<cmd>TransferStrCase -<cr>" },
       { "r.", mode = "x", "<cmd>TransferStrCase .<cr>" },
     },
