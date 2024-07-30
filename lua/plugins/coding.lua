@@ -104,11 +104,13 @@ return {
       { "<leader>ml", "<cmd>call org#main#runLanguage()<cr>" },
     },
   },
+
   -- ai
   {
     "Exafunction/codeium.vim",
     event = "BufEnter",
   },
+
   -- format
   {
     "stevearc/conform.nvim",
