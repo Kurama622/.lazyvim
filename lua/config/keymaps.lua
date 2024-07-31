@@ -12,17 +12,21 @@ end
 -- stylua: ignore
 local all_maps = {
   -- Normal mode mappings
-  { mode = "n", lhs = "S",   rhs = "<cmd>w<cr>" },
-  { mode = "n", lhs = "Q",   rhs = "<cmd>quit<cr>" },
-  { mode = "n", lhs = "<leader>d", rhs = "<cmd>Dashboard<cr>" },
+  { mode = "n", lhs = "S",          rhs = "<cmd>w<cr>" },
+  { mode = "n", lhs = "Q",          rhs = "<cmd>quit<cr>" },
+  { mode = "n", lhs = "<leader>d",  rhs = "<cmd>Dashboard<cr>" },
   { mode = "n", lhs = "<leader>ai", rhs = "<cmd>CodeiumToggle<cr>" },
   { mode = "n", lhs = "<leader>ac", rhs = "<cmd>call codeium#Chat()<cr>" },
+  { mode = "n", lhs = "<up>",       rhs = ":res +5<cr>",             opts = { noremap = true, silent = true } },
+  { mode = "n", lhs = "<down>",     rhs = ":res -5<cr>",             opts = { noremap = true, silent = true } },
+  { mode = "n", lhs = "<left>",     rhs = ":vertical resize -5<cr>", opts = { noremap = true, silent = true } },
+  { mode = "n", lhs = "<right>",    rhs = ":vertical resize +5<cr>", opts = { noremap = true, silent = true } },
 
   -- Insert mode mappings
-  { mode = "i", lhs = "<C-e>", rhs = function() return vim.fn["codeium#Accept"]() end, opts = { expr = true, silent = true } },
+  { mode = "i", lhs = "<C-e>",  rhs = function() return vim.fn["codeium#Accept"]() end, opts = { expr = true, silent = true } },
   { mode = "i", lhs = "<c-\\>", rhs = function() return vim.fn["codeium#CycleCompletions"](1) end, opts = { expr = true, silent = true } },
-  { mode = "i", lhs = "<c-|>", rhs = function() return vim.fn["codeium#CycleCompletions"](-1) end, opts = { expr = true, silent = true } },
-  { mode = "i", lhs = "<c-x>", rhs = function() return vim.fn["codeium#Clear"]() end, opts = { expr = true, silent = true } },
+  { mode = "i", lhs = "<c-|>",  rhs = function() return vim.fn["codeium#CycleCompletions"](-1) end, opts = { expr = true, silent = true } },
+  { mode = "i", lhs = "<c-x>",  rhs = function() return vim.fn["codeium#Clear"]() end, opts = { expr = true, silent = true } },
 }
 
 for _, mapping in ipairs(all_maps) do
