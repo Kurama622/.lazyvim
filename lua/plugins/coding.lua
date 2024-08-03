@@ -111,6 +111,21 @@ return {
     event = "BufEnter",
   },
 
+  -- lspconfig
+  {
+    "neovim/nvim-lspconfig",
+    ---@class PluginLspOpts
+    opts = {
+      -- inlay_hints = { enabled = vim.fn.has("nvim-0.10") },
+      inlay_hints = { enabled = false },
+      ---@type lspconfig.options
+      servers = {
+        clangd = {},
+        pyright = {},
+      },
+    },
+  },
+
   -- format
   {
     "stevearc/conform.nvim",
