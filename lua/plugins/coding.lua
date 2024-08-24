@@ -111,6 +111,52 @@ return {
     event = "BufEnter",
   },
 
+  {
+    "StubbornVegeta/llm.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+    cmd = { "LLMSesionToggle", "LLMSelectedTextHandler" },
+    config = function()
+      require("llm").setup({
+        prompt = "请用中文回答",
+        max_tokens = 512,
+        model = "@cf/qwen/qwen1.5-14b-chat-awq",
+        prefix = {
+          user = { text = "😃 ", hl = "Title" },
+          assistant = { text = "⚡ ", hl = "Added" },
+        },
+
+        save_session = true,
+        max_history = 15,
+
+        -- stylua: ignore
+        keys = {
+          -- The keyboard mapping for the input window.
+          ["Input:Submit"]  = { mode = "n", key = "<cr>" },
+          ["Input:Cancel"]  = { mode = "n", key = "<C-c>" },
+          ["Input:Resend"]  = { mode = "n", key = "<C-r>" },
+
+          -- only works when "save_session = true"
+          ["Input:HistoryNext"]  = { mode = "n", key = "<C-j>" },
+          ["Input:HistoryPrev"]  = { mode = "n", key = "<C-k>" },
+
+          -- The keyboard mapping for the output window in "split" style.
+          ["Output:Ask"]  = { mode = "n", key = "i" },
+          ["Output:Cancel"]  = { mode = "n", key = "<C-c>" },
+          ["Output:Resend"]  = { mode = "n", key = "<C-r>" },
+
+          -- The keyboard mapping for the output and input windows in "float" style.
+          ["Session:Toggle"] = { mode = "n", key = "<leader>ac" },
+          ["Session:Close"]  = { mode = "n", key = "<esc>" },
+        },
+      })
+    end,
+    keys = {
+      { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
+      { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
+      { "<leader>t", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
+    },
+  },
+
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
@@ -157,6 +203,15 @@ return {
       { "r_", mode = "x", "<cmd>TransferStrCase _<cr>" },
       { "r-", mode = "x", "<cmd>TransferStrCase -<cr>" },
       { "r.", mode = "x", "<cmd>TransferStrCase .<cr>" },
+    },
+  },
+
+  {
+    "dhruvasagar/vim-table-mode",
+    cmd = "TableModeToggle",
+    on_filetype = "markdown",
+    keys = {
+      { "<leader>tm", mode = "n", "<cmd>TableModeToggle<cr>" },
     },
   },
 }
