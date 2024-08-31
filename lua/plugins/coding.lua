@@ -52,7 +52,7 @@ return {
 
   -- run code
   {
-    "StubbornVegeta/FloatRun",
+    "Kurama622/FloatRun",
     cmd = { "FloatRunToggle", "FloatTermToggle" },
     opts = function()
       return {
@@ -82,7 +82,7 @@ return {
   },
 
   {
-    "StubbornVegeta/markdown-org",
+    "Kurama622/markdown-org",
     ft = "markdown",
     config = function()
       return {
@@ -112,7 +112,7 @@ return {
   },
 
   {
-    "StubbornVegeta/llm.nvim",
+    "Kurama622/llm.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
     cmd = { "LLMSesionToggle", "LLMSelectedTextHandler" },
     config = function()
@@ -187,7 +187,7 @@ return {
   },
 
   {
-    "StubbornVegeta/style-transfer.nvim",
+    "Kurama622/style-transfer.nvim",
     cmd = { "TransferCamelCase", "TransferMixedCase", "TransferStrCase" },
     config = function()
       require("style_transfer").setup()
