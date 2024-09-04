@@ -117,9 +117,12 @@ return {
     cmd = { "LLMSesionToggle", "LLMSelectedTextHandler" },
     config = function()
       require("llm").setup({
-        prompt = "请用中文回答",
-        max_tokens = 512,
-        model = "@cf/qwen/qwen1.5-14b-chat-awq",
+        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        model = "glm-4-flash",
+        -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
+        -- prompt = "",
+        max_tokens = 4095,
+
         prefix = {
           user = { text = "😃 ", hl = "Title" },
           assistant = { text = "⚡ ", hl = "Added" },
@@ -128,26 +131,88 @@ return {
         save_session = true,
         max_history = 15,
 
+        -- popup window options
+        popwin_opts = {
+          relative = "cursor",
+          position = {
+            row = -7,
+            col = 15,
+          },
+          size = {
+            height = 20,
+            width = "60%",
+          },
+          enter = true,
+          focusable = true,
+          zindex = 50,
+          border = {
+            style = "rounded",
+            text = {
+              top = " Explain ",
+              top_align = "center",
+            },
+          },
+          win_options = {
+            winblend = 0,
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+          },
+        },
+
         -- stylua: ignore
         keys = {
           -- The keyboard mapping for the input window.
-          ["Input:Submit"]  = { mode = "n", key = "<cr>" },
-          ["Input:Cancel"]  = { mode = "n", key = "<C-c>" },
-          ["Input:Resend"]  = { mode = "n", key = "<C-r>" },
+          ["Input:Submit"]      = { mode = "n", key = "<cr>" },
+          ["Input:Cancel"]      = { mode = "n", key = "<C-c>" },
+          ["Input:Resend"]      = { mode = "n", key = "<C-r>" },
 
           -- only works when "save_session = true"
-          ["Input:HistoryNext"]  = { mode = "n", key = "<C-j>" },
-          ["Input:HistoryPrev"]  = { mode = "n", key = "<C-k>" },
+          ["Input:HistoryNext"] = { mode = "n", key = "<C-j>" },
+          ["Input:HistoryPrev"] = { mode = "n", key = "<C-k>" },
 
           -- The keyboard mapping for the output window in "split" style.
-          ["Output:Ask"]  = { mode = "n", key = "i" },
-          ["Output:Cancel"]  = { mode = "n", key = "<C-c>" },
-          ["Output:Resend"]  = { mode = "n", key = "<C-r>" },
+          ["Output:Ask"]        = { mode = "n", key = "i" },
+          ["Output:Cancel"]     = { mode = "n", key = "<C-c>" },
+          ["Output:Resend"]     = { mode = "n", key = "<C-r>" },
 
           -- The keyboard mapping for the output and input windows in "float" style.
-          ["Session:Toggle"] = { mode = "n", key = "<leader>ac" },
-          ["Session:Close"]  = { mode = "n", key = "<esc>" },
+          ["Session:Toggle"]    = { mode = "n", key = "<leader>ac" },
+          ["Session:Close"]     = { mode = "n", key = "<esc>" },
         },
+
+        streaming_handler = function(chunk, line, output, bufnr, winid, F)
+          if not chunk then
+            return output
+          end
+          local tail = chunk:sub(-1, -1)
+          if tail:sub(1, 1) ~= "}" then
+            line = line .. chunk
+          else
+            line = line .. chunk
+
+            local start_idx = line:find("data: ", 1, true)
+            local end_idx = line:find("}}]}", 1, true)
+            local json_str = nil
+
+            while start_idx ~= nil and end_idx ~= nil do
+              if start_idx < end_idx then
+                json_str = line:sub(7, end_idx + 3)
+              end
+              local data = vim.fn.json_decode(json_str)
+              output = output .. data.choices[1].delta.content
+              F.WriteContent(bufnr, winid, data.choices[1].delta.content)
+
+              if end_idx + 4 > #line then
+                line = ""
+                break
+              else
+                line = line:sub(end_idx + 4)
+              end
+              start_idx = line:find("data: ", 1, true)
+              end_idx = line:find("}}]}", 1, true)
+            end
+          end
+          return output
+        end,
       })
     end,
     keys = {
