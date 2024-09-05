@@ -8,4 +8,8 @@
 vim.opt.listchars = { tab = "▸~", trail = "▫" }
 -- vim.opt.fileencodings = { "utf-8", "gbk", "ucs-bom", "cp936" }
 vim.o.expandtab = true
+-- wrap
+vim.opt.wrap = true
+vim.opt.linebreak = false
+
 -- vim.g.autoformat = false
