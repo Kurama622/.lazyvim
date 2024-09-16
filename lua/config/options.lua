@@ -11,5 +11,7 @@ vim.o.expandtab = true
 -- wrap
 vim.opt.wrap = true
 vim.opt.linebreak = false
+-- spell
+vim.opt.spell = false
 
--- vim.g.autoformat = false
+vim.g.autoformat = true
