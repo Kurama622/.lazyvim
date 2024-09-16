@@ -36,11 +36,208 @@ local function SetBoxOpts(box_list, opts)
   end
 end
 
+local streaming_handler = function(chunk, line, output, bufnr, winid, F)
+  if not chunk then
+    return output
+  end
+  local tail = chunk:sub(-1, -1)
+  if tail:sub(1, 1) ~= "}" then
+    line = line .. chunk
+  else
+    line = line .. chunk
+
+    local start_idx = line:find("data: ", 1, true)
+    local end_idx = line:find("}}]}", 1, true)
+    local json_str = nil
+
+    while start_idx ~= nil and end_idx ~= nil do
+      if start_idx < end_idx then
+        json_str = line:sub(7, end_idx + 3)
+      end
+      local data = vim.fn.json_decode(json_str)
+      output = output .. data.choices[1].delta.content
+      F.WriteContent(bufnr, winid, data.choices[1].delta.content)
+
+      if end_idx + 4 > #line then
+        line = ""
+        break
+      else
+        line = line:sub(end_idx + 4)
+      end
+      start_idx = line:find("data: ", 1, true)
+      end_idx = line:find("}}]}", 1, true)
+    end
+  end
+  return output
+end
+
+local optimize_code_handler = function(name, F, state, streaming)
+  local ft = vim.bo.filetype
+  local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
+            你要像copliot那样，直接给出代码内容, 不要使用代码块或其他标签包裹!
+
+            下面是一个例子，假设我们需要优化下面这段代码:
+            void test() {
+             return 0
+            }
+
+            输出结果应该为：
+            int test() {
+              return 0;
+            }
+
+            请按照格式，帮我优化这段代码：
+            ]]
+
+  local source_content = F.GetVisualSelection()
+
+  local source_box = CreatePopup(" Source ", false)
+  local preview_box = CreatePopup(" Preview ", true, { enter = true })
+
+  local layout = CreateLayout(
+    "80%",
+    "55%",
+    Layout.Box({
+      Layout.Box(source_box, { size = "50%" }),
+      Layout.Box(preview_box, { size = "50%" }),
+    }, { dir = "row" })
+  )
+
+  layout:mount()
+
+  SetBoxOpts({ source_box, preview_box }, {
+    filetype = { ft, ft },
+    buftype = "nofile",
+    spell = false,
+    number = true,
+    wrap = true,
+    linebreak = false,
+  })
+
+  state.popwin = source_box
+  F.WriteContent(source_box.bufnr, source_box.winid, source_content)
+
+  state.app["session"][name] = {}
+  table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. source_content })
+
+  state.popwin = preview_box
+  local worker = streaming(preview_box.bufnr, preview_box.winid, state.app.session[name])
+
+  preview_box:map("n", "<C-c>", function()
+    if worker.job then
+      worker.job:shutdown()
+      worker.job = nil
+    end
+  end)
+
+  preview_box:map("n", { "<esc>", "N", "n" }, function()
+    if worker.job then
+      worker.job:shutdown()
+      print("Suspend output...")
+      vim.wait(1000, function() end)
+      worker.job = nil
+    end
+    layout:unmount()
+  end)
+
+  preview_box:map("n", { "Y", "y" }, function()
+    vim.api.nvim_command("normal! ggVGky")
+    layout:unmount()
+  end)
+end
+
+local translate_handler = function(name, _, state, streaming)
+  local prompt = [[请帮我把这段汉语翻译成英语, 直接给出翻译结果: ]]
+
+  local input_box = Popup({
+    enter = true,
+    border = {
+      style = "solid",
+      text = {
+        top = NuiText(" 󰊿 Trans ", "CurSearch"),
+        top_align = "center",
+      },
+    },
+  })
+
+  local separator = Popup({
+    border = { style = "none" },
+    enter = false,
+    focusable = false,
+    win_options = { winblend = 0, winhighlight = "Normal:Normal" },
+  })
+
+  local preview_box = Popup({
+    focusable = true,
+    border = { style = "solid", text = { top = "", top_align = "center" } },
+  })
+
+  local layout = CreateLayout(
+    "60%",
+    "55%",
+    Layout.Box({
+      Layout.Box(input_box, { size = "15%" }),
+      Layout.Box(separator, { size = "5%" }),
+      Layout.Box(preview_box, { size = "80%" }),
+    }, { dir = "col" })
+  )
+
+  layout:mount()
+
+  SetBoxOpts({ preview_box }, {
+    filetype = { "markdown", "markdown" },
+    buftype = "nofile",
+    spell = false,
+    number = false,
+    wrap = true,
+    linebreak = false,
+  })
+
+  local worker = { job = nil }
+
+  state.app["session"][name] = {}
+  input_box:map("n", "<enter>", function()
+    local input_table = vim.api.nvim_buf_get_lines(input_box.bufnr, 0, -1, true)
+    local input = table.concat(input_table, "\n")
+    vim.api.nvim_buf_set_lines(input_box.bufnr, 0, -1, false, {})
+    if input ~= "" then
+      table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. input })
+      state.popwin = preview_box
+      worker = streaming(preview_box.bufnr, preview_box.winid, state.app.session[name])
+    end
+  end)
+
+  input_box:map("n", { "J", "K" }, function()
+    vim.api.nvim_set_current_win(preview_box.winid)
+  end)
+  preview_box:map("n", { "J", "K" }, function()
+    vim.api.nvim_set_current_win(input_box.winid)
+  end)
+
+  for _, v in ipairs({ input_box, preview_box }) do
+    v:map("n", { "<esc>", "N", "n" }, function()
+      if worker.job then
+        worker.job:shutdown()
+        print("Suspend output...")
+        vim.wait(1000, function() end)
+        worker.job = nil
+      end
+      layout:unmount()
+    end)
+
+    v:map("n", { "Y", "y" }, function()
+      vim.api.nvim_set_current_win(preview_box.winid)
+      vim.api.nvim_command("normal! ggVGky")
+      layout:unmount()
+    end)
+  end
+end
+
 return {
   {
     "Kurama622/llm.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-    cmd = { "LLMSesionToggle", "LLMSelectedTextHandler" },
+    cmd = { "LLMSesionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       require("llm").setup({
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
@@ -122,202 +319,11 @@ return {
           ["Session:Close"]     = { mode = "n", key = {"<esc>", "Q"} },
         },
 
-        streaming_handler = function(chunk, line, output, bufnr, winid, F)
-          if not chunk then
-            return output
-          end
-          local tail = chunk:sub(-1, -1)
-          if tail:sub(1, 1) ~= "}" then
-            line = line .. chunk
-          else
-            line = line .. chunk
-
-            local start_idx = line:find("data: ", 1, true)
-            local end_idx = line:find("}}]}", 1, true)
-            local json_str = nil
-
-            while start_idx ~= nil and end_idx ~= nil do
-              if start_idx < end_idx then
-                json_str = line:sub(7, end_idx + 3)
-              end
-              local data = vim.fn.json_decode(json_str)
-              output = output .. data.choices[1].delta.content
-              F.WriteContent(bufnr, winid, data.choices[1].delta.content)
-
-              if end_idx + 4 > #line then
-                line = ""
-                break
-              else
-                line = line:sub(end_idx + 4)
-              end
-              start_idx = line:find("data: ", 1, true)
-              end_idx = line:find("}}]}", 1, true)
-            end
-          end
-          return output
-        end,
+        streaming_handler = streaming_handler,
 
         app_handler = {
-          OptimizeCode = function(name, F, state, streaming)
-            local ft = vim.bo.filetype
-            local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
-            你要像copliot那样，直接给出代码内容, 不要使用代码块或其他标签包裹!
-
-            下面是一个例子，假设我们需要优化下面这段代码:
-            void test() {
-             return 0
-            }
-
-            输出结果应该为：
-            int test() {
-              return 0;
-            }
-
-            请按照格式，帮我优化这段代码：
-            ]]
-
-            local source_content = F.GetVisualSelection()
-
-            local source_box = CreatePopup(" Source ", false)
-            local preview_box = CreatePopup(" Preview ", true, { enter = true })
-
-            local layout = CreateLayout(
-              "80%",
-              "55%",
-              Layout.Box({
-                Layout.Box(source_box, { size = "50%" }),
-                Layout.Box(preview_box, { size = "50%" }),
-              }, { dir = "row" })
-            )
-
-            layout:mount()
-
-            SetBoxOpts({ source_box, preview_box }, {
-              filetype = { ft, ft },
-              buftype = "nofile",
-              spell = false,
-              number = true,
-              wrap = true,
-              linebreak = false,
-            })
-
-            state.popwin = source_box
-            F.WriteContent(source_box.bufnr, source_box.winid, source_content)
-
-            state.app["session"][name] = {}
-            table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. source_content })
-
-            state.popwin = preview_box
-            local worker = streaming(preview_box.bufnr, preview_box.winid, state.app.session[name])
-
-            preview_box:map("n", "<C-c>", function()
-              if worker.job then
-                worker.job:shutdown()
-                worker.job = nil
-              end
-            end)
-
-            preview_box:map("n", { "<esc>", "N", "n" }, function()
-              if worker.job then
-                worker.job:shutdown()
-                print("Suspend output...")
-                vim.wait(1000, function() end)
-                worker.job = nil
-              end
-              layout:unmount()
-            end)
-
-            preview_box:map("n", { "Y", "y" }, function()
-              vim.api.nvim_command("normal! ggVGky")
-              layout:unmount()
-            end)
-          end,
-          Translate = function(name, _, state, streaming)
-            local prompt = [[请帮我把这段汉语翻译成英语, 直接给出翻译结果: ]]
-
-            local input_box = Popup({
-              enter = true,
-              border = {
-                style = "solid",
-                text = {
-                  top = NuiText(" 󰊿 Trans ", "CurSearch"),
-                  top_align = "center",
-                },
-              },
-            })
-
-            local separator = Popup({
-              border = { style = "none" },
-              enter = false,
-              focusable = false,
-              win_options = { winblend = 0, winhighlight = "Normal:Normal" },
-            })
-
-            local preview_box = Popup({
-              focusable = true,
-              border = { style = "solid", text = { top = "", top_align = "center" } },
-            })
-
-            local layout = CreateLayout(
-              "60%",
-              "55%",
-              Layout.Box({
-                Layout.Box(input_box, { size = "15%" }),
-                Layout.Box(separator, { size = "5%" }),
-                Layout.Box(preview_box, { size = "80%" }),
-              }, { dir = "col" })
-            )
-
-            layout:mount()
-
-            SetBoxOpts({ preview_box }, {
-              filetype = { "markdown", "markdown" },
-              buftype = "nofile",
-              spell = false,
-              number = false,
-              wrap = true,
-              linebreak = false,
-            })
-
-            local worker = { job = nil }
-
-            state.app["session"][name] = {}
-            input_box:map("n", "<enter>", function()
-              local input_table = vim.api.nvim_buf_get_lines(input_box.bufnr, 0, -1, true)
-              local input = table.concat(input_table, "\n")
-              vim.api.nvim_buf_set_lines(input_box.bufnr, 0, -1, false, {})
-              if input ~= "" then
-                table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. input })
-                state.popwin = preview_box
-                worker = streaming(preview_box.bufnr, preview_box.winid, state.app.session[name])
-              end
-            end)
-
-            input_box:map("n", { "J", "K" }, function()
-              vim.api.nvim_set_current_win(preview_box.winid)
-            end)
-            preview_box:map("n", { "J", "K" }, function()
-              vim.api.nvim_set_current_win(input_box.winid)
-            end)
-
-            for _, v in ipairs({ input_box, preview_box }) do
-              v:map("n", { "<esc>", "N", "n" }, function()
-                if worker.job then
-                  worker.job:shutdown()
-                  print("Suspend output...")
-                  vim.wait(1000, function() end)
-                  worker.job = nil
-                end
-                layout:unmount()
-              end)
-
-              v:map("n", { "Y", "y" }, function()
-                vim.api.nvim_set_current_win(preview_box.winid)
-                vim.api.nvim_command("normal! ggVGky")
-                layout:unmount()
-              end)
-            end
-          end,
+          OptimizeCode = optimize_code_handler,
+          Translate = translate_handler,
         },
       })
     end,
