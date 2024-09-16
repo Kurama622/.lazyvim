@@ -157,7 +157,7 @@ return {
           return output
         end,
 
-        template_handler = {
+        app_handler = {
           OptimizeCode = function(name, F, state, streaming)
             local ft = vim.bo.filetype
             local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
@@ -204,11 +204,11 @@ return {
             state.popwin = source_box
             F.WriteContent(source_box.bufnr, source_box.winid, source_content)
 
-            state.template["session"][name] = {}
-            table.insert(state.template.session[name], { role = "user", content = prompt .. "\n" .. source_content })
+            state.app["session"][name] = {}
+            table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. source_content })
 
             state.popwin = preview_box
-            local worker = streaming(preview_box.bufnr, preview_box.winid, state.template.session[name])
+            local worker = streaming(preview_box.bufnr, preview_box.winid, state.app.session[name])
 
             preview_box:map("n", "<C-c>", function()
               if worker.job then
@@ -280,15 +280,15 @@ return {
 
             local worker = { job = nil }
 
-            state.template["session"][name] = {}
+            state.app["session"][name] = {}
             input_box:map("n", "<enter>", function()
               local input_table = vim.api.nvim_buf_get_lines(input_box.bufnr, 0, -1, true)
               local input = table.concat(input_table, "\n")
               vim.api.nvim_buf_set_lines(input_box.bufnr, 0, -1, false, {})
               if input ~= "" then
-                table.insert(state.template.session[name], { role = "user", content = prompt .. "\n" .. input })
+                table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. input })
                 state.popwin = preview_box
-                worker = streaming(preview_box.bufnr, preview_box.winid, state.template.session[name])
+                worker = streaming(preview_box.bufnr, preview_box.winid, state.app.session[name])
               end
             end)
 
@@ -324,8 +324,8 @@ return {
       { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
       { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       { "<leader>t", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
-      { "<leader>T", mode = "n", "<cmd>LLMTemplateHandler Translate<cr>" },
-      { "<leader>o", mode = "x", "<cmd>LLMTemplateHandler OptimizeCode<cr>" },
+      { "<leader>T", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
+      { "<leader>o", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
     },
   },
 }
