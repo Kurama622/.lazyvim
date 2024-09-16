@@ -249,7 +249,8 @@ return {
             local separator = Popup({
               border = { style = "none" },
               enter = false,
-              win_options = { winblend = 0, winhighlight = "Normal:Error" },
+              focusable = false,
+              win_options = { winblend = 0, winhighlight = "Normal:Normal" },
             })
 
             local preview_box = Popup({
@@ -292,10 +293,10 @@ return {
               end
             end)
 
-            input_box:map("n", { "J" }, function()
+            input_box:map("n", { "J", "K" }, function()
               vim.api.nvim_set_current_win(preview_box.winid)
             end)
-            preview_box:map("n", { "K" }, function()
+            preview_box:map("n", { "J", "K" }, function()
               vim.api.nvim_set_current_win(input_box.winid)
             end)
 
@@ -324,8 +325,8 @@ return {
       { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
       { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       { "<leader>t", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
-      { "<leader>T", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
-      { "<leader>o", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
+      { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
+      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
     },
   },
 }
