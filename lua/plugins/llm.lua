@@ -267,8 +267,7 @@ return {
         ]],
 
         prefix = {
-          user = { text = "😃 ", hl = "Title" },
-          -- user = { text = "  ", hl = "Title" },
+          user = { text = "😃 ", hl = "Title" }, -- 
           assistant = { text = "  ", hl = "Added" },
         },
 
@@ -276,26 +275,17 @@ return {
         max_history = 15,
         max_history_name_length = 12,
 
+        -- stylua: ignore
         -- popup window options
         popwin_opts = {
           relative = "cursor",
-          position = {
-            row = -7,
-            col = 15,
-          },
-          size = {
-            height = 15,
-            width = "50%",
-          },
+          position = { row = -7, col = 15, },
+          size = { height = 15, width = "50%", },
           enter = true,
           focusable = true,
           zindex = 50,
-          border = {
-            style = "rounded",
-            text = {
-              top = " Explain ",
-              top_align = "center",
-            },
+          border = { style = "rounded",
+            text = { top = " Explain ", top_align = "center" },
           },
           win_options = {
             winblend = 0,
