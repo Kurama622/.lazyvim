@@ -81,7 +81,7 @@ local optimize_code_handler = function(name, F, state, streaming)
              return 0
             }
 
-            输出结果应该为：
+            输出格式应该为：
             int test() {
               return 0;
             }
@@ -134,7 +134,7 @@ local optimize_code_handler = function(name, F, state, streaming)
     if worker.job then
       worker.job:shutdown()
       print("Suspend output...")
-      vim.wait(1000, function() end)
+      vim.wait(200, function() end)
       worker.job = nil
     end
     layout:unmount()
@@ -197,8 +197,13 @@ local translate_handler = function(name, _, state, streaming)
 
   state.app["session"][name] = {}
   input_box:map("n", "<enter>", function()
+    -- clear preview_box content [optional]
+    vim.api.nvim_buf_set_lines(preview_box.bufnr, 0, -1, false, {})
+
     local input_table = vim.api.nvim_buf_get_lines(input_box.bufnr, 0, -1, true)
     local input = table.concat(input_table, "\n")
+
+    -- clear input_box content
     vim.api.nvim_buf_set_lines(input_box.bufnr, 0, -1, false, {})
     if input ~= "" then
       table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. input })
@@ -219,7 +224,7 @@ local translate_handler = function(name, _, state, streaming)
       if worker.job then
         worker.job:shutdown()
         print("Suspend output...")
-        vim.wait(1000, function() end)
+        vim.wait(200, function() end)
         worker.job = nil
       end
       layout:unmount()
