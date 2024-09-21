@@ -290,13 +290,14 @@ return {
         -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         -- model = "glm-4-flash",
         -- streaming_handler = glm_handler,
+        -- max_tokens = 8000,
 
         -- kimi
         url = "https://api.moonshot.cn/v1/chat/completions",
-        model = "moonshot-v1-128k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
+        model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
         streaming_handler = kimi_handler,
+        max_tokens = 8000,
 
-        max_tokens = 4095,
         temperature = 0.7,
 
         prompt = [[
@@ -323,7 +324,7 @@ return {
 
         save_session = true,
         max_history = 15,
-        max_history_name_length = 12,
+        max_history_name_length = 20,
 
         -- stylua: ignore
         -- popup window options
