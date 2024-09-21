@@ -36,7 +36,7 @@ local function SetBoxOpts(box_list, opts)
   end
 end
 
-local streaming_handler = function(chunk, line, output, bufnr, winid, F)
+local glm_handler = function(chunk, line, output, bufnr, winid, F)
   if not chunk then
     return output
   end
@@ -66,6 +66,45 @@ local streaming_handler = function(chunk, line, output, bufnr, winid, F)
       end
       start_idx = line:find("data: ", 1, true)
       end_idx = line:find("}}]}", 1, true)
+    end
+  end
+  return output
+end
+
+local kimi_handler = function(chunk, line, output, bufnr, winid, F)
+  if not chunk then
+    return output
+  end
+  local tail = chunk:sub(-1, -1)
+  if tail:sub(1, 1) ~= "}" then
+    line = line .. chunk
+  else
+    line = line .. chunk
+
+    local start_idx = line:find("data: ", 1, true)
+    local end_idx = line:find("}]", 1, true)
+    local json_str = nil
+
+    while start_idx ~= nil and end_idx ~= nil do
+      if start_idx < end_idx then
+        json_str = line:sub(7, end_idx + 1) .. "}"
+      end
+      local data = vim.fn.json_decode(json_str)
+      if not data.choices[1].delta.content then
+        break
+      end
+
+      output = output .. data.choices[1].delta.content
+      F.WriteContent(bufnr, winid, data.choices[1].delta.content)
+
+      if end_idx + 2 > #line then
+        line = ""
+        break
+      else
+        line = line:sub(end_idx + 2)
+      end
+      start_idx = line:find("data: ", 1, true)
+      end_idx = line:find("}]", 1, true)
     end
   end
   return output
@@ -147,7 +186,8 @@ local optimize_code_handler = function(name, F, state, streaming)
 end
 
 local translate_handler = function(name, _, state, streaming)
-  local prompt = [[请帮我把这段汉语翻译成英语, 直接给出翻译结果: ]]
+  local prompt = [[请帮我把这段话翻译成英语, 直接给出翻译结果: ]]
+  -- local prompt = [[ please translate this sentence into French: ]]
 
   local input_box = Popup({
     enter = true,
@@ -183,6 +223,7 @@ local translate_handler = function(name, _, state, streaming)
   )
 
   layout:mount()
+  vim.api.nvim_command("startinsert")
 
   SetBoxOpts({ preview_box }, {
     filetype = { "markdown", "markdown" },
@@ -245,9 +286,18 @@ return {
     cmd = { "LLMSesionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       require("llm").setup({
-        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        model = "glm-4-flash",
+        -- GLM
+        -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        -- model = "glm-4-flash",
+        -- streaming_handler = glm_handler,
+
+        -- kimi
+        url = "https://api.moonshot.cn/v1/chat/completions",
+        model = "moonshot-v1-128k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
+        streaming_handler = kimi_handler,
+
         max_tokens = 4095,
+        temperature = 0.7,
 
         prompt = [[
         ## Role:
@@ -313,8 +363,6 @@ return {
           ["Session:Toggle"]    = { mode = "n", key = "<leader>ac" },
           ["Session:Close"]     = { mode = "n", key = {"<esc>", "Q"} },
         },
-
-        streaming_handler = streaming_handler,
 
         app_handler = {
           OptimizeCode = optimize_code_handler,
