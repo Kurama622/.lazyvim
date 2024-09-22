@@ -160,6 +160,7 @@ return {
     },
   },
 
+  -- markdown
   {
     "dhruvasagar/vim-table-mode",
     cmd = "TableModeToggle",
