@@ -36,41 +36,6 @@ local function SetBoxOpts(box_list, opts)
   end
 end
 
-local glm_handler = function(chunk, line, output, bufnr, winid, F)
-  if not chunk then
-    return output
-  end
-  local tail = chunk:sub(-1, -1)
-  if tail:sub(1, 1) ~= "}" then
-    line = line .. chunk
-  else
-    line = line .. chunk
-
-    local start_idx = line:find("data: ", 1, true)
-    local end_idx = line:find("}}]}", 1, true)
-    local json_str = nil
-
-    while start_idx ~= nil and end_idx ~= nil do
-      if start_idx < end_idx then
-        json_str = line:sub(7, end_idx + 3)
-      end
-      local data = vim.fn.json_decode(json_str)
-      output = output .. data.choices[1].delta.content
-      F.WriteContent(bufnr, winid, data.choices[1].delta.content)
-
-      if end_idx + 4 > #line then
-        line = ""
-        break
-      else
-        line = line:sub(end_idx + 4)
-      end
-      start_idx = line:find("data: ", 1, true)
-      end_idx = line:find("}}]}", 1, true)
-    end
-  end
-  return output
-end
-
 local kimi_handler = function(chunk, line, output, bufnr, winid, F)
   if not chunk then
     return output
@@ -286,19 +251,22 @@ return {
     cmd = { "LLMSesionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       require("llm").setup({
+        -- cloudflared
+        -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
+
         -- GLM
         -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         -- model = "glm-4-flash",
-        -- streaming_handler = glm_handler,
         -- max_tokens = 8000,
 
         -- kimi
         url = "https://api.moonshot.cn/v1/chat/completions",
         model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
         streaming_handler = kimi_handler,
-        max_tokens = 8000,
+        max_tokens = 4096,
 
-        temperature = 0.7,
+        temperature = 0.3,
+        top_p = 0.7,
 
         prompt = [[
         ## Role:
