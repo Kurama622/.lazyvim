@@ -75,6 +75,163 @@ local kimi_handler = function(chunk, line, output, bufnr, winid, F)
   return output
 end
 
+local ShowDiff = function(
+  bufnr,
+  start_str,
+  end_str,
+  mark_id,
+  extmark,
+  extmark_opts,
+  space_text,
+  start_line,
+  end_line,
+  codeln,
+  offset,
+  ostr
+)
+  local pattern = string.format("%s(.-)%s", start_str, end_str)
+  local res = ostr:match(pattern)
+  for _, v in ipairs({ "raw", "separator", "llm" }) do
+    extmark[v] = vim.api.nvim_create_namespace(v)
+    local text = v == "raw" and "<<<<<<< " .. v .. space_text
+      or v == "separator" and "======= " .. v .. space_text
+      or ">>>>>>> " .. v .. space_text
+    extmark_opts[v] = {
+      virt_text = { { text, "TermCursorNC" } },
+      virt_text_pos = "overlay",
+    }
+  end
+  ----------------------------------------------------------- 0
+  if offset ~= 0 then
+    vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, { "" })
+  end
+  mark_id["raw"] = vim.api.nvim_buf_set_extmark(bufnr, extmark.raw, start_line - 2 + offset, 0, extmark_opts.raw)
+  vim.api.nvim_buf_set_lines(bufnr, end_line + offset, end_line + offset, false, { "" })
+  mark_id["separator"] =
+    vim.api.nvim_buf_set_extmark(bufnr, extmark.separator, end_line + offset, 0, extmark_opts.separator)
+  for l in res:gmatch("[^\r\n]+") do
+    vim.api.nvim_buf_set_lines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 1 + offset, false, { l })
+    codeln = codeln + 1
+  end
+  vim.api.nvim_buf_set_lines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 1 + offset, false, { "" })
+  mark_id["llm"] = vim.api.nvim_buf_set_extmark(bufnr, extmark.llm, end_line + codeln + 1 + offset, 0, extmark_opts.llm)
+  return codeln
+  ------------------------------------------------------------ 1
+end
+
+local oc_handler = function(name, F, state, streaming)
+  local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
+
+            给出优化思路和优化后的完整代码。 输出的代码块用# BEGINCODE 和 # ENDCODE 标记
+
+            优化后的代码的缩进要和原来的代码保持一致。代码只输出一次。
+
+            请按照格式，帮我优化这段代码：
+            ]]
+  local start_line, end_line = F.GetVisualSelectionRange()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local source_content = F.GetVisualSelection()
+
+  local preview_box = CreatePopup("", true, { border = { style = "solid" }, enter = true })
+
+  local layout = CreateLayout(
+    "30%",
+    "100%",
+    Layout.Box({
+      Layout.Box(preview_box, { size = "100%" }),
+    }, { dir = "row" }),
+    {
+      position = {
+        row = "50%",
+        col = "100%",
+      },
+    }
+  )
+
+  layout:mount()
+
+  local mark_id = {}
+  local extmark = {}
+  local extmark_opts = {}
+  local space_text = string.rep(" ", vim.o.columns - 7)
+  local start_str = "# BEGINCODE"
+  local end_str = "# ENDCODE"
+  local codeln = 0
+  local offset = start_line == 1 and 1 or 0
+
+  SetBoxOpts({ preview_box }, {
+    filetype = { "markdown" },
+    buftype = "nofile",
+    spell = false,
+    number = false,
+    wrap = true,
+    linebreak = false,
+  })
+
+  state.app["session"][name] = {}
+  table.insert(state.app.session[name], { role = "user", content = prompt .. "\n" .. source_content })
+
+  state.popwin = preview_box
+  local worker = streaming(
+    preview_box.bufnr,
+    preview_box.winid,
+    state.app.session[name],
+    nil,
+    nil,
+    nil,
+    nil,
+    function(ostr)
+      codeln = ShowDiff(
+        bufnr,
+        start_str,
+        end_str,
+        mark_id,
+        extmark,
+        extmark_opts,
+        space_text,
+        start_line,
+        end_line,
+        codeln,
+        offset,
+        ostr
+      )
+    end
+  )
+
+  preview_box:map("n", "<C-c>", function()
+    if worker.job then
+      worker.job:shutdown()
+      worker.job = nil
+    end
+  end)
+
+  preview_box:map("n", { "<esc>", "N", "n" }, function()
+    if worker.job then
+      worker.job:shutdown()
+      print("Suspend output...")
+      vim.wait(200, function() end)
+      worker.job = nil
+    end
+    vim.api.nvim_buf_del_extmark(bufnr, extmark.raw, mark_id.raw)
+    vim.api.nvim_buf_del_extmark(bufnr, extmark.separator, mark_id.separator)
+    vim.api.nvim_buf_del_extmark(bufnr, extmark.llm, mark_id.llm)
+    vim.api.nvim_buf_set_lines(bufnr, end_line + offset, end_line + codeln + 2 + offset, false, {})
+    if offset ~= 0 then
+      vim.api.nvim_buf_set_lines(bufnr, 0, 1, false, {})
+    end
+    layout:unmount()
+  end)
+
+  preview_box:map("n", { "Y", "y" }, function()
+    vim.api.nvim_buf_del_extmark(bufnr, extmark.raw, mark_id.raw)
+    vim.api.nvim_buf_del_extmark(bufnr, extmark.separator, mark_id.separator)
+    vim.api.nvim_buf_del_extmark(bufnr, extmark.llm, mark_id.llm)
+    vim.api.nvim_buf_set_lines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 2 + offset, false, {})
+    vim.api.nvim_buf_set_lines(bufnr, start_line - 1, end_line + 1 + offset, false, {})
+    layout:unmount()
+  end)
+end
+
 local optimize_code_handler = function(name, F, state, streaming)
   local ft = vim.bo.filetype
   local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
@@ -152,7 +309,6 @@ end
 
 local translate_handler = function(name, _, state, streaming)
   local prompt = [[请帮我把这段话翻译成英语, 直接给出翻译结果: ]]
-  -- local prompt = [[ please translate this sentence into French: ]]
 
   local input_box = Popup({
     enter = true,
@@ -255,35 +411,41 @@ return {
         -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
 
         -- GLM
-        -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        -- model = "glm-4-flash",
-        -- max_tokens = 8000,
+        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        model = "glm-4-flash",
+        max_tokens = 8000,
 
         -- kimi
-        url = "https://api.moonshot.cn/v1/chat/completions",
-        model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
-        streaming_handler = kimi_handler,
-        max_tokens = 4096,
+        -- url = "https://api.moonshot.cn/v1/chat/completions",
+        -- model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
+        -- streaming_handler = kimi_handler,
+        -- max_tokens = 4096,
+
+        -- url = "https://models.inference.ai.azure.com/chat/completions",
+        -- model = "gpt-4o",
+        -- streaming_handler = kimi_handler,
+        -- max_tokens = 4096,
 
         temperature = 0.3,
         top_p = 0.7,
 
-        prompt = [[
-        ## Role:
-        You are an erudite and intelligent programming expert who is eager to answer others' questions.
-
-        -----------------------
-
-        ## Skills:
-        1. When someone asks you a question, you are generous with your own answers and usually include your code examples.
-        2. If there are some questions that you are not certain about, you will search the internet for the answers. You will only present the compiled answers to others when you believe they are reliable, along with your references.
-
-        -----------------------
-
-        ## Requirements:
-        1. Answer others' questions honestly and never fabricate false information!
-        2. Think step by step and clearly explain your code examples.
-        ]],
+        prompt = "You are a helpful assistant.",
+        -- prompt = [[
+        -- ## Role:
+        -- You are an erudite and intelligent programming expert who is eager to answer others' questions.
+        --
+        -- -----------------------
+        --
+        -- ## Skills:
+        -- 1. When someone asks you a question, you are generous with your own answers and usually include your code examples.
+        -- 2. If there are some questions that you are not certain about, you will search the internet for the answers. You will only present the compiled answers to others when you believe they are reliable, along with your references.
+        --
+        -- -----------------------
+        --
+        -- ## Requirements:
+        -- 1. Answer others' questions honestly and never fabricate false information!
+        -- 2. Think step by step and clearly explain your code examples.
+        -- ]],
 
         prefix = {
           user = { text = "😃 ", hl = "Title" }, -- 
@@ -334,7 +496,8 @@ return {
         },
 
         app_handler = {
-          OptimizeCode = optimize_code_handler,
+          -- OptimizeCode = optimize_code_handler,
+          OptimizeCode = oc_handler,
           Translate = translate_handler,
         },
       })
