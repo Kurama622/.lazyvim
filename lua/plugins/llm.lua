@@ -2,6 +2,18 @@ local Popup = require("nui.popup")
 local Layout = require("nui.layout")
 local NuiText = require("nui.text")
 
+local function InsertTextLine(bufnr, linenr, text)
+  vim.api.nvim_buf_set_lines(bufnr, linenr, linenr, false, { text })
+end
+
+local function ReplaceTextLine(bufnr, linenr, text)
+  vim.api.nvim_buf_set_lines(bufnr, linenr, linenr + 1, false, { text })
+end
+
+local function RemoveTextLines(bufnr, start_linenr, end_linenr)
+  vim.api.nvim_buf_set_lines(bufnr, start_linenr, end_linenr, false, {})
+end
+
 local function CreatePopup(text, focusable, opts)
   local options = {
     focusable = focusable,
@@ -91,40 +103,62 @@ local ShowDiff = function(
 )
   local pattern = string.format("%s(.-)%s", start_str, end_str)
   local res = ostr:match(pattern)
+  if res == nil then
+    print("The code block format is incorrect, please manually copy the generated code.")
+    return codeln
+  end
+
+  vim.api.nvim_set_hl(0, "LLMSuggestCode", { fg = "#6aa84f", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "LLMSeparator", { fg = "#6aa84f", bg = "#333333" })
+
   for _, v in ipairs({ "raw", "separator", "llm" }) do
     extmark[v] = vim.api.nvim_create_namespace(v)
     local text = v == "raw" and "<<<<<<< " .. v .. space_text
-      or v == "separator" and "======= " .. v .. space_text
+      or v == "separator" and "======= " .. space_text
       or ">>>>>>> " .. v .. space_text
     extmark_opts[v] = {
-      virt_text = { { text, "TermCursorNC" } },
+      virt_text = { { text, "LLMSeparator" } },
       virt_text_pos = "overlay",
     }
   end
-  ----------------------------------------------------------- 0
+
+  extmark["code"] = vim.api.nvim_create_namespace("code")
+  extmark_opts["code"] = {}
+  mark_id["code"] = {}
+
   if offset ~= 0 then
-    vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, { "" })
+    -- create line to display raw separator virtual text
+    InsertTextLine(bufnr, 0, "")
   end
+
   mark_id["raw"] = vim.api.nvim_buf_set_extmark(bufnr, extmark.raw, start_line - 2 + offset, 0, extmark_opts.raw)
-  vim.api.nvim_buf_set_lines(bufnr, end_line + offset, end_line + offset, false, { "" })
+
+  -- create line to display the separator virtual text
+  InsertTextLine(bufnr, end_line + offset, "")
   mark_id["separator"] =
     vim.api.nvim_buf_set_extmark(bufnr, extmark.separator, end_line + offset, 0, extmark_opts.separator)
+
   for l in res:gmatch("[^\r\n]+") do
-    vim.api.nvim_buf_set_lines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 1 + offset, false, { l })
+    -- create line to display the code suggested by the LLM
+    InsertTextLine(bufnr, end_line + codeln + 1 + offset, "")
+    extmark_opts.code[codeln] = { virt_text = { { l, "LLMSuggestCode" } }, virt_text_pos = "overlay" }
+    mark_id.code[codeln] =
+      vim.api.nvim_buf_set_extmark(bufnr, extmark.code, end_line + codeln + 1 + offset, 0, extmark_opts.code[codeln])
     codeln = codeln + 1
   end
-  vim.api.nvim_buf_set_lines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 1 + offset, false, { "" })
+
+  -- create line to display LLM separator virtual text
+  InsertTextLine(bufnr, end_line + codeln + 1 + offset, "")
   mark_id["llm"] = vim.api.nvim_buf_set_extmark(bufnr, extmark.llm, end_line + codeln + 1 + offset, 0, extmark_opts.llm)
   return codeln
-  ------------------------------------------------------------ 1
 end
 
-local oc_handler = function(name, F, state, streaming)
+local optim_code_with_diff_handler = function(name, F, state, streaming)
   local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
 
             给出优化思路和优化后的完整代码。 输出的代码块用# BEGINCODE 和 # ENDCODE 标记
 
-            优化后的代码的缩进要和原来的代码保持一致。代码只输出一次。
+            优化后的代码缩进要和原来的代码缩进保持一致。
 
             请按照格式，帮我优化这段代码：
             ]]
@@ -136,7 +170,7 @@ local oc_handler = function(name, F, state, streaming)
 
   local layout = CreateLayout(
     "30%",
-    "100%",
+    "95%",
     Layout.Box({
       Layout.Box(preview_box, { size = "100%" }),
     }, { dir = "row" }),
@@ -212,22 +246,44 @@ local oc_handler = function(name, F, state, streaming)
       vim.wait(200, function() end)
       worker.job = nil
     end
-    vim.api.nvim_buf_del_extmark(bufnr, extmark.raw, mark_id.raw)
-    vim.api.nvim_buf_del_extmark(bufnr, extmark.separator, mark_id.separator)
-    vim.api.nvim_buf_del_extmark(bufnr, extmark.llm, mark_id.llm)
-    vim.api.nvim_buf_set_lines(bufnr, end_line + offset, end_line + codeln + 2 + offset, false, {})
-    if offset ~= 0 then
-      vim.api.nvim_buf_set_lines(bufnr, 0, 1, false, {})
+    if codeln ~= 0 then
+      vim.api.nvim_buf_del_extmark(bufnr, extmark.raw, mark_id.raw)
+      vim.api.nvim_buf_del_extmark(bufnr, extmark.separator, mark_id.separator)
+      vim.api.nvim_buf_del_extmark(bufnr, extmark.llm, mark_id.llm)
+      for i = 0, codeln - 1 do
+        vim.api.nvim_buf_del_extmark(bufnr, extmark.code, mark_id.code[i])
+      end
+
+      -- remove the line created to display the code suggested by LLM.
+      RemoveTextLines(bufnr, end_line + offset, end_line + codeln + 2 + offset)
+      if offset ~= 0 then
+        -- remove the line created to display the raw separator.
+        RemoveTextLines(bufnr, 0, 1)
+      end
     end
     layout:unmount()
   end)
 
   preview_box:map("n", { "Y", "y" }, function()
-    vim.api.nvim_buf_del_extmark(bufnr, extmark.raw, mark_id.raw)
-    vim.api.nvim_buf_del_extmark(bufnr, extmark.separator, mark_id.separator)
-    vim.api.nvim_buf_del_extmark(bufnr, extmark.llm, mark_id.llm)
-    vim.api.nvim_buf_set_lines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 2 + offset, false, {})
-    vim.api.nvim_buf_set_lines(bufnr, start_line - 1, end_line + 1 + offset, false, {})
+    if codeln ~= 0 then
+      vim.api.nvim_buf_del_extmark(bufnr, extmark.raw, mark_id.raw)
+      vim.api.nvim_buf_del_extmark(bufnr, extmark.separator, mark_id.separator)
+      vim.api.nvim_buf_del_extmark(bufnr, extmark.llm, mark_id.llm)
+
+      -- remove the line created to display the LLM separator.
+      RemoveTextLines(bufnr, end_line + codeln + 1 + offset, end_line + codeln + 2 + offset)
+      -- remove raw code
+      RemoveTextLines(bufnr, start_line - 1, end_line + 1 + offset)
+
+      for i = 0, codeln - 1 do
+        vim.api.nvim_buf_del_extmark(bufnr, extmark.code, mark_id.code[i])
+      end
+
+      for i = 0, codeln - 1 do
+        -- Write the code suggested by the LLM.
+        ReplaceTextLine(bufnr, start_line - 1 + i, extmark_opts.code[i].virt_text[1][1])
+      end
+    end
     layout:unmount()
   end)
 end
@@ -411,9 +467,9 @@ return {
         -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
 
         -- GLM
-        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        model = "glm-4-flash",
-        max_tokens = 8000,
+        -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        -- model = "glm-4-flash",
+        -- max_tokens = 8000,
 
         -- kimi
         -- url = "https://api.moonshot.cn/v1/chat/completions",
@@ -421,10 +477,10 @@ return {
         -- streaming_handler = kimi_handler,
         -- max_tokens = 4096,
 
-        -- url = "https://models.inference.ai.azure.com/chat/completions",
-        -- model = "gpt-4o",
-        -- streaming_handler = kimi_handler,
-        -- max_tokens = 4096,
+        url = "https://models.inference.ai.azure.com/chat/completions",
+        model = "gpt-4o",
+        streaming_handler = kimi_handler,
+        max_tokens = 4096,
 
         temperature = 0.3,
         top_p = 0.7,
@@ -497,7 +553,7 @@ return {
 
         app_handler = {
           -- OptimizeCode = optimize_code_handler,
-          OptimizeCode = oc_handler,
+          OptimizeCode = optim_code_with_diff_handler,
           Translate = translate_handler,
         },
       })
