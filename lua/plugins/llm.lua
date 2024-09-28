@@ -156,21 +156,45 @@ end
 local optim_code_with_diff_handler = function(name, F, state, streaming)
   local prompt = [[优化代码, 修改语法错误, 让代码更简洁, 增强可复用性，
 
-            给出优化思路和优化后的完整代码。 输出的代码块用# BEGINCODE 和 # ENDCODE 标记
+给出优化思路和优化后的完整代码。 输出的代码块用# BEGINCODE 和 # ENDCODE 标记
 
-            优化后的代码缩进要和原来的代码缩进保持一致。
+优化后的代码缩进要和原来的代码缩进保持一致，下面是一个例子：
 
-            请按照格式，帮我优化这段代码：
-            ]]
+原代码为:
+<space><space><space><space>def func(a, b)
+<space><space><space><space><space><space><space><space>return a + b
+
+输出结果为：
+
+优化思路：
+1. 函数名func不够明确，根据上下文判断该函数是要实现两数相加的功能，所以将函数名改为add
+2. 函数定义的语法有问题，应以:结尾，应该是def add(a, b):
+
+因为原代码整体缩进了N个空格，所以优化后的代码也缩进N个空格
+
+优化后的代码为
+```<language>
+# BEGINCODE
+<space><space><space><space>def add(a, b):
+<space><space><space><space><space><space><space><space>return a + b
+# ENDCODE
+```
+
+请按照格式，帮我优化这段代码：]]
   local start_line, end_line = F.GetVisualSelectionRange()
   local bufnr = vim.api.nvim_get_current_buf()
   local source_content = F.GetVisualSelection()
 
-  local preview_box = CreatePopup("", true, { border = { style = "solid" }, enter = true })
+  -- local preview_box = CreatePopup("", true, { border = { style = "solid" }, enter = true })
+  local preview_box = Popup({
+    enter = true,
+    border = "solid",
+    win_options = { winblend = 0, winhighlight = "Normal:Normal" },
+  })
 
   local layout = CreateLayout(
     "30%",
-    "95%",
+    "98%",
     Layout.Box({
       Layout.Box(preview_box, { size = "100%" }),
     }, { dir = "row" }),
@@ -467,9 +491,9 @@ return {
         -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
 
         -- GLM
-        -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        -- model = "glm-4-flash",
-        -- max_tokens = 8000,
+        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        model = "glm-4-flash",
+        max_tokens = 8000,
 
         -- kimi
         -- url = "https://api.moonshot.cn/v1/chat/completions",
