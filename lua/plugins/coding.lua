@@ -140,10 +140,11 @@ return {
   -- markdown
   {
     "dhruvasagar/vim-table-mode",
-    cmd = "TableModeToggle",
+    cmd = { "TableModeToggle", "TableModeRealign" },
     on_filetype = "markdown",
     keys = {
       { "<leader>tm", mode = "n", "<cmd>TableModeToggle<cr>" },
+      { "<leader>tr", mode = "n", "<cmd>TableModeRealign<cr>" },
     },
   },
 
