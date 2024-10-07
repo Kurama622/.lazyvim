@@ -12,9 +12,9 @@ return {
         -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
 
         -- [[ GLM ]]
-        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        model = "glm-4-flash",
-        max_tokens = 8000,
+        -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        -- model = "glm-4-flash",
+        -- max_tokens = 8000,
 
         -- [[ kimi ]]
         -- url = "https://api.moonshot.cn/v1/chat/completions",
@@ -25,31 +25,28 @@ return {
 
         -- [[ Github Models ]]
         -- url = "https://models.inference.ai.azure.com/chat/completions",
-        -- model = "gpt-4o-mini",
+        -- -- model = "gpt-4o",
         -- api_type = "openai",
         -- max_tokens = 4096,
+        -- model = "gpt-4o-mini",
+        --
+        -- [[ siliconflow ]]
+        url = "https://api.siliconflow.cn/v1/chat/completions",
+        -- model = "THUDM/glm-4-9b-chat",
+        api_type = "openai",
+        max_tokens = 4096,
+        -- model = "Vendor-A/Qwen/Qwen2-72B-Instruct",
+        -- model = "01-ai/Yi-1.5-9B-Chat-16K",
+        model = "google/gemma-2-9b-it",
+        -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
+        -- model = "Qwen/Qwen2.5-7B-Instruct",
+        -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
+        -- model = "internlm/internlm2_5-7b-chat",
 
         temperature = 0.3,
         top_p = 0.7,
 
-        prompt = "You are a helpful assistant.",
-
-        -- prompt = [[
-        -- ## Role:
-        -- You are an erudite and intelligent programming expert who is eager to answer others' questions.
-        --
-        -- -----------------------
-        --
-        -- ## Skills:
-        -- 1. When someone asks you a question, you are generous with your own answers and usually include your code examples.
-        -- 2. If there are some questions that you are not certain about, you will search the internet for the answers. You will only present the compiled answers to others when you believe they are reliable, along with your references.
-        --
-        -- -----------------------
-        --
-        -- ## Requirements:
-        -- 1. Answer others' questions honestly and never fabricate false information!
-        -- 2. Think step by step and clearly explain your code examples.
-        -- ]],
+        prompt = "You are a helpful chinese assistant.",
 
         prefix = {
           user = { text = "😃 ", hl = "Title" }, ------------ 
@@ -63,13 +60,11 @@ return {
         -- stylua: ignore
         -- popup window options
         popwin_opts = {
-          relative = "cursor",
+          relative = "cursor", enter = true,
+          focusable = true, zindex = 50,
           position = { row = -7, col = 15, },
           size = { height = 15, width = "50%", },
-          enter = true,
-          focusable = true,
-          zindex = 50,
-          border = { style = "rounded",
+          border = { style = "single",
             text = { top = " Explain ", top_align = "center" },
           },
           win_options = {
@@ -105,10 +100,11 @@ return {
           },
           TestCode = {
             handler = tools.side_by_side_handler,
-            prompt = "Write a test for the following code, only return the test code:",
+            prompt = [[ Write some test cases for the following code, only return the test cases.
+            Give the code content directly, do not use code blocks or other tags to wrap it. ]],
             opts = {
               right = {
-                title = " Result ",
+                title = " Test Cases ",
               },
             },
           },
@@ -117,6 +113,20 @@ return {
           },
           Translate = {
             handler = tools.qa_handler,
+          },
+
+          -- check siliconflow's balance
+          UserInfo = {
+            handler = function()
+              local key = os.getenv("LLM_KEY")
+              local res = tools.curl_request_handler(
+                "https://api.siliconflow.cn/v1/user/info",
+                { "GET", "-H", string.format("'Authorization: Bearer %s'", key) }
+              )
+              if res ~= nil then
+                print("balance: " .. res.data.balance)
+              end
+            end,
           },
         },
       })
@@ -129,6 +139,7 @@ return {
       { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
       { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
+      { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
     },
   },
 }
