@@ -3,7 +3,7 @@ return {
     "Kurama622/modeline.nvim",
     event = { "BufReadPost */*" },
     config = function()
-      vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "Statusline", { fg = "skyblue", bg = "NONE" })
       local p = require("modeline.provider")
       require("modeline").setup({
         p.mode(),
