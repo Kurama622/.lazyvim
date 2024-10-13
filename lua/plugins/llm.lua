@@ -25,7 +25,7 @@ return {
 
         -- [[ Github Models ]]
         -- url = "https://models.inference.ai.azure.com/chat/completions",
-        -- -- model = "gpt-4o",
+        -- model = "gpt-4o",
         -- api_type = "openai",
         -- max_tokens = 4096,
         -- model = "gpt-4o-mini",
@@ -35,10 +35,10 @@ return {
         -- model = "THUDM/glm-4-9b-chat",
         api_type = "openai",
         max_tokens = 4096,
-        model = "Vendor-A/Qwen/Qwen2-72B-Instruct",
+        -- model = "Vendor-A/Qwen/Qwen2-72B-Instruct",
         -- model = "01-ai/Yi-1.5-9B-Chat-16K",
         -- model = "google/gemma-2-9b-it",
-        -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
+        model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
         -- model = "Qwen/Qwen2.5-7B-Instruct",
         -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
         -- model = "internlm/internlm2_5-7b-chat",
@@ -134,9 +134,9 @@ return {
     keys = {
       { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
       { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
-      { "<leader>t", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
+      { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
       { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
-      -- { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
+      { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
       { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
