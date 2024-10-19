@@ -10,6 +10,13 @@ return {
 
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      config = function()
+        require("telescope").load_extension("fzf")
+      end,
+    },
     opts = function()
       local actions = require("telescope.actions")
 
@@ -26,6 +33,11 @@ return {
 
       return {
         defaults = {
+          layout_config = {
+            horizontal = {
+              preview_width = 0.5, -- make this smaller works
+            },
+          },
           mappings = {
             i = {
               ["<a-i>"] = find_files_no_ignore,
@@ -41,18 +53,6 @@ return {
         },
       }
     end,
-  },
-
-  -- add telescope-fzf-native
-  {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
-    },
   },
 
   {
