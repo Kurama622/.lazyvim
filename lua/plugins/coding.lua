@@ -57,12 +57,12 @@ return {
     opts = function()
       return {
         ui = {
-          border = "single",
+          border = "rounded",
           float_hl = "Normal",
           border_hl = "FloatBorder",
           blend = 0,
           height = 0.5,
-          width = 0.9,
+          width = 0.7,
           x = 0.5,
           y = 0.5,
         },
