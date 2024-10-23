@@ -1,3 +1,11 @@
+local function switch(shell_func)
+  -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
+  local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
+  local key = p:read()
+  p:close()
+  return key
+end
+
 return {
   {
     "Kurama622/llm.nvim",
@@ -15,33 +23,45 @@ return {
         -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         -- model = "glm-4-flash",
         -- max_tokens = 8000,
+        -- fetch_key = function()
+        --   return switch("enable_glm")
+        -- end,
 
         -- [[ kimi ]]
         -- url = "https://api.moonshot.cn/v1/chat/completions",
         -- model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
         -- api_type = "openai",
-        -- streaming_handler = kimi_handler,
         -- max_tokens = 4096,
+        -- fetch_key = function()
+        --   return switch("enable_kimi")
+        -- end,
+        -- -- streaming_handler = kimi_handler,
 
         -- [[ Github Models ]]
         -- url = "https://models.inference.ai.azure.com/chat/completions",
-        -- model = "gpt-4o",
+        -- -- model = "gpt-4o",
         -- api_type = "openai",
         -- max_tokens = 4096,
         -- model = "gpt-4o-mini",
-        --
+        -- fetch_key = function()
+        --   return switch("enable_gpt")
+        -- end,
+
         -- [[ siliconflow ]]
         url = "https://api.siliconflow.cn/v1/chat/completions",
         -- model = "THUDM/glm-4-9b-chat",
         api_type = "openai",
         max_tokens = 4096,
-        -- model = "Vendor-A/Qwen/Qwen2-72B-Instruct",
         -- model = "01-ai/Yi-1.5-9B-Chat-16K",
         -- model = "google/gemma-2-9b-it",
-        model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
-        -- model = "Qwen/Qwen2.5-7B-Instruct",
+        -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
+        model = "Qwen/Qwen2.5-7B-Instruct",
         -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
         -- model = "internlm/internlm2_5-7b-chat",
+        -- [optional: fetch_key]
+        fetch_key = function()
+          return switch("enable_siliconflow")
+        end,
 
         temperature = 0.3,
         top_p = 0.7,
@@ -110,6 +130,14 @@ return {
           },
           OptimCompare = {
             handler = tools.action_handler,
+            opts = {
+              fetch_key = function()
+                return switch("enable_gpt")
+              end,
+              url = "https://models.inference.ai.azure.com/chat/completions",
+              model = "gpt-4o-mini",
+              api_type = "openai",
+            },
           },
           Translate = {
             handler = tools.qa_handler,
