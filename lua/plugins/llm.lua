@@ -141,6 +141,13 @@ return {
           },
           Translate = {
             handler = tools.qa_handler,
+            opts = {
+              fetch_key = function()
+                return switch("enable_glm")
+              end,
+              url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+              model = "glm-4-flash",
+            },
           },
 
           -- check siliconflow's balance
