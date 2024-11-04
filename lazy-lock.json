@@ -43,7 +43,7 @@
   "nvim-ts-context-commentstring": { "branch": "main", "commit": "9c74db656c3d0b1c4392fc89a016b1910539e7c0" },
   "persistence.nvim": { "branch": "main", "commit": "f6aad7dde7fcf54148ccfc5f622c6d5badd0cc3d" },
   "plenary.nvim": { "branch": "master", "commit": "2d9b06177a975543726ce5c73fca176cedbffe9d" },
-  "profile.nvim": { "branch": "main", "commit": "90dcb21beb5295d787214427d803759bf66cd931" },
+  "profile.nvim": { "branch": "main", "commit": "8f497495a9c25312bc0c9aa334602b7e85bf1047" },
   "style-transfer.nvim": { "branch": "main", "commit": "4ed3742ebc9aa5352eca4cad0574298535e15e56" },
   "symbols-outline.nvim": { "branch": "master", "commit": "564ee65dfc9024bdde73a6621820866987cbb256" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "cf48d4dfce44e0b9a2e19a008d6ec6ea6f01a83b" },
