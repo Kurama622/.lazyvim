@@ -106,17 +106,19 @@ Language Generation with LLM's API]],
       })
       vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>Profile<cr>", { silent = true })
 
-      local telescope_mappings = {
+      local user_mappings = {
         n = {
-          r = ":lua require('telescope.builtin').oldfiles()<cr>",
-          f = ":lua require('telescope.builtin').find_files()<cr>",
-          c = ":lua require('telescope.builtin').find_files({ cwd = '$HOME/.config/nvim' })<cr>",
+          r = "<cmd>lua require('telescope.builtin').oldfiles()<cr>",
+          f = "<cmd>lua require('telescope.builtin').find_files()<cr>",
+          c = "<cmd>lua require('telescope.builtin').find_files({ cwd = '$HOME/.config/nvim' })<cr>",
+          n = "<cmd>enew<cr>",
+          l = "<cmd>Lazy<cr>",
         },
       }
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "profile",
         callback = function()
-          for mode, mapping in pairs(telescope_mappings) do
+          for mode, mapping in pairs(user_mappings) do
             for key, cmd in pairs(mapping) do
               vim.api.nvim_buf_set_keymap(0, mode, key, cmd, { noremap = true, silent = true })
             end
