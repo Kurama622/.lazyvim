@@ -11,7 +11,7 @@ return {
         kitty_method = "normal",
         integrations = {
           markdown = {
-            enabled = true,
+            enabled = false,
             clear_in_insert_mode = true,
             download_remote_images = true,
             only_render_image_at_cursor = true,
@@ -39,7 +39,6 @@ return {
 
   {
     "Kurama622/profile.nvim",
-    -- dir = "/home/arch/Github/profile.nvim",
     dependencies = { "3rd/image.nvim" },
     config = function()
       local comp = require("profile.components")
@@ -58,16 +57,6 @@ return {
           empty_char = " ",
           full_char = { "", "󰧞", "", "", "" },
           fake_contributions = nil,
-          -- fake_contributions = function()
-          --   local ret = {}
-          --   for i = 1, 53 do
-          --     ret[tostring(i)] = {}
-          --     for j = 1, 7 do
-          --       ret[tostring(i)][j] = math.random(0, 5)
-          --     end
-          --   end
-          --   return ret
-          -- end,
         },
         hide = {
           statusline = true,
@@ -108,11 +97,12 @@ Language Generation with LLM's API]],
 
       local user_mappings = {
         n = {
-          r = "<cmd>lua require('telescope.builtin').oldfiles()<cr>",
-          f = "<cmd>lua require('telescope.builtin').find_files()<cr>",
-          c = "<cmd>lua require('telescope.builtin').find_files({ cwd = '$HOME/.config/nvim' })<cr>",
-          n = "<cmd>enew<cr>",
-          l = "<cmd>Lazy<cr>",
+          ["r"] = "<cmd>lua require('telescope.builtin').oldfiles()<cr>",
+          ["f"] = "<cmd>lua require('telescope.builtin').find_files()<cr>",
+          ["c"] = "<cmd>lua require('telescope.builtin').find_files({ cwd = '$HOME/.config/nvim' })<cr>",
+          ["/"] = "<cmd>lua require('telescope.builtin').live_grep()<cr>",
+          ["n"] = "<cmd>enew<cr>",
+          ["l"] = "<cmd>Lazy<cr>",
         },
       }
       vim.api.nvim_create_autocmd("FileType", {
