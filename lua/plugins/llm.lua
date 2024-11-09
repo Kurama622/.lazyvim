@@ -38,36 +38,37 @@ return {
         -- -- streaming_handler = kimi_handler,
 
         -- [[ Github Models ]]
-        -- url = "https://models.inference.ai.azure.com/chat/completions",
-        -- -- model = "gpt-4o",
-        -- api_type = "openai",
-        -- max_tokens = 4096,
-        -- model = "gpt-4o-mini",
-        -- fetch_key = function()
-        --   return switch("enable_gpt")
-        -- end,
-
-        -- [[ siliconflow ]]
-        url = "https://api.siliconflow.cn/v1/chat/completions",
-        -- model = "THUDM/glm-4-9b-chat",
+        url = "https://models.inference.ai.azure.com/chat/completions",
+        model = "gpt-4o",
         api_type = "openai",
         max_tokens = 4096,
-        -- model = "01-ai/Yi-1.5-9B-Chat-16K",
-        -- model = "google/gemma-2-9b-it",
-        -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
-        model = "Qwen/Qwen2.5-7B-Instruct",
-        -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
-        -- model = "internlm/internlm2_5-7b-chat",
-        -- [optional: fetch_key]
+        -- model = "gpt-4o-mini",
         fetch_key = function()
-          return switch("enable_siliconflow")
+          return switch("enable_gpt")
         end,
+
+        -- [[ siliconflow ]]
+        -- url = "https://api.siliconflow.cn/v1/chat/completions",
+        -- -- model = "THUDM/glm-4-9b-chat",
+        -- api_type = "openai",
+        -- max_tokens = 4096,
+        -- -- model = "01-ai/Yi-1.5-9B-Chat-16K",
+        -- -- model = "google/gemma-2-9b-it",
+        -- -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
+        -- model = "Qwen/Qwen2.5-7B-Instruct",
+        -- -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
+        -- -- model = "internlm/internlm2_5-7b-chat",
+        -- -- [optional: fetch_key]
+        -- fetch_key = function()
+        --   return switch("enable_siliconflow")
+        -- end,
 
         temperature = 0.3,
         top_p = 0.7,
 
         prompt = "You are a helpful chinese assistant.",
 
+        spinner = { text = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }, hl = "Title" },
         prefix = {
           user = { text = "😃 ", hl = "Title" }, ------------ 
           assistant = { text = "  ", hl = "Added" },
@@ -147,6 +148,7 @@ return {
               end,
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
+              api_type = "zhipu",
             },
           },
 
@@ -163,18 +165,47 @@ return {
               end
             end,
           },
+          WordTranslate = {
+            handler = tools.flexi_handler,
+            prompt = "Translate the following text to Chinese, please only return the translation",
+            opts = {
+              fetch_key = function()
+                return switch("enable_glm")
+              end,
+              url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+              model = "glm-4-flash",
+              api_type = "zhipu",
+              exit_on_move = true,
+              enter_flexible_window = false,
+            },
+          },
+          CodeExplain = {
+            handler = tools.flexi_handler,
+            prompt = "Explain the following code, please only return the explanation",
+            opts = {
+              fetch_key = function()
+                return switch("enable_glm")
+              end,
+              url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+              model = "glm-4-flash",
+              api_type = "zhipu",
+              enter_flexible_window = true,
+            },
+          },
         },
       })
     end,
     keys = {
       { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
-      { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
-      { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
+      { "<leader>ts", mode = "x", "<cmd>LLMAppHandler WordTranslate<cr>" },
+      { "<leader>ae", mode = "v", "<cmd>LLMAppHandler CodeExplain<cr>" },
       { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
       { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
       { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
-      -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
+      -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
+      -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
+      -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
     },
   },
 }
