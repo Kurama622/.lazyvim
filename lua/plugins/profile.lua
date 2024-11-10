@@ -47,8 +47,9 @@ return {
         avatar_opts = {
           avatar_width = 20,
           avatar_height = 20,
-          avatar_x = math.floor((vim.o.columns - 20) / 2),
-          avatar_y = 7,
+          avatar_x = math.floor((vim.o.columns - 20) / 2) + 39,
+          avatar_y = 9,
+          force_blank = false,
         },
         user = "Kurama622",
         git_contributions = {
@@ -64,10 +65,36 @@ return {
         },
         format = function()
           comp:avatar()
-          comp:text_component_render({
-            comp:text_component("git@github.com:Kurama622/profile.nvim", "center", "ProfileRed"),
-            comp:text_component("──── By Kurama622", "right", "ProfileBlue"),
-          })
+          -- stylua: ignore
+          local content = {
+            {[[                                                                                      ]], "center", "ProfileRed"},
+            {[[                                                                                      ]], "center", "ProfileRed"},
+            {[[                                                                                      ]], "center", "ProfileRed"},
+            {[[                                                                                      ]], "center", "ProfileRed"},
+            {[[ Hi, I'm Kurama! ]], "center", "Title"},
+            {[[ Linux  Neovim  Cpp ]], "center", "ProfileGreen"},
+            {[[                                                                                                     ]], "center", "ProfileRed"},
+            {[[ ⭐️ Neovim Plugins                                                                                   ]], "center", "Title"},
+            {[[                                                                                                     ]], "center", "ProfileRed"},
+            {[[ [markdown-org]        Run code in markdown.                                                         ]], "center", "ProfileRed"},
+            {[[ [profile.nvim]        Your Personal Profile in Neovim.                                              ]], "center", "ProfileRed"},
+            {[[ [FloatRun]            A minimize plugin running code in floating window.                            ]], "center", "ProfileRed"},
+            {[[ [style-transfer.nvim] Variable naming style transfer, like vim-abolish.                             ]], "center", "ProfileRed"},
+            {[[                                                                                                     ]], "center", "ProfileRed"},
+            {[[ 😃 Other Projects                                                                                   ]], "center", "Title"},
+            {[[                                                                                                     ]], "center", "ProfileRed"},
+            {[[ [StartUp]    Terminal Dashboard.                                                                    ]], "center", "ProfileRed"},
+            {[[ [neurovirus] Illustrate Neural Network (python+LaTeX).                                              ]], "center", "ProfileRed"},
+            {[[                                                                                                     ]], "center", "ProfileRed"},
+            {[[ ─────────────────────────────────────────────────────────────────────────────────────────── ]], "center", "Comment"},
+            }
+          for _, c in ipairs(content) do
+            comp:text_component_render({ comp:text_component(c[1], c[2], c[3]) })
+          end
+          -- comp:text_component_render({
+          --   comp:text_component("git@github.com:Kurama622/profile.nvim", "center", "ProfileRed"),
+          --   comp:text_component("──── By Kurama622", "right", "ProfileBlue"),
+          -- })
           comp:separator_render()
           comp:card_component_render({
             type = "table",
