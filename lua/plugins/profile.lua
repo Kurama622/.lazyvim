@@ -63,6 +63,8 @@ return {
           statusline = true,
           tabline = true,
         },
+        disable_move = true,
+        cursor_pos = { 11, 121 },
         format = function()
           comp:avatar()
           -- stylua: ignore
