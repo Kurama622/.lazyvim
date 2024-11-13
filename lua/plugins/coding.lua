@@ -70,7 +70,8 @@ return {
           cpp = "g++ -std=c++11 %s -Wall -o {} && {}",
           python = "python %s",
           lua = "lua %s",
-          sh = "sh %s",
+          sh = "bash %s",
+          Zsh = "bash %s",
           [""] = "",
         },
       }
