@@ -37,6 +37,33 @@ return {
         -- end,
         -- -- streaming_handler = kimi_handler,
 
+        -- [[ local llm ]]
+        -- url = "http://localhost:11434/api/chat",
+        -- model = "llama3.2:1b",
+        -- api_type = "local",
+        -- fetch_key = function()
+        --   return switch("enable_local")
+        -- end,
+        -- streaming_handler = function(chunk, line, assistant_output, bufnr, winid, F)
+        --   if not chunk then
+        --     return assistant_output
+        --   end
+        --   local tail = chunk:sub(-1, -1)
+        --   if tail:sub(1, 1) ~= "}" then
+        --     line = line .. chunk
+        --   else
+        --     line = line .. chunk
+        --     local status, data = pcall(vim.fn.json_decode, line)
+        --     if not status or not data.message.content then
+        --       return assistant_output
+        --     end
+        --     assistant_output = assistant_output .. data.message.content
+        --     F.WriteContent(bufnr, winid, data.message.content)
+        --     line = ""
+        --   end
+        --   return assistant_output
+        -- end,
+
         -- [[ Github Models ]]
         url = "https://models.inference.ai.azure.com/chat/completions",
         model = "gpt-4o",
@@ -68,9 +95,19 @@ return {
 
         prompt = "You are a helpful chinese assistant.",
 
-        spinner = { text = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }, hl = "Title" },
+        spinner = {
+          text = {
+            "󰧞󰧞",
+            "󰧞󰧞",
+            "󰧞󰧞",
+            "󰧞󰧞",
+          },
+          hl = "Title",
+        },
+
         prefix = {
-          user = { text = "😃 ", hl = "Title" }, ------------ 
+          -- 
+          user = { text = "😃 ", hl = "Title" },
           assistant = { text = "  ", hl = "Added" },
         },
 
@@ -140,6 +177,7 @@ return {
               api_type = "openai",
             },
           },
+
           Translate = {
             handler = tools.qa_handler,
             opts = {
