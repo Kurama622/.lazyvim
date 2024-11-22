@@ -165,8 +165,8 @@ return {
     cmd = { "TableModeToggle", "TableModeRealign" },
     on_filetype = "markdown",
     keys = {
-      { "<leader>tm", mode = "n", "<cmd>TableModeToggle<cr>" },
-      { "<leader>tr", mode = "n", "<cmd>TableModeRealign<cr>" },
+      { "<leader>tm", mode = "n", "<cmd>TableModeToggle<cr>", desc = "table mode toggle" },
+      { "<leader>tr", mode = "n", "<cmd>TableModeRealign<cr>", desc = "table mode realign" },
     },
   },
 
@@ -189,8 +189,8 @@ return {
       }
     end,
     keys = {
-      { "<leader>mb", "<cmd>call org#main#runCodeBlock()<cr>" },
-      { "<leader>ml", "<cmd>call org#main#runLanguage()<cr>" },
+      { "<leader>mb", "<cmd>call org#main#runCodeBlock()<cr>", desc = "run code block" },
+      { "<leader>ml", "<cmd>call org#main#runLanguage()<cr>", desc = "run language" },
     },
   },
 
