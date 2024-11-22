@@ -47,7 +47,9 @@ return {
         avatar_opts = {
           avatar_width = 20,
           avatar_height = 20,
-          avatar_x = math.floor((vim.o.columns - 20) / 2) + 39,
+          avatar_x = function()
+            return math.floor((vim.o.columns - 20) / 2) + 39
+          end,
           avatar_y = 9,
           force_blank = false,
         },
@@ -58,13 +60,16 @@ return {
           empty_char = " ",
           full_char = { "", "󰧞", "", "", "" },
           fake_contributions = nil,
+          -- non_official_api_cmd = [[curl -s "https://github-contributions-api.jogruber.de/v4/%s?y=$(date -d "1 year ago" +%%Y)&y=$(date +%%Y)" \
+          --  | jq --arg start $(date -d "1 year ago" +%%Y-%%m-%%d) --arg end $(date +%%Y-%%m-%%d) \
+          --    '.contributions | [ .[] | select((.date >= $start) and (.date <= $end)) ] | sort_by(.date) | (.[0].date | strptime("%%Y-%%m-%%d") | strftime("%%w") | tonumber) as $wd | map(.level) | ([range(0, $wd) ] | map(0)) + . | . as $array | reduce range(0; length; 7) as $i ({}; . + {($i/7+1 | tostring): $array[$i:$i+7] })']],
         },
         hide = {
           statusline = true,
           tabline = true,
         },
         disable_move = true,
-        cursor_pos = { 11, 121 },
+        cursor_pos = { 9, 26 },
         format = function()
           comp:avatar()
           -- stylua: ignore
