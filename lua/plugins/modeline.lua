@@ -22,6 +22,7 @@ return {
         p.lsp(),
         p.space(),
         p.space(),
+        p.selected_chars(),
         p.pos(),
       })
     end,
