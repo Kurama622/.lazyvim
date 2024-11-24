@@ -1,7 +1,8 @@
 return {
   {
     "Kurama622/modeline.nvim",
-    event = { "BufReadPost */*" },
+    -- event = { "BufReadPost */*" },
+    event = { "BufEnter" },
     config = function()
       vim.api.nvim_set_hl(0, "Statusline", { fg = "skyblue", bg = "NONE" })
       local p = require("modeline.provider")
