@@ -68,7 +68,7 @@ return {
           statusline = true,
           tabline = true,
         },
-        disable_move = true,
+        disable_keys = { "h", "j", "k", "<Left>", "<Right>", "<Up>", "<Down>", "<C-f>" },
         cursor_pos = { 9, 26 },
         format = function()
           comp:avatar()
