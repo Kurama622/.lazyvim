@@ -173,7 +173,7 @@ return {
                 return switch("enable_gpt")
               end,
               url = "https://models.inference.ai.azure.com/chat/completions",
-              model = "gpt-4o-mini",
+              model = "gpt-4o",
               api_type = "openai",
             },
           },
@@ -219,7 +219,7 @@ return {
           },
           CodeExplain = {
             handler = tools.flexi_handler,
-            prompt = "Explain the following code, please only return the explanation",
+            prompt = "Explain the following code, please only return the explanation, and answer in Chinese",
             opts = {
               fetch_key = function()
                 return switch("enable_glm")
