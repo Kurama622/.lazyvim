@@ -6,6 +6,31 @@ local function switch(shell_func)
   return key
 end
 
+local function local_llm_streaming_handler(chunk, line, assistant_output, bufnr, winid, F)
+  if not chunk then
+    return assistant_output
+  end
+  local tail = chunk:sub(-1, -1)
+  if tail:sub(1, 1) ~= "}" then
+    line = line .. chunk
+  else
+    line = line .. chunk
+    local status, data = pcall(vim.fn.json_decode, line)
+    if not status or not data.message.content then
+      return assistant_output
+    end
+    assistant_output = assistant_output .. data.message.content
+    F.WriteContent(bufnr, winid, data.message.content)
+    line = ""
+  end
+  return assistant_output
+end
+
+local function local_llm_parse_handler(chunk)
+  local assistant_output = chunk.message.content
+  return assistant_output
+end
+
 return {
   {
     "Kurama622/llm.nvim",
@@ -44,25 +69,8 @@ return {
         -- fetch_key = function()
         --   return switch("enable_local")
         -- end,
-        -- streaming_handler = function(chunk, line, assistant_output, bufnr, winid, F)
-        --   if not chunk then
-        --     return assistant_output
-        --   end
-        --   local tail = chunk:sub(-1, -1)
-        --   if tail:sub(1, 1) ~= "}" then
-        --     line = line .. chunk
-        --   else
-        --     line = line .. chunk
-        --     local status, data = pcall(vim.fn.json_decode, line)
-        --     if not status or not data.message.content then
-        --       return assistant_output
-        --     end
-        --     assistant_output = assistant_output .. data.message.content
-        --     F.WriteContent(bufnr, winid, data.message.content)
-        --     line = ""
-        --   end
-        --   return assistant_output
-        -- end,
+        -- streaming_handler = local_llm_streaming_handler,
+        -- parse_handler = local_llm_parse_handler,
 
         -- [[ Github Models ]]
         url = "https://models.inference.ai.azure.com/chat/completions",
@@ -188,6 +196,25 @@ return {
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
               api_type = "zhipu",
+
+              component_width = "60%",
+              component_height = "50%",
+              query = {
+                title = " 󰊿 Trans ",
+                hl = { link = "Define" },
+              },
+              input_box_opts = {
+                size = "15%",
+                win_options = {
+                  winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+                },
+              },
+              preview_box_opts = {
+                size = "85%",
+                win_options = {
+                  winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+                },
+              },
             },
           },
 
