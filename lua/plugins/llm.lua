@@ -2,7 +2,9 @@ local function switch(shell_func)
   -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
   local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
   local key = p:read()
-  p:close()
+  if p then
+    p:close()
+  end
   return key
 end
 
@@ -81,7 +83,8 @@ return {
         url = "https://models.inference.ai.azure.com/chat/completions",
         model = "gpt-4o",
         api_type = "openai",
-        max_tokens = 4096,
+        -- max_tokens = 4096,
+        max_tokens = 8000,
         -- model = "gpt-4o-mini",
         fetch_key = function()
           return switch("enable_gpt")
@@ -133,6 +136,13 @@ return {
           assistant = { text = "  ", hl = "Added" },
         },
 
+        display = {
+          diff = {
+            layout = "vertical", -- vertical|horizontal split for default provider
+            opts = { "internal", "filler", "closeoff", "algorithm:patience", "followwrap", "linematch:120" },
+            provider = "mini_diff", -- default|mini_diff
+          },
+        },
         -- style = "right",
         --[[ custom request args ]]
         -- args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
@@ -205,9 +215,9 @@ return {
                 return switch("enable_gpt")
               end,
               url = "https://models.inference.ai.azure.com/chat/completions",
-              model = "gpt-4o",
+              model = "gpt-4o-mini",
               api_type = "openai",
-              border = { style = "single", text = { top = "OptimCompare" } },
+              language = "Chinese",
             },
           },
 
@@ -315,10 +325,10 @@ return {
       { "<leader>ae", mode = "v", "<cmd>LLMAppHandler CodeExplain<cr>" },
       { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
       { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
-      -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
+      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
-      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>" },
+      -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
     },
