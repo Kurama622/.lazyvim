@@ -41,8 +41,13 @@ return {
       -- vim.api.nvim_set_hl(0, "Query", { fg = "#6aa84f", bg = "NONE" })
       require("llm").setup({
 
-        -- [[ cloudflared ]]     params: api_type =  "workers.ai" | "openai" | "zhipu"
+        -- [[ cloudflare ]]     params: api_type =  "workers-ai" | "openai" | "zhipu"
         -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
+        -- model = "@cf/google/gemma-7b-it-lora",
+        -- -- api_type = "workers-ai",
+        -- fetch_key = function()
+        --   return switch("enable_workers_ai")
+        -- end,
 
         -- [[ GLM ]]
         -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
@@ -82,6 +87,15 @@ return {
           return switch("enable_gpt")
         end,
 
+        -- [[deepseek]]
+        -- url = "https://api.deepseek.com/chat/completions",
+        -- model = "deepseek-chat",
+        -- api_type = "openai",
+        -- max_tokens = 4096,
+        -- fetch_key = function()
+        --   return switch("enable_deepseek")
+        -- end,
+
         -- [[ siliconflow ]]
         -- url = "https://api.siliconflow.cn/v1/chat/completions",
         -- -- model = "THUDM/glm-4-9b-chat",
@@ -119,6 +133,9 @@ return {
           assistant = { text = "  ", hl = "Added" },
         },
 
+        -- style = "right",
+        --[[ custom request args ]]
+        -- args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         -- history_path = "/tmp/llm-history",
         save_session = true,
         max_history = 15,
@@ -164,6 +181,12 @@ return {
         app_handler = {
           OptimizeCode = {
             handler = tools.side_by_side_handler,
+            opts = {
+              -- streaming_handler = local_llm_streaming_handler,
+              left = {
+                focusable = false,
+              },
+            },
           },
           TestCode = {
             handler = tools.side_by_side_handler,
@@ -184,6 +207,7 @@ return {
               url = "https://models.inference.ai.azure.com/chat/completions",
               model = "gpt-4o",
               api_type = "openai",
+              border = { style = "single", text = { top = "OptimCompare" } },
             },
           },
 
@@ -241,6 +265,7 @@ return {
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
               api_type = "zhipu",
+              args = [=[return string.format([[curl %s -N -X POST -H "Content-Type: application/json" -H "Authorization: Bearer %s" -d '%s']], url, LLM_KEY, vim.fn.json_encode(body))]=],
               exit_on_move = true,
               enter_flexible_window = false,
             },
@@ -258,6 +283,29 @@ return {
               enter_flexible_window = true,
             },
           },
+          CommitMsg = {
+            handler = tools.flexi_handler,
+            prompt = string.format(
+              [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me. Respond with message only. DO NOT format the message in Markdown code blocks, DO NOT use backticks:
+
+```diff
+%s
+```
+]],
+              vim.fn.system("git diff --no-ext-diff --staged")
+            ),
+
+            opts = {
+              fetch_key = function()
+                return switch("enable_glm")
+              end,
+              url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+              model = "glm-4-flash",
+              api_type = "zhipu",
+              enter_flexible_window = true,
+              apply_visual_selection = false,
+            },
+          },
         },
       })
     end,
@@ -267,9 +315,10 @@ return {
       { "<leader>ae", mode = "v", "<cmd>LLMAppHandler CodeExplain<cr>" },
       { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
       { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
-      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
+      -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
-      -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
+      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
+      { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
     },
