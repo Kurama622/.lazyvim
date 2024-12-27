@@ -85,4 +85,25 @@ return {
       -- words = { enabled = true },
     },
   },
+  -- nvim v0.8.0
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      vim.api.nvim_set_hl(0, "LazyGitFloat", { fg = "#c9ece2", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "LazyGitBorder", { fg = "#4b5263", bg = "NONE" })
+      vim.keymap.set("t", "<C-x>", "<cmd>LLMAppHandler CommitMsg<cr>", { desc = "AI Commit Msg" })
+    end,
+  },
 }

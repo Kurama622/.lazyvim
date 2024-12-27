@@ -7,3 +7,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.b.autoformat = false
   end,
 })
+
+vim.api.nvim_create_user_command("Lg", function(opts)
+  vim.cmd("LazyGit" .. table.concat(opts.fargs, " "))
+end, {
+  nargs = "*",
+})
