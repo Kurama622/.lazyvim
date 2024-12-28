@@ -103,7 +103,10 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, "LazyGitFloat", { fg = "#c9ece2", bg = "NONE" })
       vim.api.nvim_set_hl(0, "LazyGitBorder", { fg = "#4b5263", bg = "NONE" })
-      vim.keymap.set("t", "<C-x>", "<cmd>LLMAppHandler CommitMsg<cr>", { desc = "AI Commit Msg" })
+      vim.keymap.set("t", "<C-c>", function()
+        vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)
+        vim.api.nvim_command("LLMAppHandler CommitMsg")
+      end, { desc = "AI Commit Msg" })
     end,
   },
 }
