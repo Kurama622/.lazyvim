@@ -1,6 +1,10 @@
 local function switch(shell_func)
   -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
   local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
+  if not p then
+    vim.notify("failed to get llm key", vim.log.levels.ERROR)
+    return " "
+  end
   local key = p:read()
   if p then
     p:close()
@@ -42,13 +46,21 @@ return {
       local tools = require("llm.common.tools")
       -- vim.api.nvim_set_hl(0, "Query", { fg = "#6aa84f", bg = "NONE" })
       require("llm").setup({
-
-        -- [[ cloudflare ]]     params: api_type =  "workers-ai" | "openai" | "zhipu"
-        -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
+        -- -- [[ cloudflare ]]     params: api_type =  "workers-ai" | "openai" | "zhipu"
+        -- -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
         -- model = "@cf/google/gemma-7b-it-lora",
-        -- -- api_type = "workers-ai",
+        -- api_type = "workers-ai",
         -- fetch_key = function()
         --   return switch("enable_workers_ai")
+        -- end,
+
+        -- [[ openrouter]]
+        -- url = "https://openrouter.ai/api/v1/chat/completions",
+        -- model = "google/gemini-2.0-flash-exp:free",
+        -- max_tokens = 8000,
+        -- api_type = "openai",
+        -- fetch_key = function()
+        --   return switch("enable_openrouter")
         -- end,
 
         -- [[ GLM ]]
@@ -267,6 +279,7 @@ return {
           WordTranslate = {
             handler = tools.flexi_handler,
             prompt = "Translate the following text to Chinese, please only return the translation",
+            -- prompt = "Translate the following text to English, please only return the translation",
             opts = {
               fetch_key = function()
                 return switch("enable_glm")
@@ -294,15 +307,27 @@ return {
           },
           CommitMsg = {
             handler = tools.flexi_handler,
-            prompt = string.format(
-              [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me. Respond with message only. DO NOT format the message in Markdown code blocks, DO NOT use backticks:
+            prompt = function()
+              return string.format(
+                [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me:
+1. Start with an action verb (e.g., feat, fix, refactor, chore, etc.), followed by a colon.
+2. Briefly mention the file or module name that was changed.
+3. Describe the specific changes made.
+
+Examples:
+- feat: update common/util.py, added test cases for util.py
+- fix: resolve bug in user/auth.py related to login validation
+- refactor: optimize database queries in models/query.py
+
+Based on this format, generate appropriate commit messages. Respond with message only. DO NOT format the message in Markdown code blocks, DO NOT use backticks:
 
 ```diff
 %s
 ```
 ]],
-              vim.fn.system("git diff --no-ext-diff --staged")
-            ),
+                vim.fn.system("git diff --no-ext-diff --staged")
+              )
+            end,
 
             opts = {
               fetch_key = function()
@@ -313,6 +338,20 @@ return {
               api_type = "zhipu",
               enter_flexible_window = true,
               apply_visual_selection = false,
+              win_opts = {
+                relative = "editor",
+                position = "50%",
+              },
+              accept = {
+                mapping = {
+                  mode = "n",
+                  keys = "<cr>",
+                },
+                action = function()
+                  local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+                  vim.api.nvim_command(string.format('!git commit -m "%s"', table.concat(contents)))
+                end,
+              },
             },
           },
         },
