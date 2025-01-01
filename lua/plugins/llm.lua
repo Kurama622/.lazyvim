@@ -46,13 +46,14 @@ return {
       local tools = require("llm.common.tools")
       -- vim.api.nvim_set_hl(0, "Query", { fg = "#6aa84f", bg = "NONE" })
       require("llm").setup({
-        -- -- [[ cloudflare ]]     params: api_type =  "workers-ai" | "openai" | "zhipu"
-        -- -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
-        -- model = "@cf/google/gemma-7b-it-lora",
-        -- api_type = "workers-ai",
-        -- fetch_key = function()
-        --   return switch("enable_workers_ai")
-        -- end,
+        -- enable_trace = true,
+        -- [[ cloudflare ]]     params: api_type =  "workers-ai" | "openai" | "zhipu" | "ollama"
+        -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
+        model = "@cf/google/gemma-7b-it-lora",
+        api_type = "workers-ai",
+        fetch_key = function()
+          return switch("enable_workers_ai")
+        end,
 
         -- [[ openrouter]]
         -- url = "https://openrouter.ai/api/v1/chat/completions",
@@ -84,6 +85,7 @@ return {
         -- [[ local llm ]]
         -- url = "http://localhost:11434/api/chat",
         -- model = "llama3.2:1b",
+        -- api_type = "ollama",
         -- fetch_key = function()
         --   return switch("enable_local")
         -- end,
@@ -91,21 +93,21 @@ return {
         -- parse_handler = local_llm_parse_handler,
 
         -- [[ Github Models ]]
-        url = "https://models.inference.ai.azure.com/chat/completions",
-        model = "gpt-4o",
-        api_type = "openai",
-        -- max_tokens = 4096,
-        max_tokens = 8000,
-        -- model = "gpt-4o-mini",
-        fetch_key = function()
-          return switch("enable_gpt")
-        end,
+        -- url = "https://models.inference.ai.azure.com/chat/completions",
+        -- model = "gpt-4o",
+        -- api_type = "openai",
+        -- -- max_tokens = 4096,
+        -- max_tokens = 8000,
+        -- -- model = "gpt-4o-mini",
+        -- fetch_key = function()
+        --   return switch("enable_gpt")
+        -- end,
 
         -- [[deepseek]]
         -- url = "https://api.deepseek.com/chat/completions",
         -- model = "deepseek-chat",
         -- api_type = "openai",
-        -- max_tokens = 4096,
+        -- max_tokens = 8000,
         -- fetch_key = function()
         --   return switch("enable_deepseek")
         -- end,
