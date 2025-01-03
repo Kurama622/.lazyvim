@@ -14,18 +14,20 @@ return {
     "Kurama622/markdown-org",
     ft = "markdown",
     config = function()
+      vim.g.language_path = {
+        python = "python",
+        python3 = "python3",
+        go = "go",
+        c = "gcc",
+        cpp = "g++",
+        bash = "bash",
+      }
       return {
         default_quick_keys = 0,
         vim.api.nvim_set_var("org#style#border", 2),
         vim.api.nvim_set_var("org#style#bordercolor", "FloatBorder"),
         vim.api.nvim_set_var("org#style#color", "String"),
-        language_path = {
-          python = "python",
-          python3 = "python3",
-          go = "go",
-          c = "gcc",
-          cpp = "g++",
-        },
+        vim.api.nvim_set_var("org_output_to_clipboard", 0),
       }
     end,
     keys = {
