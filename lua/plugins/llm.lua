@@ -211,8 +211,8 @@ return {
           },
           TestCode = {
             handler = tools.side_by_side_handler,
-            prompt = [[ Write some test cases for the following code, only return the test cases.
-            Give the code content directly, do not use code blocks or other tags to wrap it. ]],
+            prompt = [[Write some test cases for the following code, only return the test cases.
+            Give the code content directly, do not use code blocks or other tags to wrap it.]],
             opts = {
               right = {
                 title = " Test Cases ",
@@ -232,6 +232,35 @@ return {
             },
           },
 
+          DocString = {
+            prompt = [[ You are an AI programming assistant. You need to write a really good docstring that follows a best practice for the given language.
+
+Your core tasks include:
+- parameter and return types (if applicable).
+- any errors that might be raised or returned, depending on the language.
+
+You must:
+- Place the generated docstring before the start of the code.
+- Follow the format of examples carefully if the examples are provided.
+- Use Markdown formatting in your answers.
+- Include the programming language name at the start of the Markdown code blocks.]],
+            handler = tools.action_handler,
+            opts = {
+              fetch_key = function()
+                return switch("enable_gpt")
+              end,
+              url = "https://models.inference.ai.azure.com/chat/completions",
+              model = "gpt-4o-mini",
+              api_type = "openai",
+              language = "Chinese",
+              only_display_diff = true,
+              templates = {
+                lua = [[- For the Lua language, you should use the LDoc style.
+- Start all comment lines with "---".
+]],
+              },
+            },
+          },
           Translate = {
             handler = tools.qa_handler,
             opts = {
@@ -366,6 +395,7 @@ Based on this format, generate appropriate commit messages. Respond with message
       { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
       { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>" },
+      { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
