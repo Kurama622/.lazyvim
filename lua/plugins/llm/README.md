@@ -1,3 +1,6 @@
+If you're not bothered by long individual files, or if you only want to copy a part of the configuration from mine, you can refer to the following configuration:
+
+```lua
 local function switch(shell_func)
   -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
   local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
@@ -233,7 +236,7 @@ return {
           },
 
           DocString = {
-            prompt = [[ You are an AI programming assistant. You need to write a really good docstring that follows a best practice for the given language.
+            prompt = [[You are an AI programming assistant. You need to write a really good docstring that follows a best practice for the given language.
 
 Your core tasks include:
 - parameter and return types (if applicable).
@@ -252,7 +255,6 @@ You must:
               url = "https://models.inference.ai.azure.com/chat/completions",
               model = "gpt-4o-mini",
               api_type = "openai",
-              language = "Chinese",
               only_display_diff = true,
               templates = {
                 lua = [[- For the Lua language, you should use the LDoc style.
@@ -403,3 +405,4 @@ Based on this format, generate appropriate commit messages. Respond with message
     },
   },
 }
+```
