@@ -1,6 +1,7 @@
 local github_models = require("plugins.llm.models").GithubModels
 local glm = require("plugins.llm.models").GLM
 local keymaps = require("plugins.llm.keymaps")
+
 return {
   {
     "Kurama622/llm.nvim",
@@ -55,8 +56,8 @@ return {
           },
         },
       }
-      for _, module in pairs({ github_models, apps, keymaps }) do
-        opts = vim.tbl_deep_extend("force", opts, module)
+      for _, conf in pairs({ github_models, apps, keymaps }) do
+        opts = vim.tbl_deep_extend("force", opts, conf)
       end
       require("llm").setup(opts)
     end,
