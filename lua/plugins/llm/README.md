@@ -1,6 +1,6 @@
 If you're not bothered by long individual files, or if you only want to copy a part of the configuration from mine, you can refer to the following configuration:
 
-```lua
+~~~lua
 local function switch(shell_func)
   -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
   local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
@@ -405,4 +405,4 @@ Based on this format, generate appropriate commit messages. Respond with message
     },
   },
 }
-```
+~~~
