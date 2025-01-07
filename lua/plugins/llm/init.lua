@@ -1,4 +1,6 @@
-local models = require("plugins.llm.models")
+local github_models = require("plugins.llm.models").GithubModels
+local glm = require("plugins.llm.models").GLM
+local keymaps = require("plugins.llm.keymaps")
 return {
   {
     "Kurama622/llm.nvim",
@@ -7,10 +9,11 @@ return {
     config = function()
       local apps = require("plugins.llm.app")
       local opts = {
-        -- enable_trace = true,
         prompt = "You are a helpful chinese assistant.",
         temperature = 0.3,
         top_p = 0.7,
+        -- enable_trace = true,
+        -- style = "right",
 
         spinner = {
           text = { "󰧞󰧞", "󰧞󰧞", "󰧞󰧞", "󰧞󰧞" },
@@ -30,7 +33,6 @@ return {
             provider = "mini_diff", -- default|mini_diff
           },
         },
-        -- style = "right",
         --[[ custom request args ]]
         -- args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         -- history_path = "/tmp/llm-history",
@@ -38,45 +40,24 @@ return {
         max_history = 15,
         max_history_name_length = 20,
 
-        -- stylua: ignore
         -- popup window options
         popwin_opts = {
-          relative = "cursor", enter = true,
-          focusable = true, zindex = 50,
-          position = { row = -7, col = 15, },
-          size = { height = 15, width = "50%", },
-          border = { style = "single",
-            text = { top = " Explain ", top_align = "center" },
-          },
+          relative = "cursor",
+          enter = true,
+          focusable = true,
+          zindex = 50,
+          position = { row = -7, col = 15 },
+          size = { height = 15, width = "50%" },
+          border = { style = "single", text = { top = " Explain ", top_align = "center" } },
           win_options = {
             winblend = 0,
             winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
           },
         },
-
-        -- stylua: ignore
-        keys = {
-          -- The keyboard mapping for the input window.
-          ["Input:Submit"]      = { mode = "n", key = "<cr>" },
-          ["Input:Cancel"]      = { mode = {"n", "i"}, key = "<C-c>" },
-          ["Input:Resend"]      = { mode = {"n", "i"}, key = "<C-r>" },
-
-          -- only works when "save_session = true"
-          ["Input:HistoryNext"] = { mode = {"n", "i"}, key = "<C-j>" },
-          ["Input:HistoryPrev"] = { mode = {"n", "i"}, key = "<C-k>" },
-
-          -- The keyboard mapping for the output window in "split" style.
-          ["Output:Ask"]        = { mode = "n", key = "i" },
-          ["Output:Cancel"]     = { mode = "n", key = "<C-c>" },
-          ["Output:Resend"]     = { mode = "n", key = "<C-r>" },
-
-          -- The keyboard mapping for the output and input windows in "float" style.
-          ["Session:Toggle"]    = { mode = "n", key = "<leader>ac" },
-          ["Session:Close"]     = { mode = "n", key = {"<esc>", "Q"} },
-        },
       }
-      opts = vim.tbl_deep_extend("force", opts, models.GithubModels)
-      opts = vim.tbl_deep_extend("force", opts, apps)
+      for _, module in pairs({ github_models, apps, keymaps }) do
+        opts = vim.tbl_deep_extend("force", opts, module)
+      end
       require("llm").setup(opts)
     end,
     keys = {
