@@ -87,6 +87,7 @@ return {
     "Exafunction/codeium.vim",
     event = "BufEnter",
     config = function()
+      vim.g.codeium_disable_bindings = 1
       vim.keymap.set("n", "<leader>ai", function()
         return vim.fn["CodeiumToggle"]()
       end, { expr = true })
