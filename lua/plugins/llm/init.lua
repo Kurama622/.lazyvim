@@ -1,16 +1,19 @@
 local github_models = require("plugins.llm.models").GithubModels
 local glm = require("plugins.llm.models").GLM
+local ollama = require("plugins.llm.models").Ollama
+local ui = require("plugins.llm.ui")
 local keymaps = require("plugins.llm.keymaps")
 
 return {
   {
     "Kurama622/llm.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+    -- dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim" },
     cmd = { "LLMSesionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       local apps = require("plugins.llm.app")
       local opts = {
-        prompt = "You are a helpful chinese assistant.",
+        prompt = "You are a helpful Chinese assistant.",
         temperature = 0.3,
         top_p = 0.7,
         -- enable_trace = true,
@@ -40,23 +43,8 @@ return {
         save_session = true,
         max_history = 15,
         max_history_name_length = 20,
-
-        -- popup window options
-        popwin_opts = {
-          relative = "cursor",
-          enter = true,
-          focusable = true,
-          zindex = 50,
-          position = { row = -7, col = 15 },
-          size = { height = 15, width = "50%" },
-          border = { style = "single", text = { top = " Explain ", top_align = "center" } },
-          win_options = {
-            winblend = 0,
-            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-          },
-        },
       }
-      for _, conf in pairs({ github_models, apps, keymaps }) do
+      for _, conf in pairs({ ui, glm, apps, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)
       end
       require("llm").setup(opts)
