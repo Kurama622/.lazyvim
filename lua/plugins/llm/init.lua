@@ -25,8 +25,7 @@ return {
         },
 
         prefix = {
-          -- 
-          user = { text = "😃 ", hl = "Title" },
+          user = { text = "  ", hl = "Title" },
           assistant = { text = "  ", hl = "Added" },
         },
 
@@ -44,7 +43,7 @@ return {
         max_history = 15,
         max_history_name_length = 20,
       }
-      for _, conf in pairs({ ui, glm, apps, keymaps }) do
+      for _, conf in pairs({ ui, github_models, apps, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)
       end
       require("llm").setup(opts)

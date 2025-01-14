@@ -19,23 +19,31 @@ return {
       },
       border = {
         text = {
-          top = Text("  Enter Your Question ", "String"),
+          top = Text("  Enter Your Question ", "LlmYellowNormal"),
           top_align = "center",
         },
       },
       win_options = {
         winblend = 0,
-        winhighlight = "Normal:String,FloatBorder:Float",
+        winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
       },
       size = { row = "10%", col = "80%" },
-      order = 1,
+      order = 2,
     },
     output = {
       size = { row = "90%", col = "80%" },
-      order = 2,
+      order = 1,
+      win_options = {
+        winblend = 0,
+        winhighlight = "Normal:Normal,FloatBorder:Title",
+      },
     },
     history = {
       size = { row = "100%", col = "20%" },
+      win_options = {
+        winblend = 0,
+        winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
+      },
       order = 3,
     },
   },
