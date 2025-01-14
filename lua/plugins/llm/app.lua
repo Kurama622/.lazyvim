@@ -108,6 +108,7 @@ return {
         model = "glm-4-flash",
         api_type = "zhipu",
         -- args = [=[return string.format([[curl %s -N -X POST -H "Content-Type: application/json" -H "Authorization: Bearer %s" -d '%s']], url, LLM_KEY, vim.fn.json_encode(body))]=],
+        args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         exit_on_move = true,
         enter_flexible_window = false,
       },
@@ -150,6 +151,7 @@ return {
           action = function()
             local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
             vim.api.nvim_command(string.format('!git commit -m "%s"', table.concat(contents)))
+
             -- just for lazygit
             vim.schedule(function()
               vim.api.nvim_command("LazyGit")
