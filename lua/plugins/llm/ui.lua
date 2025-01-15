@@ -1,5 +1,6 @@
 local Text = require("nui.text")
 return {
+  -- style = "right",
   chat_ui_opts = {
     relative = "editor",
     position = "50%",
@@ -12,26 +13,42 @@ return {
       winhighlight = "Normal:String,FloatBorder:Float",
     },
     input = {
-      relative = "editor", -- for split style
-      position = {
-        row = "80%", -- for split style
-        col = "50%",
-      },
-      border = {
-        text = {
-          top = Text("  Enter Your Question ", "LlmYellowNormal"),
-          top_align = "center",
+      float = {
+        border = {
+          text = {
+            top = Text("  Enter Your Question ", "LlmYellowNormal"),
+            top_align = "center",
+          },
         },
+        win_options = {
+          winblend = 0,
+          winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
+        },
+        size = { height = "10%", width = "80%" },
+        order = 2,
       },
-      win_options = {
-        winblend = 0,
-        winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
+      -- for split style
+      split = {
+        relative = "editor",
+        position = {
+          row = "80%",
+          col = "50%",
+        },
+        border = {
+          text = {
+            top = Text("  Enter Your Question ", "LlmYellowNormal"),
+            top_align = "center",
+          },
+        },
+        win_options = {
+          winblend = 0,
+          winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
+        },
+        size = { height = "10%", width = "80%" },
       },
-      size = { row = "10%", col = "80%" },
-      order = 2,
     },
     output = {
-      size = { row = "90%", col = "80%" },
+      size = { height = "90%", width = "80%" },
       order = 1,
       win_options = {
         winblend = 0,
@@ -39,7 +56,7 @@ return {
       },
     },
     history = {
-      size = { row = "100%", col = "20%" },
+      size = { height = "100%", width = "20%" },
       win_options = {
         winblend = 0,
         winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",

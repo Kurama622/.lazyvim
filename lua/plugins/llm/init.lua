@@ -17,7 +17,6 @@ return {
         temperature = 0.3,
         top_p = 0.7,
         -- enable_trace = true,
-        -- style = "right",
 
         spinner = {
           text = { "󰧞󰧞", "󰧞󰧞", "󰧞󰧞", "󰧞󰧞" },
