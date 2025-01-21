@@ -42,7 +42,7 @@ return {
   {
     "Kurama622/llm.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-    cmd = { "LLMSesionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
+    cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       local tools = require("llm.common.tools")
       -- vim.api.nvim_set_hl(0, "Query", { fg = "#6aa84f", bg = "NONE" })
@@ -381,7 +381,10 @@ Based on this format, generate appropriate commit messages. Respond with message
                 action = function()
                   local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
                   vim.api.nvim_command(string.format('!git commit -m "%s"', table.concat(contents)))
-                  vim.api.nvim_command("LazyGit")
+                  -- just for lazygit
+                  vim.schedule(function()
+                    vim.api.nvim_command("LazyGit")
+                  end)
                 end,
               },
             },

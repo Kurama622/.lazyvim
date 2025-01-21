@@ -9,7 +9,7 @@ return {
     "Kurama622/llm.nvim",
     -- dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
     dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim" },
-    cmd = { "LLMSesionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
+    cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       local apps = require("plugins.llm.app")
       local opts = {
