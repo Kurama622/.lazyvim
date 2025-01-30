@@ -28,17 +28,62 @@ return {
       })
     end,
   },
+
+  {
+    "hrsh7th/nvim-cmp",
+    optional = true,
+    opts = function(_, opts)
+      -- if you wish to use autocomplete
+      table.insert(opts.sources, 1, {
+        name = "llm",
+        group_index = 1,
+        priority = 100,
+      })
+
+      opts.performance = {
+        -- It is recommended to increase the timeout duration due to
+        -- the typically slower response speed of LLMs compared to
+        -- other completion sources. This is not needed when you only
+        -- need manual completion.
+        fetching_timeout = 10000,
+      }
+    end,
+  },
   {
     "saghen/blink.cmp",
     opts = {
       completion = {
         menu = {
+          scrollbar = false,
           border = "rounded",
           winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder",
         },
         documentation = { window = { border = "rounded" } },
+        trigger = { prefetch_on_insert = false },
       },
       signature = { window = { border = "single" } },
+
+      keymap = {
+        ["<C-y>"] = {
+          function(cmp)
+            cmp.show({ providers = { "llm" } })
+          end,
+        },
+      },
+
+      sources = {
+        -- if you want to use auto-complete
+        default = { "llm" },
+        providers = {
+          llm = {
+            name = "llm",
+            module = "llm.common.completion.frontends.blink",
+            timeout_ms = 10000,
+            score_offset = 100,
+            async = true,
+          },
+        },
+      },
     },
   },
   {

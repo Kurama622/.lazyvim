@@ -108,7 +108,7 @@ return {
         model = "glm-4-flash",
         api_type = "zhipu",
         -- args = [=[return string.format([[curl %s -N -X POST -H "Content-Type: application/json" -H "Authorization: Bearer %s" -d '%s']], url, LLM_KEY, vim.fn.json_encode(body))]=],
-        args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
+        -- args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         exit_on_move = true,
         enter_flexible_window = false,
       },
@@ -157,6 +157,50 @@ return {
               vim.api.nvim_command("LazyGit")
             end)
           end,
+        },
+      },
+    },
+    Completion = {
+      handler = tools.completion_handler,
+      opts = {
+        -- url = "http://localhost:11434/api/generate",
+        url = "http://localhost:11434/v1/completions",
+        model = "qwen2.5-coder:1.5b",
+        api_type = "ollama",
+        -- url = "https://api.deepseek.com/beta/completions",
+        -- model = "deepseek-chat",
+        -- api_type = "deepseek",
+        -- fetch_key = function()
+        --   return utils.switch("enable_deepseek")
+        -- end,
+        n_completions = 1,
+        context_window = 512,
+        max_tokens = 256,
+        ignore_filetypes = {},
+        -- auto_trigger = false,
+        auto_trigger = true,
+        style = "blink.cmp",
+        -- style = "nvim-cmp",
+        -- style = "virtual_text",
+        keymap = {
+          virtual_text = {
+            accept = {
+              mode = "i",
+              keys = "<A-a>",
+            },
+            next = {
+              mode = "i",
+              keys = "<A-n>",
+            },
+            prev = {
+              mode = "i",
+              keys = "<A-p>",
+            },
+            toggle = {
+              mode = "n",
+              keys = "<leader>cp",
+            },
+          },
         },
       },
     },
