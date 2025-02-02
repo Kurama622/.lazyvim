@@ -50,65 +50,33 @@ return {
     },
   },
 
-  -- run code
-  {
-    "Kurama622/FloatRun",
-    cmd = { "FloatRunToggle", "FloatTermToggle" },
-    opts = function()
-      return {
-        ui = {
-          border = "rounded",
-          float_hl = "Normal",
-          border_hl = "FloatBorder",
-          blend = 0,
-          height = 0.5,
-          width = 0.7,
-          x = 0.5,
-          y = 0.5,
-        },
-        run_command = {
-          cpp = "g++ -std=c++11 %s -Wall -o {} && {}",
-          python = "python %s",
-          lua = "lua %s",
-          sh = "bash %s",
-          Zsh = "bash %s",
-          [""] = "",
-        },
-      }
-    end,
-    keys = {
-      { "<F5>", "<cmd>FloatRunToggle<cr>" },
-      { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
-    },
-  },
-
   -- ai
-  {
-    "Exafunction/codeium.vim",
-    event = "BufEnter",
-    config = function()
-      vim.g.codeium_disable_bindings = 1
-      vim.keymap.set("n", "<leader>ai", function()
-        return vim.fn["CodeiumToggle"]()
-      end, { expr = true })
-      vim.keymap.set("i", "<c-e>", function()
-        return vim.fn["codeium#Accept"]()
-      end, { expr = true })
-      vim.keymap.set("i", "<c-|>", function()
-        return vim.fn["codeium#CycleCompletions"](-1)
-      end, { expr = true })
-      vim.keymap.set("i", "<c-\\>", function()
-        return vim.fn["codeium#CycleCompletions"](1)
-      end, { expr = true })
-      vim.keymap.set("i", "<c-x>", function()
-        return vim.fn["codeium#Clear"]()
-      end, { expr = true })
-      vim.g.codeium_filetypes = {
-        sh = false,
-        zsh = false,
-      }
-    end,
-  },
+  -- {
+  --   "Exafunction/codeium.vim",
+  --   event = "BufEnter",
+  --   config = function()
+  --     vim.g.codeium_disable_bindings = 1
+  --     vim.keymap.set("n", "<leader>ai", function()
+  --       return vim.fn["CodeiumToggle"]()
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-e>", function()
+  --       return vim.fn["codeium#Accept"]()
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-|>", function()
+  --       return vim.fn["codeium#CycleCompletions"](-1)
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-\\>", function()
+  --       return vim.fn["codeium#CycleCompletions"](1)
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-x>", function()
+  --       return vim.fn["codeium#Clear"]()
+  --     end, { expr = true })
+  --     vim.g.codeium_filetypes = {
+  --       sh = false,
+  --       zsh = false,
+  --     }
+  --   end,
+  -- },
 
   -- lspconfig
   {

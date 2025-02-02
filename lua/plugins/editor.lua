@@ -59,7 +59,10 @@ return {
           winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder",
         },
         documentation = { window = { border = "rounded" } },
-        trigger = { prefetch_on_insert = false },
+        trigger = {
+          prefetch_on_insert = false,
+          show_on_blocked_trigger_characters = {},
+        },
       },
       signature = { window = { border = "single" } },
 
@@ -70,7 +73,6 @@ return {
           end,
         },
       },
-
       sources = {
         -- if you want to use auto-complete
         default = { "llm" },
@@ -139,5 +141,38 @@ return {
         vim.api.nvim_command("LLMAppHandler CommitMsg")
       end, { desc = "AI Commit Msg" })
     end,
+  },
+
+  -- run code
+  {
+    "Kurama622/FloatRun",
+    cmd = { "FloatRunToggle", "FloatTermToggle" },
+    opts = function()
+      return {
+        ui = {
+          border = "rounded",
+          float_hl = "Normal",
+          border_hl = "FloatBorder",
+          blend = 0,
+          height = 0.5,
+          width = 0.7,
+          x = 0.5,
+          y = 0.5,
+        },
+        run_command = {
+          cpp = "g++ -std=c++11 %s -Wall -o {} && {}",
+          python = "python %s",
+          lua = "lua %s",
+          sh = "bash %s",
+          Zsh = "bash %s",
+          [""] = "",
+        },
+      }
+    end,
+    keys = {
+      { "<F5>", mode = { "n", "t" }, "<cmd>FloatRunToggle<cr>" },
+      { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
+      { "<F14>", mode = { "n", "t" }, "<cmd>FloatTerm<cr>" },
+    },
   },
 }
