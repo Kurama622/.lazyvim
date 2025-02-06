@@ -66,26 +66,26 @@ return {
       },
       signature = { window = { border = "single" } },
 
-      keymap = {
-        ["<C-y>"] = {
-          function(cmp)
-            cmp.show({ providers = { "llm" } })
-          end,
-        },
-      },
-      sources = {
-        -- if you want to use auto-complete
-        default = { "llm" },
-        providers = {
-          llm = {
-            name = "llm",
-            module = "llm.common.completion.frontends.blink",
-            timeout_ms = 10000,
-            score_offset = 100,
-            async = true,
-          },
-        },
-      },
+      -- keymap = {
+      --   ["<C-y>"] = {
+      --     function(cmp)
+      --       cmp.show({ providers = { "llm" } })
+      --     end,
+      --   },
+      -- },
+      -- sources = {
+      --   -- if you want to use auto-complete
+      --   default = { "llm" },
+      --   providers = {
+      --     llm = {
+      --       name = "llm",
+      --       module = "llm.common.completion.frontends.blink",
+      --       timeout_ms = 10000,
+      --       score_offset = 100,
+      --       async = true,
+      --     },
+      --   },
+      -- },
     },
   },
   {
@@ -173,6 +173,8 @@ return {
       { "<F5>", mode = { "n", "t" }, "<cmd>FloatRunToggle<cr>" },
       { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
       { "<F14>", mode = { "n", "t" }, "<cmd>FloatTerm<cr>" },
+      { "<C-j>", mode = "t", "<cmd>FloatTermNext<cr>" },
+      { "<C-k>", mode = "t", "<cmd>FloatTermPrev<cr>" },
     },
   },
 }

@@ -163,23 +163,38 @@ return {
     Completion = {
       handler = tools.completion_handler,
       opts = {
-        -- url = "http://localhost:11434/api/generate",
-        url = "http://localhost:11434/v1/completions",
-        model = "qwen2.5-coder:1.5b",
-        api_type = "ollama",
+        -------------------------------------------------
+        ---                  ollama
+        -------------------------------------------------
+        -- -- url = "http://localhost:11434/api/generate",
+        -- url = "http://localhost:11434/v1/completions",
+        -- model = "qwen2.5-coder:1.5b",
+        -- api_type = "ollama",
+
+        -------------------------------------------------
+        ---                 deepseek
+        -------------------------------------------------
         -- url = "https://api.deepseek.com/beta/completions",
         -- model = "deepseek-chat",
         -- api_type = "deepseek",
         -- fetch_key = function()
         --   return utils.switch("enable_deepseek")
         -- end,
+
+        -------------------------------------------------
+        ---                 codeium
+        -------------------------------------------------
+        api_type = "codeium",
+        -- style = "virtual_text",
+
         n_completions = 1,
         context_window = 512,
         max_tokens = 256,
-        ignore_filetypes = {},
+        filetypes = {},
+        default_filetype_enabled = true,
         -- auto_trigger = false,
         auto_trigger = true,
-        style = "blink.cmp",
+        -- style = "blink.cmp",
         -- style = "nvim-cmp",
         -- style = "virtual_text",
         keymap = {
