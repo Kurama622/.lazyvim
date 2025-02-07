@@ -21,7 +21,6 @@ return {
         p.progress(),
         p.lsp(),
         p.space(),
-        p.space(),
         p.visual_selected(),
         p.pos(),
       })
