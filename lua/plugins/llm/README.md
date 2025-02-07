@@ -1,18 +1,6 @@
 If you're not bothered by long individual files, or if you only want to copy a part of the configuration from mine, you can refer to the following configuration:
 
 ~~~lua
-local function switch(shell_func)
-  -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
-  local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
-  if not p then
-    vim.notify("failed to get llm key", vim.log.levels.ERROR)
-    return " "
-  end
-  local key = p:read()
-  p:close()
-  return key
-end
-
 local function local_llm_streaming_handler(chunk, line, assistant_output, bufnr, winid, F)
   if not chunk then
     return assistant_output
@@ -54,7 +42,7 @@ return {
         -- model = "@cf/google/gemma-7b-it-lora",
         -- api_type = "workers-ai",
         -- fetch_key = function()
-        --   return switch("enable_workers_ai")
+        --   return vim.env.WORKERS_AI_KEY
         -- end,
 
         -- [[ openrouter]]
@@ -63,7 +51,7 @@ return {
         -- max_tokens = 8000,
         -- api_type = "openai",
         -- fetch_key = function()
-        --   return switch("enable_openrouter")
+        --   return vim.env.OPENROUTER_KEY
         -- end,
 
         -- [[ GLM ]]
@@ -71,7 +59,7 @@ return {
         -- model = "glm-4-flash",
         -- max_tokens = 8000,
         -- fetch_key = function()
-        --   return switch("enable_glm")
+        --   return vim.env.GLM_KEY
         -- end,
 
         -- [[ kimi ]]
@@ -80,17 +68,21 @@ return {
         -- api_type = "openai",
         -- max_tokens = 4096,
         -- fetch_key = function()
-        --   return switch("enable_kimi")
+        --   return vim.env.KIMI_KEY
         -- end,
         -- -- streaming_handler = kimi_handler,
 
-        -- [[ local llm ]]
+        -- [[ ollama ]]
         -- url = "http://localhost:11434/api/chat",
         -- model = "llama3.2:1b",
         -- api_type = "ollama",
         -- fetch_key = function()
-        --   return switch("enable_local")
+        --   return vim.env.LOCAL_LLM_KEY
         -- end,
+
+        -- [[ local llm ]]
+        -- url = "your url",
+        -- model = "your model name",
         -- streaming_handler = local_llm_streaming_handler,
         -- parse_handler = local_llm_parse_handler,
 
@@ -102,7 +94,7 @@ return {
         max_tokens = 8000,
         -- model = "gpt-4o-mini",
         fetch_key = function()
-          return switch("enable_gpt")
+          return vim.env.GITHUB_TOKEN
         end,
 
         -- [[deepseek]]
@@ -111,7 +103,7 @@ return {
         -- api_type = "openai",
         -- max_tokens = 8000,
         -- fetch_key = function()
-        --   return switch("enable_deepseek")
+        --   return vim.env.DEEPSEEK_TOKEN
         -- end,
 
         -- [[ siliconflow ]]
@@ -127,7 +119,7 @@ return {
         -- -- model = "internlm/internlm2_5-7b-chat",
         -- -- [optional: fetch_key]
         -- fetch_key = function()
-        --   return switch("enable_siliconflow")
+        --   return vim.env.SILICONFLOW_TOKEN
         -- end,
 
         temperature = 0.3,
@@ -227,7 +219,7 @@ return {
             handler = tools.action_handler,
             opts = {
               fetch_key = function()
-                return switch("enable_gpt")
+                return vim.env.GITHUB_TOKEN
               end,
               url = "https://models.inference.ai.azure.com/chat/completions",
               model = "gpt-4o-mini",
@@ -251,7 +243,7 @@ You must:
             handler = tools.action_handler,
             opts = {
               fetch_key = function()
-                return switch("enable_gpt")
+                return vim.env.GITHUB_TOKEN
               end,
               url = "https://models.inference.ai.azure.com/chat/completions",
               model = "gpt-4o-mini",
@@ -268,7 +260,7 @@ You must:
             handler = tools.qa_handler,
             opts = {
               fetch_key = function()
-                return switch("enable_glm")
+                return vim.env.GLM_KEY
               end,
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
@@ -314,7 +306,7 @@ You must:
             -- prompt = "Translate the following text to English, please only return the translation",
             opts = {
               fetch_key = function()
-                return switch("enable_glm")
+                return vim.env.GLM_KEY
               end,
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
@@ -329,7 +321,7 @@ You must:
             prompt = "Explain the following code, please only return the explanation, and answer in Chinese",
             opts = {
               fetch_key = function()
-                return switch("enable_glm")
+                return vim.env.GLM_KEY
               end,
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
@@ -363,7 +355,7 @@ Based on this format, generate appropriate commit messages. Respond with message
 
             opts = {
               fetch_key = function()
-                return switch("enable_glm")
+                return vim.env.GLM_KEY
               end,
               url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
               model = "glm-4-flash",
@@ -408,7 +400,7 @@ Based on this format, generate appropriate commit messages. Respond with message
               -- model = "deepseek-chat",
               -- api_type = "deepseek",
               -- fetch_key = function()
-              --   return utils.switch("enable_deepseek")
+              --   return vim.env.DEEPSEEK_TOKEN
               -- end,
 
               -------------------------------------------------
