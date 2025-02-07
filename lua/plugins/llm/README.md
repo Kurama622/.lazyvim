@@ -41,7 +41,8 @@ end
 return {
   {
     "Kurama622/llm.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+    -- If code completion uses Codeium, it requires `Exafunction/codeium.nvim`; otherwise, it does not.
+    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Exafunction/codeium.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       local tools = require("llm.common.tools")
@@ -386,6 +387,64 @@ Based on this format, generate appropriate commit messages. Respond with message
                     vim.api.nvim_command("LazyGit")
                   end)
                 end,
+              },
+            },
+          },
+          Completion = {
+            handler = tools.completion_handler,
+            opts = {
+              -------------------------------------------------
+              ---                  ollama
+              -------------------------------------------------
+              -- -- url = "http://localhost:11434/api/generate",
+              -- url = "http://localhost:11434/v1/completions",
+              -- model = "qwen2.5-coder:1.5b",
+              -- api_type = "ollama",
+
+              -------------------------------------------------
+              ---                 deepseek
+              -------------------------------------------------
+              -- url = "https://api.deepseek.com/beta/completions",
+              -- model = "deepseek-chat",
+              -- api_type = "deepseek",
+              -- fetch_key = function()
+              --   return utils.switch("enable_deepseek")
+              -- end,
+
+              -------------------------------------------------
+              ---                 codeium
+              -------------------------------------------------
+              api_type = "codeium",
+              style = "virtual_text",
+
+              n_completions = 1,
+              context_window = 512,
+              max_tokens = 256,
+              filetypes = { sh = false },
+              default_filetype_enabled = true,
+              auto_trigger = true,
+              -- style = "blink.cmp",
+              -- style = "nvim-cmp",
+              -- style = "virtual_text",
+              keymap = {
+                virtual_text = {
+                  accept = {
+                    mode = "i",
+                    keys = "<A-a>",
+                  },
+                  next = {
+                    mode = "i",
+                    keys = "<A-n>",
+                  },
+                  prev = {
+                    mode = "i",
+                    keys = "<A-p>",
+                  },
+                  toggle = {
+                    mode = "n",
+                    keys = "<leader>cp",
+                  },
+                },
               },
             },
           },

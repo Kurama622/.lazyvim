@@ -185,7 +185,7 @@ return {
         ---                 codeium
         -------------------------------------------------
         api_type = "codeium",
-        -- style = "virtual_text",
+        style = "virtual_text",
 
         n_completions = 1,
         context_window = 512,
