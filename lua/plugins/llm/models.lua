@@ -6,7 +6,7 @@ return {
     api_type = "workers-ai",
     max_tokens = 1024,
     fetch_key = function()
-      return utils.switch("enable_workers_ai")
+      return vim.env.WORKERS_AI_KEY
     end,
   },
   OpenRouter = {
@@ -15,7 +15,7 @@ return {
     max_tokens = 8000,
     api_type = "openai",
     fetch_key = function()
-      return utils.switch("enable_openrouter")
+      return vim.env.OPENROUTER_KEY
     end,
   },
   GLM = {
@@ -23,7 +23,7 @@ return {
     model = "glm-4-flash",
     max_tokens = 8000,
     fetch_key = function()
-      return utils.switch("enable_glm")
+      return vim.env.GLM_KEY
     end,
   },
   Kimi = {
@@ -32,7 +32,7 @@ return {
     api_type = "openai",
     max_tokens = 4096,
     fetch_key = function()
-      return utils.switch("enable_kimi")
+      return vim.env.KIMI_KEY
     end,
   },
   Ollama = {
@@ -40,7 +40,7 @@ return {
     model = "qwen:0.5b",
     api_type = "ollama",
     fetch_key = function()
-      return utils.switch("enable_local")
+      return vim.env.LOCAL_LLM_KEY
     end,
   },
   LocalLLM = {
@@ -48,7 +48,7 @@ return {
     model = "llama3.2:1b",
     api_type = "ollama",
     fetch_key = function()
-      return utils.switch("enable_local")
+      return vim.env.LOCAL_LLM_KEY
     end,
     streaming_handler = utils.local_llm_streaming_handler,
     parse_handler = utils.local_llm_parse_handler,
@@ -61,7 +61,7 @@ return {
     max_tokens = 8000,
     -- model = "gpt-4o-mini",
     fetch_key = function()
-      return utils.switch("enable_gpt")
+      return vim.env.GITHUB_TOKEN
     end,
   },
   DeepSeek = {
@@ -70,7 +70,7 @@ return {
     api_type = "openai",
     max_tokens = 8000,
     fetch_key = function()
-      return utils.switch("enable_deepseek")
+      return vim.env.DEEPSEEK_TOKEN
     end,
   },
   SiliconFlow = {
@@ -85,7 +85,7 @@ return {
     -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
     -- model = "internlm/internlm2_5-7b-chat",
     fetch_key = function()
-      return utils.switch("enable_siliconflow")
+      return vim.env.SILICONFLOW_TOKEN
     end,
   },
 }

@@ -1,15 +1,4 @@
 local utils = {}
-function utils.switch(shell_func)
-  -- [LINK] https://github.com/Kurama622/dotfiles/blob/main/zsh/module/func.zsh
-  local p = io.popen(string.format("source ~/.config/zsh/module/func.zsh; %s; echo $LLM_KEY", shell_func))
-  if not p then
-    vim.notify("failed to get llm key", vim.log.levels.ERROR)
-    return " "
-  end
-  local key = p:read()
-  p:close()
-  return key
-end
 
 function utils.local_llm_streaming_handler(chunk, line, assistant_output, bufnr, winid, F)
   if not chunk then

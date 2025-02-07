@@ -1,5 +1,4 @@
 local prompts = require("plugins.llm.prompts")
-local utils = require("plugins.llm.utils")
 local tools = require("llm.common.tools")
 return {
   app_handler = {
@@ -25,7 +24,7 @@ return {
       handler = tools.action_handler,
       opts = {
         fetch_key = function()
-          return utils.switch("enable_gpt")
+          return vim.env.GITHUB_TOKEN
         end,
         url = "https://models.inference.ai.azure.com/chat/completions",
         model = "gpt-4o-mini",
@@ -39,7 +38,7 @@ return {
       handler = tools.action_handler,
       opts = {
         fetch_key = function()
-          return utils.switch("enable_gpt")
+          return vim.env.GITHUB_TOKEN
         end,
         url = "https://models.inference.ai.azure.com/chat/completions",
         model = "gpt-4o-mini",
@@ -56,7 +55,7 @@ return {
       handler = tools.qa_handler,
       opts = {
         fetch_key = function()
-          return utils.switch("enable_glm")
+          return vim.env.GLM_KEY
         end,
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         model = "glm-4-flash",
@@ -102,7 +101,7 @@ return {
       -- prompt = "Translate the following text to English, please only return the translation",
       opts = {
         fetch_key = function()
-          return utils.switch("enable_glm")
+          return vim.env.GLM_KEY
         end,
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         model = "glm-4-flash",
@@ -118,7 +117,7 @@ return {
       prompt = prompts.CodeExplain,
       opts = {
         fetch_key = function()
-          return utils.switch("enable_glm")
+          return vim.env.GLM_KEY
         end,
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         model = "glm-4-flash",
@@ -132,7 +131,7 @@ return {
 
       opts = {
         fetch_key = function()
-          return utils.switch("enable_glm")
+          return vim.env.GLM_KEY
         end,
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         model = "glm-4-flash",
@@ -178,7 +177,7 @@ return {
         -- model = "deepseek-chat",
         -- api_type = "deepseek",
         -- fetch_key = function()
-        --   return utils.switch("enable_deepseek")
+        --   return vim.env.DEEPSEEK_TOKEN
         -- end,
 
         -------------------------------------------------
@@ -190,7 +189,10 @@ return {
         n_completions = 1,
         context_window = 512,
         max_tokens = 256,
-        filetypes = {},
+        filetypes = {
+          sh = false,
+          zsh = false,
+        },
         default_filetype_enabled = true,
         -- auto_trigger = false,
         auto_trigger = true,
