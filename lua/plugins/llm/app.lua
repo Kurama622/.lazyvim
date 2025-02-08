@@ -184,7 +184,6 @@ return {
         ---                 codeium
         -------------------------------------------------
         api_type = "codeium",
-        style = "virtual_text",
 
         n_completions = 1,
         context_window = 512,
@@ -194,11 +193,11 @@ return {
           zsh = false,
         },
         default_filetype_enabled = true,
-        -- auto_trigger = false,
         auto_trigger = true,
+        only_trigger_by_keywords = true,
         -- style = "blink.cmp",
         -- style = "nvim-cmp",
-        -- style = "virtual_text",
+        style = "virtual_text",
         keymap = {
           virtual_text = {
             accept = {
