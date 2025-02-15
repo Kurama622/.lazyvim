@@ -1,6 +1,7 @@
 local Text = require("nui.text")
 return {
-  -- style = "right",
+  style = "right",
+
   chat_ui_opts = {
     relative = "editor",
     position = "50%",
@@ -29,7 +30,7 @@ return {
       },
       -- for split style
       split = {
-        relative = "editor",
+        relative = "win",
         position = {
           row = "80%",
           col = "50%",
@@ -44,24 +45,32 @@ return {
           winblend = 0,
           winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
         },
-        size = { height = "10%", width = "80%" },
+        size = { height = "5%", width = "80%" },
       },
     },
     output = {
-      size = { height = "90%", width = "80%" },
-      order = 1,
-      win_options = {
-        winblend = 0,
-        winhighlight = "Normal:Normal,FloatBorder:Title",
+      float = {
+        size = { height = "90%", width = "80%" },
+        order = 1,
+        win_options = {
+          winblend = 0,
+          winhighlight = "Normal:Normal,FloatBorder:Title",
+        },
       },
     },
     history = {
-      size = { height = "100%", width = "20%" },
-      win_options = {
-        winblend = 0,
-        winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
+      float = {
+        size = { height = "100%", width = "20%" },
+        win_options = {
+          winblend = 0,
+          winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
+        },
+        order = 3,
       },
-      order = 3,
+      split = {
+        relative = "win",
+        size = { height = "30%", width = "60%" },
+      },
     },
   },
 

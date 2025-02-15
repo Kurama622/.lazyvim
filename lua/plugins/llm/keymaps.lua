@@ -18,9 +18,10 @@ return {
     -- The keyboard mapping for the output and input windows in "float" style.
     ["Session:Toggle"]    = { mode = "n", key = "<leader>ac" },
     ["Session:Close"]     = { mode = "n", key = {"<esc>", "Q"} },
+    -- ["Session:History"]     = { mode = "n", key = {"<C-h>"} },
 
     -- Focus
-    ["Focus:Input"]       = { mode = "n", key = {"i", "<C-j>"} },
-    ["Focus:Output"]      = { mode = { "n", "i" }, key = "<C-o>" },
+    ["Focus:Input"]       = { mode = "n", key = {"i", "<C-w>"} },
+    ["Focus:Output"]      = { mode = { "n", "i" }, key = "<C-w>" },
   },
 }

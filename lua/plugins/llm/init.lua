@@ -17,6 +17,7 @@ return {
         temperature = 0.3,
         top_p = 0.7,
         -- enable_trace = true,
+        -- log_level = 1,
 
         spinner = {
           text = { "󰧞󰧞", "󰧞󰧞", "󰧞󰧞", "󰧞󰧞" },
