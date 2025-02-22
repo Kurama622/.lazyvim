@@ -1,5 +1,5 @@
 local prompts = require("plugins.llm.prompts")
-local tools = require("llm.common.tools")
+local tools = require("llm.tools")
 return {
   app_handler = {
     OptimizeCode = {
@@ -131,11 +131,11 @@ return {
 
       opts = {
         fetch_key = function()
-          return vim.env.GLM_KEY
+          return vim.env.CHAT_ANYWHERE_KEY
         end,
-        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        model = "glm-4-flash",
-        api_type = "zhipu",
+        url = "https://api.chatanywhere.tech/v1/chat/completions",
+        model = "gpt-4o-mini",
+        api_type = "openai",
         enter_flexible_window = true,
         apply_visual_selection = false,
         win_opts = {
@@ -149,7 +149,7 @@ return {
           },
           action = function()
             local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
-            vim.api.nvim_command(string.format('!git commit -m "%s"', table.concat(contents)))
+            vim.api.nvim_command(string.format('!git commit -m "%s"', table.concat(contents, '" -m "')))
 
             -- just for lazygit
             vim.schedule(function()

@@ -1,6 +1,12 @@
 local github_models = require("plugins.llm.models").GithubModels
 local glm = require("plugins.llm.models").GLM
 local ollama = require("plugins.llm.models").Ollama
+local deepseek = require("plugins.llm.models").DeepSeek
+local silicon = require("plugins.llm.models").SiliconFlow
+local workers = require("plugins.llm.models").Cloudflare
+local kimi = require("plugins.llm.models").Kimi
+local localmodel = require("plugins.llm.models").LocalLLM
+local openrouter = require("plugins.llm.models").OpenRouter
 local ui = require("plugins.llm.ui")
 local keymaps = require("plugins.llm.keymaps")
 

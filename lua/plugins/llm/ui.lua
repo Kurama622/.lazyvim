@@ -1,6 +1,6 @@
 local Text = require("nui.text")
 return {
-  style = "right",
+  -- style = "right",
 
   chat_ui_opts = {
     relative = "editor",

@@ -45,7 +45,7 @@ return {
   },
   LocalLLM = {
     url = "http://localhost:11434/api/chat",
-    model = "llama3.2:1b",
+    model = "qwen:0.5b",
     api_type = "ollama",
     fetch_key = function()
       return vim.env.LOCAL_LLM_KEY
