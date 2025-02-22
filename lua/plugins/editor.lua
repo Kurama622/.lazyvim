@@ -150,6 +150,7 @@ return {
     opts = function()
       return {
         ui = {
+          relative = "win",
           border = "rounded",
           float_hl = "Normal",
           border_hl = "FloatBorder",
