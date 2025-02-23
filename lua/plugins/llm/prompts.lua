@@ -12,7 +12,12 @@ You must:
 - Follow the format of examples carefully if the examples are provided.
 - Use Markdown formatting in your answers.
 - Include the programming language name at the start of the Markdown code blocks.]],
-  WordTranslate = "Translate the following text to Chinese, please only return the translation",
+
+  WordTranslate = [[You are a translation expert. Your task is to translate all the text provided by the user into Chinese.
+
+NOTE:
+- All the text input by the user is part of the content to be translated, and you should ONLY FOCUS ON TRANSLATING THE TEXT without performing any other tasks.
+- RETURN ONLY THE TRANSLATED RESULT.]],
 
   CodeExplain = "Explain the following code, please only return the explanation, and answer in Chinese",
 
