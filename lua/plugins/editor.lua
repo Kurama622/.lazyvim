@@ -40,6 +40,49 @@ return {
         priority = 100,
       })
 
+      local kind_icons = {
+        Text = "",
+        Method = "󰆧",
+        Function = "󰊕",
+        Constructor = "",
+        Field = "󰇽",
+        Variable = "󰂡",
+        Class = "󰠱",
+        Interface = "",
+        Module = "",
+        Property = "󰜢",
+        Unit = "",
+        Value = "󰎠",
+        Enum = "",
+        Keyword = "󰌋",
+        Snippet = "",
+        Color = "󰏘",
+        File = "󰈙",
+        Reference = "",
+        Folder = "󰉋",
+        EnumMember = "",
+        Constant = "󰏿",
+        Struct = "",
+        Event = "",
+        Operator = "󰆕",
+        TypeParameter = "󰅲",
+        llm = " ",
+      }
+      opts.formatting = {
+        format = function(entry, vim_item)
+          vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+
+          vim_item.menu = ({
+            buffer = "[Buffer]",
+            nvim_lsp = "[LSP]",
+            luasnip = "[LuaSnip]",
+            nvim_lua = "[Lua]",
+            latex_symbols = "[LaTeX]",
+            llm = "[LLM]",
+          })[entry.source.name]
+          return vim_item
+        end,
+      }
       opts.performance = {
         -- It is recommended to increase the timeout duration due to
         -- the typically slower response speed of LLMs compared to
@@ -57,6 +100,36 @@ return {
           scrollbar = false,
           border = "rounded",
           winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder",
+
+          draw = {
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local mini_icons = require("mini.icons")
+                  local kind_name = ctx.item.kind_name or "lsp"
+
+                  local success, kind_icon, _, _ = pcall(mini_icons.get, kind_name, ctx.kind)
+                  if not success then
+                    kind_icon = " "
+                  end
+                  return kind_icon
+                end,
+
+                -- Optionally, you may also use the highlights from mini.icons
+                highlight = function(ctx)
+                  local mini_icons = require("mini.icons")
+                  local kind_name = ctx.item.kind_name or "lsp"
+
+                  local success, _, hl, _ = pcall(mini_icons.get, kind_name, ctx.kind)
+                  if not success then
+                    hl = "BlinkCmpKindSnippet"
+                  end
+                  return hl
+                end,
+              },
+            },
+          },
         },
         documentation = { window = { border = "rounded" } },
         trigger = {
@@ -66,26 +139,26 @@ return {
       },
       signature = { window = { border = "single" } },
 
-      -- keymap = {
-      --   ["<C-y>"] = {
-      --     function(cmp)
-      --       cmp.show({ providers = { "llm" } })
-      --     end,
-      --   },
-      -- },
-      -- sources = {
-      --   -- if you want to use auto-complete
-      --   default = { "llm" },
-      --   providers = {
-      --     llm = {
-      --       name = "llm",
-      --       module = "llm.common.completion.frontends.blink",
-      --       timeout_ms = 10000,
-      --       score_offset = 100,
-      --       async = true,
-      --     },
-      --   },
-      -- },
+      keymap = {
+        ["<C-y>"] = {
+          function(cmp)
+            cmp.show({ providers = { "llm" } })
+          end,
+        },
+      },
+      sources = {
+        -- if you want to use auto-complete
+        default = { "llm" },
+        providers = {
+          llm = {
+            name = "llm",
+            module = "llm.common.completion.frontends.blink",
+            timeout_ms = 10000,
+            score_offset = 100,
+            async = true,
+          },
+        },
+      },
     },
   },
   {

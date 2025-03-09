@@ -88,4 +88,12 @@ return {
       return vim.env.SILICONFLOW_TOKEN
     end,
   },
+  Chatanywhere = {
+    fetch_key = function()
+      return vim.env.CHAT_ANYWHERE_KEY
+    end,
+    url = "https://api.chatanywhere.tech/v1/chat/completions",
+    model = "gpt-4o-mini",
+    api_type = "openai",
+  },
 }

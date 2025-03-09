@@ -163,16 +163,63 @@ return {
         },
       },
     },
+    Ask = {
+      handler = tools.disposable_ask_handler,
+      opts = {
+        position = {
+          row = 2,
+          col = 0,
+        },
+        title = " Ask ",
+        inline_assistant = true,
+        display = {
+          mapping = {
+            mode = "n",
+            keys = { "d" },
+          },
+          action = nil,
+        },
+        accept = {
+          mapping = {
+            mode = "n",
+            keys = { "Y", "y" },
+          },
+          action = nil,
+        },
+        reject = {
+          mapping = {
+            mode = "n",
+            keys = { "N", "n" },
+          },
+          action = nil,
+        },
+        close = {
+          mapping = {
+            mode = "n",
+            keys = { "<esc>" },
+          },
+          action = nil,
+        },
+      },
+    },
+    AttachToChat = {
+      handler = tools.attach_to_chat_handler,
+      opts = {
+        is_codeblock = true,
+        inline_assistant = true,
+      },
+    },
+
     Completion = {
       handler = tools.completion_handler,
       opts = {
         -------------------------------------------------
         ---                  ollama
         -------------------------------------------------
-        -- -- url = "http://localhost:11434/api/generate",
-        -- url = "http://localhost:11434/v1/completions",
-        -- model = "qwen2.5-coder:1.5b",
-        -- api_type = "ollama",
+        -- url = "http://localhost:11434/api/generate",
+        url = "http://localhost:11434/v1/completions",
+        model = "qwen2.5-coder:1.5b",
+        api_type = "ollama",
 
         -------------------------------------------------
         ---                 deepseek
@@ -187,7 +234,7 @@ return {
         -------------------------------------------------
         ---                 codeium
         -------------------------------------------------
-        api_type = "codeium",
+        -- api_type = "codeium",
 
         n_completions = 1,
         context_window = 512,
@@ -199,9 +246,9 @@ return {
         default_filetype_enabled = true,
         auto_trigger = true,
         only_trigger_by_keywords = true,
-        -- style = "blink.cmp",
+        style = "blink.cmp",
         -- style = "nvim-cmp",
-        style = "virtual_text",
+        -- style = "virtual_text",
         keymap = {
           virtual_text = {
             accept = {

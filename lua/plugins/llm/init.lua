@@ -7,6 +7,7 @@ local workers = require("plugins.llm.models").Cloudflare
 local kimi = require("plugins.llm.models").Kimi
 local localmodel = require("plugins.llm.models").LocalLLM
 local openrouter = require("plugins.llm.models").OpenRouter
+local chatanywhere = require("plugins.llm.models").Chatanywhere
 local ui = require("plugins.llm.ui")
 local keymaps = require("plugins.llm.keymaps")
 
@@ -49,9 +50,10 @@ return {
         max_history = 15,
         max_history_name_length = 20,
       }
-      for _, conf in pairs({ ui, github_models, apps, keymaps }) do
+      for _, conf in pairs({ ui, chatanywhere, apps, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)
       end
+
       require("llm").setup(opts)
     end,
     keys = {
@@ -64,6 +66,8 @@ return {
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
       { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>" },
       { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>" },
+      { "<leader>ak", mode = "v", "<cmd>LLMAppHandler Ask<cr>" },
+      { "<leader>aa", mode = "v", "<cmd>LLMAppHandler AttachToChat<cr>" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
