@@ -172,6 +172,7 @@ return {
         },
         title = " Ask ",
         inline_assistant = true,
+        language = "Chinese",
         display = {
           mapping = {
             mode = "n",
@@ -207,6 +208,7 @@ return {
       opts = {
         is_codeblock = true,
         inline_assistant = true,
+        language = "Chinese",
       },
     },
 
