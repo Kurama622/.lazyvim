@@ -406,6 +406,60 @@ You must:
               },
             },
           },
+          Ask = {
+            handler = tools.disposable_ask_handler,
+            opts = {
+              position = {
+                row = 2,
+                col = 0,
+              },
+              title = " Ask ",
+              inline_assistant = true,
+              language = "Chinese",
+              url = "https://api.chatanywhere.tech/v1/chat/completions",
+              model = "gpt-4o-mini",
+              api_type = "openai",
+              fetch_key = function()
+                return vim.env.CHAT_ANYWHERE_KEY
+              end,
+              display = {
+                mapping = {
+                  mode = "n",
+                  keys = { "d" },
+                },
+                action = nil,
+              },
+              accept = {
+                mapping = {
+                  mode = "n",
+                  keys = { "Y", "y" },
+                },
+                action = nil,
+              },
+              reject = {
+                mapping = {
+                  mode = "n",
+                  keys = { "N", "n" },
+                },
+                action = nil,
+              },
+              close = {
+                mapping = {
+                  mode = "n",
+                  keys = { "<esc>" },
+                },
+                action = nil,
+              },
+            },
+          },
+          AttachToChat = {
+            handler = tools.attach_to_chat_handler,
+            opts = {
+              is_codeblock = true,
+              inline_assistant = true,
+              language = "Chinese",
+            },
+          },
           Completion = {
             handler = tools.completion_handler,
             opts = {
@@ -477,6 +531,8 @@ You must:
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
       { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>" },
       { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>" },
+      { "<leader>ak", mode = "v", "<cmd>LLMAppHandler Ask<cr>" },
+      { "<leader>aa", mode = "v", "<cmd>LLMAppHandler AttachToChat<cr>" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
