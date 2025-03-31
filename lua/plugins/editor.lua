@@ -106,26 +106,19 @@ return {
               kind_icon = {
                 ellipsis = false,
                 text = function(ctx)
-                  local mini_icons = require("mini.icons")
-                  local kind_name = ctx.item.kind_name or "lsp"
-
-                  local success, kind_icon, _, _ = pcall(mini_icons.get, kind_name, ctx.kind)
-                  if not success then
-                    kind_icon = " "
+                  if ctx.item.kind_name == "llm" then
+                    return " "
+                  else
+                    return ctx.kind_icon
                   end
-                  return kind_icon
                 end,
 
-                -- Optionally, you may also use the highlights from mini.icons
                 highlight = function(ctx)
-                  local mini_icons = require("mini.icons")
-                  local kind_name = ctx.item.kind_name or "lsp"
-
-                  local success, _, hl, _ = pcall(mini_icons.get, kind_name, ctx.kind)
-                  if not success then
-                    hl = "BlinkCmpKindSnippet"
+                  if ctx.item.kind_name == "llm" then
+                    return "BlinkCmpKindSnippet"
+                  else
+                    return ctx.kind_hl
                   end
-                  return hl
                 end,
               },
             },
@@ -236,9 +229,10 @@ return {
         run_command = {
           cpp = "g++ -std=c++11 %s -Wall -o {} && {}",
           python = "python %s",
-          lua = "lua %s",
+          -- lua = "lua %s",
           sh = "bash %s",
           Zsh = "bash %s",
+          lua = "<builtin>luafile %s",
           [""] = "",
         },
       }
