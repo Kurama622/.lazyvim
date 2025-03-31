@@ -18,8 +18,9 @@ return {
         python = "python",
         python3 = "python3",
         go = "go",
-        c = "gcc",
-        cpp = "g++",
+        c = "gcc -Wall",
+        cpp = "g++ -std=c++11 -Wall",
+        ["c++"] = "g++ -std=c++11 -Wall",
         bash = "bash",
       }
       return {
