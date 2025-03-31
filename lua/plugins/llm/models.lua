@@ -55,7 +55,8 @@ return {
   },
   GithubModels = {
     url = "https://models.inference.ai.azure.com/chat/completions",
-    model = "gpt-4o",
+    -- model = "gpt-4o",
+    model = "gpt-4o-mini",
     api_type = "openai",
     -- max_tokens = 4096,
     max_tokens = 8000,

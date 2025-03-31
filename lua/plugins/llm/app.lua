@@ -46,8 +46,8 @@ return {
         only_display_diff = true,
         templates = {
           lua = [[- For the Lua language, you should use the LDoc style.
-- Start all comment lines with "---".
-]],
+- Start all comment lines with "---".]],
+          python = [[- For the python language, you should use the numpy style.]],
         },
       },
     },
@@ -240,17 +240,28 @@ return {
         -- end,
 
         -------------------------------------------------
+        ---                 siliconflow
+        -------------------------------------------------
+        -- url = "https://api.siliconflow.cn/v1/completions",
+        -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
+        -- api_type = "openai",
+        -- fetch_key = function()
+        --   return vim.env.SILICONFLOW_TOKEN
+        -- end,
+        -------------------------------------------------
         ---                 codeium
         -------------------------------------------------
         -- api_type = "codeium",
 
         n_completions = 1,
-        context_window = 512,
+        context_window = 16000,
         max_tokens = 256,
+        keep_alive = -1,
         filetypes = {
           sh = false,
           zsh = false,
         },
+        timeout = 10,
         default_filetype_enabled = true,
         auto_trigger = true,
         only_trigger_by_keywords = true,

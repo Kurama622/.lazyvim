@@ -1,6 +1,7 @@
 return {
   TestCode = [[Write some test cases for the following code, only return the test cases.
-    Give the code content directly, do not use code blocks or other tags to wrap it.]],
+Give the code content directly, do not use code blocks or other tags to wrap it.
+Absolutely adhere to grammatical rules.]],
   DocString = [[You are an AI programming assistant. You need to write a really good docstring that follows a best practice for the given language.
 
 Your core tasks include:
