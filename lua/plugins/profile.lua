@@ -20,7 +20,7 @@ return {
           tabline = true,
         },
         disable_keys = { "h", "j", "k", "<Left>", "<Right>", "<Up>", "<Down>", "<C-f>" },
-        cursor_pos = { 17, 48 },
+        cursor_pos = { 17, 46 },
         format = function()
           local header = {
             [[                                                                       ]],
