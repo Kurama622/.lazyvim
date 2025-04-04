@@ -23,5 +23,11 @@ return {
     -- Focus
     ["Focus:Input"]       = { mode = "n", key = {"i", "<C-w>"} },
     ["Focus:Output"]      = { mode = { "n", "i" }, key = "<C-w>" },
+
+    -- Scroll
+    ["PageUp"]            = { mode = {"i","n"}, key = "<C-b>" },
+    ["PageDown"]          = { mode = {"i","n"}, key = "<C-f>" },
+    ["HalfPageUp"]        = { mode = {"i","n"}, key = "<C-u>" },
+    ["HalfPageDown"]      = { mode = {"i","n"}, key = "<C-d>" },
   },
 }
