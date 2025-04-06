@@ -193,6 +193,14 @@ return {
           -- The keyboard mapping for the output and input windows in "float" style.
           ["Session:Toggle"]    = { mode = "n", key = "<leader>ac" },
           ["Session:Close"]     = { mode = "n", key = {"<esc>", "Q"} },
+
+          -- Scroll [default]
+          ["PageUp"]            = { mode = {"i","n"}, key = "<C-b>" },
+          ["PageDown"]          = { mode = {"i","n"}, key = "<C-f>" },
+          ["HalfPageUp"]        = { mode = {"i","n"}, key = "<C-u>" },
+          ["HalfPageDown"]      = { mode = {"i","n"}, key = "<C-d>" },
+          ["JumpToTop"]         = { mode = "n", key = "gg" },
+          ["JumpToBottom"]      = { mode = "n", key = "G" }
         },
 
         app_handler = {
@@ -522,17 +530,17 @@ You must:
       })
     end,
     keys = {
-      { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
-      { "<leader>ts", mode = "x", "<cmd>LLMAppHandler WordTranslate<cr>" },
-      { "<leader>ae", mode = "v", "<cmd>LLMAppHandler CodeExplain<cr>" },
-      { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>" },
-      { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>" },
-      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>" },
-      { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>" },
-      { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>" },
-      { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>" },
-      { "<leader>ak", mode = "v", "<cmd>LLMAppHandler Ask<cr>" },
-      { "<leader>aa", mode = "v", "<cmd>LLMAppHandler AttachToChat<cr>" },
+      { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>", desc = " Toggle LLM Chat" },
+      { "<leader>ts", mode = "x", "<cmd>LLMAppHandler WordTranslate<cr>", desc = " Word Translate" },
+      { "<leader>ae", mode = "v", "<cmd>LLMAppHandler CodeExplain<cr>", desc = " Explain the Code" },
+      { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>", desc = " AI Translator" },
+      { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>", desc = " Generate Test Cases" },
+      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>", desc = " Optimize the Code" },
+      { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>", desc = " Check Account Information" },
+      { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>", desc = " Generate AI Commit Message" },
+      { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>", desc = " Generate a Docstring" },
+      { "<leader>ak", mode = { "v", "n" }, "<cmd>LLMAppHandler Ask<cr>", desc = " Ask LLM" },
+      { "<leader>aa", mode = { "v", "n" }, "<cmd>LLMAppHandler AttachToChat<cr>", desc = " Ask LLM (multi-turn)" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },

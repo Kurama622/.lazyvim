@@ -24,10 +24,12 @@ return {
     ["Focus:Input"]       = { mode = "n", key = {"i", "<C-w>"} },
     ["Focus:Output"]      = { mode = { "n", "i" }, key = "<C-w>" },
 
-    -- Scroll
+    -- Scroll [default]
     ["PageUp"]            = { mode = {"i","n"}, key = "<C-b>" },
     ["PageDown"]          = { mode = {"i","n"}, key = "<C-f>" },
     ["HalfPageUp"]        = { mode = {"i","n"}, key = "<C-u>" },
     ["HalfPageDown"]      = { mode = {"i","n"}, key = "<C-d>" },
+    ["JumpToTop"]         = { mode = "n", key = "gg" },
+    ["JumpToBottom"]      = { mode = "n", key = "G" }
   },
 }
