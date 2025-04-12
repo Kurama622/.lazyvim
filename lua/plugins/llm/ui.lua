@@ -1,6 +1,6 @@
 local Text = require("nui.text")
 return {
-  -- style = "right",
+  style = "right",
 
   chat_ui_opts = {
     relative = "editor",
@@ -17,13 +17,13 @@ return {
       float = {
         border = {
           text = {
-            top = Text("  Enter Your Question ", "LlmYellowNormal"),
+            top = Text(" Enter Your Question ", "LlmYellowNormal"),
             top_align = "center",
           },
         },
         win_options = {
           winblend = 0,
-          winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
+          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal",
         },
         size = { height = "10%", width = "80%" },
         order = 2,
@@ -37,7 +37,7 @@ return {
         },
         border = {
           text = {
-            top = Text("  Enter Your Question ", "LlmYellowNormal"),
+            top = Text(" Enter Your Question ", "LlmYellowNormal"),
             top_align = "center",
           },
         },
@@ -64,6 +64,26 @@ return {
         win_options = {
           winblend = 0,
           winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
+        },
+        order = 3,
+      },
+      split = {
+        relative = "win",
+        size = { height = "30%", width = "60%" },
+      },
+    },
+    models = {
+      float = {
+        size = { height = "100%", width = "20%" },
+        border = {
+          text = {
+            top = Text(" Models ", "LlmPurpleNormal"),
+            top_align = "center",
+          },
+        },
+        win_options = {
+          winblend = 0,
+          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal",
         },
         order = 3,
       },

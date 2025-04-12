@@ -12,8 +12,6 @@ return {
       local apps = require("plugins.llm.app")
       local opts = {
         prompt = "You are a helpful Chinese assistant.",
-        temperature = 0.3,
-        top_p = 0.7,
         -- enable_trace = true,
         -- log_level = 1,
 
@@ -40,8 +38,18 @@ return {
         save_session = true,
         max_history = 15,
         max_history_name_length = 20,
+
+        -- set models list
+        models = {
+          models.Chatanywhere,
+          models.GithubModels,
+          models.GLM,
+          models.DeepSeek,
+          models.Ollama,
+          models.Kimi,
+        },
       }
-      for _, conf in pairs({ ui, models.GithubModels, apps, keymaps }) do
+      for _, conf in pairs({ ui, apps, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)
       end
 
