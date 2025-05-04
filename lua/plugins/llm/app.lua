@@ -280,9 +280,13 @@ return {
         only_trigger_by_keywords = true,
         style = "blink.cmp",
         -- style = "nvim-cmp",
-
         -- style = "virtual_text",
+
         keymap = {
+          toggle = {
+            mode = "n",
+            keys = "<leader>cp",
+          },
           virtual_text = {
             accept = {
               mode = "i",
@@ -295,10 +299,6 @@ return {
             prev = {
               mode = "i",
               keys = "<A-p>",
-            },
-            toggle = {
-              mode = "n",
-              keys = "<leader>cp",
             },
           },
         },
