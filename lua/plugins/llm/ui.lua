@@ -1,6 +1,6 @@
 local Text = require("nui.text")
 return {
-  style = "right",
+  -- style = "right",
 
   chat_ui_opts = {
     relative = "editor",
@@ -63,7 +63,8 @@ return {
         size = { height = "100%", width = "20%" },
         win_options = {
           winblend = 0,
-          winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
+          -- winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
+          winhighlight = "Normal:Title,FloatBorder:Title",
         },
         order = 3,
       },

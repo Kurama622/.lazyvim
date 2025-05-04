@@ -31,6 +31,7 @@ return {
 
   {
     "hrsh7th/nvim-cmp",
+    dependencies = { "Kurama622/llm.nvim" },
     optional = true,
     opts = function(_, opts)
       -- if you wish to use autocomplete
@@ -92,8 +93,10 @@ return {
       }
     end,
   },
+
   {
     "saghen/blink.cmp",
+    dependencies = { "Kurama622/llm.nvim" },
     opts = {
       completion = {
         menu = {
@@ -139,21 +142,25 @@ return {
           end,
         },
       },
+
       sources = {
         -- if you want to use auto-complete
         default = { "llm" },
-        providers = {
-          llm = {
-            name = "llm",
-            module = "llm.common.completion.frontends.blink",
-            timeout_ms = 10000,
-            score_offset = 100,
-            async = true,
-          },
-        },
+
+        ---@note Windsurf does not require the following configuration
+        -- providers = {
+        --   llm = {
+        --     name = "llm",
+        --     module = "llm.common.completion.frontends.blink",
+        --     timeout_ms = 10000,
+        --     score_offset = 100,
+        --     async = true,
+        --   },
+        -- },
       },
     },
   },
+
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
@@ -233,6 +240,7 @@ return {
           sh = "bash %s",
           Zsh = "bash %s",
           lua = "<builtin>luafile %s",
+          rust = "cargo run",
           [""] = "",
         },
       }

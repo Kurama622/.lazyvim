@@ -1,6 +1,7 @@
 {
   "extras": [
-    "lazyvim.plugins.extras.coding.blink"
+    "lazyvim.plugins.extras.coding.blink",
+    "lazyvim.plugins.extras.lang.rust"
   ],
   "install_version": 7,
   "news": {

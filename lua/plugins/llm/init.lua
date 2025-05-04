@@ -6,13 +6,13 @@ return {
   {
     "Kurama622/llm.nvim",
     -- dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-    dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim", "Exafunction/codeium.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim", "Exafunction/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       local apps = require("plugins.llm.app")
       local opts = {
         prompt = "You are a helpful Chinese assistant.",
-        -- enable_trace = true,
+        enable_trace = false,
         -- log_level = 1,
 
         spinner = {
@@ -43,10 +43,12 @@ return {
         models = {
           models.Chatanywhere,
           models.GithubModels,
+          models.SiliconFlow,
           models.GLM,
           models.DeepSeek,
           models.Ollama,
           models.Kimi,
+          models.Cloudflare,
         },
       }
       for _, conf in pairs({ ui, apps, keymaps }) do
@@ -67,6 +69,7 @@ return {
       { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>", desc = " Generate a Docstring" },
       { "<leader>ak", mode = { "v", "n" }, "<cmd>LLMAppHandler Ask<cr>", desc = " Ask LLM" },
       { "<leader>aa", mode = { "v", "n" }, "<cmd>LLMAppHandler AttachToChat<cr>", desc = " Ask LLM (multi-turn)" },
+      -- { "<leader>cp", mode = { "v", "n" }, "<cmd>LLMAppHandler Completion<cr>", desc = " Code Completion" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
       -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },

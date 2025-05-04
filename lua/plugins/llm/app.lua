@@ -1,5 +1,6 @@
 local prompts = require("plugins.llm.prompts")
 local tools = require("llm.tools")
+
 return {
   app_handler = {
     OptimizeCode = {
@@ -85,7 +86,7 @@ return {
     -- check siliconflow's balance
     UserInfo = {
       handler = function()
-        local key = os.getenv("LLM_KEY")
+        local key = os.getenv("SILICONFLOW_TOKEN")
         local res = tools.curl_request_handler(
           "https://api.siliconflow.cn/v1/user/info",
           { "GET", "-H", string.format("'Authorization: Bearer %s'", key) }
@@ -133,12 +134,12 @@ return {
       prompt = prompts.CommitMsg,
 
       opts = {
-        fetch_key = function()
-          return vim.env.CHAT_ANYWHERE_KEY
-        end,
-        url = "https://api.chatanywhere.tech/v1/chat/completions",
-        model = "gpt-4o-mini",
-        api_type = "openai",
+        -- fetch_key = function()
+        --   return vim.env.CHAT_ANYWHERE_KEY
+        -- end,
+        -- url = "https://api.chatanywhere.tech/v1/chat/completions",
+        -- model = "gpt-4o-mini",
+        -- api_type = "openai",
         enter_flexible_window = true,
         apply_visual_selection = false,
         win_opts = {
@@ -173,12 +174,12 @@ return {
         title = " Ask ",
         inline_assistant = true,
         language = "Chinese",
-        url = "https://api.chatanywhere.tech/v1/chat/completions",
-        model = "gpt-4o-mini",
-        api_type = "openai",
-        fetch_key = function()
-          return vim.env.CHAT_ANYWHERE_KEY
-        end,
+        -- url = "https://api.chatanywhere.tech/v1/chat/completions",
+        -- model = "gpt-4o-mini",
+        -- api_type = "openai",
+        -- fetch_key = function()
+        --   return vim.env.CHAT_ANYWHERE_KEY
+        -- end,
         display = {
           mapping = {
             mode = "n",
@@ -225,9 +226,9 @@ return {
         ---                  ollama
         -------------------------------------------------
         -- url = "http://localhost:11434/api/generate",
-        url = "http://localhost:11434/v1/completions",
-        model = "qwen2.5-coder:1.5b",
-        api_type = "ollama",
+        -- url = "http://localhost:11434/v1/completions",
+        -- model = "qwen2.5-coder:1.5b",
+        -- api_type = "ollama",
 
         -------------------------------------------------
         ---                 deepseek
@@ -240,6 +241,17 @@ return {
         -- end,
 
         -------------------------------------------------
+        ---   openrouter
+        -------------------------------------------------
+        -- url = "https://openrouter.ai/api/v1/completions",
+        -- model = "deepseek/deepseek-chat-v3-0324",
+        -- api_type = "deepseek",
+        -- fetch_key = function()
+        --   -- return vim.env.OPENROUTER
+        --   return vim.env.OPENROUTER_KEY
+        -- end,
+
+        -------------------------------------------------
         ---                 siliconflow
         -------------------------------------------------
         -- url = "https://api.siliconflow.cn/v1/completions",
@@ -248,14 +260,15 @@ return {
         -- fetch_key = function()
         --   return vim.env.SILICONFLOW_TOKEN
         -- end,
+
         -------------------------------------------------
         ---                 codeium
         -------------------------------------------------
-        -- api_type = "codeium",
+        api_type = "codeium",
 
-        n_completions = 1,
+        n_completions = 2,
         context_window = 16000,
-        max_tokens = 256,
+        max_tokens = 4096,
         keep_alive = -1,
         filetypes = {
           sh = false,
@@ -267,6 +280,7 @@ return {
         only_trigger_by_keywords = true,
         style = "blink.cmp",
         -- style = "nvim-cmp",
+
         -- style = "virtual_text",
         keymap = {
           virtual_text = {

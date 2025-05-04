@@ -13,9 +13,3 @@ vim.api.nvim_create_user_command("Lg", function(opts)
 end, {
   nargs = "*",
 })
-
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  callback = function()
-    vim.api.nvim_command("LLMAppHandler Completion")
-  end,
-})

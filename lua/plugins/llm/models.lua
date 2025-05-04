@@ -2,6 +2,7 @@ local utils = require("plugins.llm.utils")
 return {
   Cloudflare = {
     -- model = "@cf/qwen/qwen1.5-14b-chat-awq",
+    url = "https://api.cloudflare.com/client/v4/accounts/%s/ai/run/%s",
     name = "Cloudflare",
     model = "@cf/google/gemma-7b-it-lora",
     api_type = "workers-ai",
@@ -15,7 +16,8 @@ return {
   OpenRouter = {
     name = "OpenRouter",
     url = "https://openrouter.ai/api/v1/chat/completions",
-    model = "google/gemini-2.0-flash-exp:free",
+    -- model = "google/gemini-2.0-flash-exp:free",
+    model = "deepseek/deepseek-chat-v3-0324:free",
     max_tokens = 8000,
     api_type = "openai",
     fetch_key = function()
@@ -28,6 +30,7 @@ return {
     name = "GLM",
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
     model = "glm-4-flash",
+    api_type = "zhipu",
     max_tokens = 8000,
     fetch_key = function()
       return vim.env.GLM_KEY
@@ -89,7 +92,7 @@ return {
   DeepSeek = {
     name = "DeepSeek",
     url = "https://api.deepseek.com/chat/completions",
-    model = "deepseek-chat",
+    model = "deepseek-chat", -- (think: deepseek-reasoner)
     api_type = "openai",
     max_tokens = 8000,
     fetch_key = function()
@@ -97,6 +100,8 @@ return {
     end,
     temperature = 0.3,
     top_p = 0.7,
+    enable_thinking = true,
+    thinking_budget = 512,
   },
   SiliconFlow = {
     name = "SiliconFlow",
@@ -107,7 +112,8 @@ return {
     -- model = "01-ai/Yi-1.5-9B-Chat-16K",
     -- model = "google/gemma-2-9b-it",
     -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
-    model = "Qwen/Qwen2.5-7B-Instruct",
+    -- model = "Qwen/Qwen2.5-7B-Instruct",
+    model = "Qwen/Qwen3-8B", -- think
     -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
     -- model = "internlm/internlm2_5-7b-chat",
     fetch_key = function()
@@ -115,6 +121,8 @@ return {
     end,
     temperature = 0.3,
     top_p = 0.7,
+    enable_thinking = true,
+    thinking_budget = 512,
   },
   Chatanywhere = {
     name = "Chatanywhere",

@@ -19,6 +19,13 @@ local all_maps = {
   { mode = "n", lhs = "<down>",     rhs = ":res -5<cr>",             opts = { noremap = true, silent = true } },
   { mode = "n", lhs = "<left>",     rhs = ":vertical resize -5<cr>", opts = { noremap = true, silent = true } },
   { mode = "n", lhs = "<right>",    rhs = ":vertical resize +5<cr>", opts = { noremap = true, silent = true } },
+  {
+    mode = "n", lhs = "<leader>am",
+    rhs = function()
+      require("llm.common.api").ModelsPreview()
+    end,
+    opts = { noremap = true, silent = true },
+  }
 }
 
 for _, mapping in ipairs(all_maps) do

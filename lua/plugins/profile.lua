@@ -55,7 +55,7 @@ return {
                 {
                   title = "kurama622/llm.nvim",
                   description = [[LLM Neovim Plugin: Effortless Natural
-Language Generation with LLM's API]],
+   Language Generation with LLM's API]],
                 },
                 {
                   title = "kurama622/profile.nvim",
