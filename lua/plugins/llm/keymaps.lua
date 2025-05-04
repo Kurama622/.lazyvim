@@ -24,8 +24,8 @@ return {
     ["Session:Hide"]    = { mode = "n", key = "<esc>" },
     ["Session:Close"]     = { mode = "n", key = {"Q", "<esc>"} },
     -- ["Session:History"]     = { mode = "n", key = {"<C-h>"} },
-    -- ["Session:Models"]     = { mode = "i", key = "@" },
-    ["Session:Models"]     = { mode = "n", key = "<C-m>" },
+    ["Session:Models"]     = { mode = "i", key = "@" },
+    -- ["Session:Models"]     = { mode = "n", key = "<C-m>" },
 
     -- Focus
     ["Focus:Input"]       = { mode = "n", key = {"i", "<C-w>"} },

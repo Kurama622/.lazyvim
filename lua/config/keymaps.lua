@@ -24,7 +24,7 @@ local all_maps = {
     rhs = function()
       require("llm.common.api").ModelsPreview()
     end,
-    opts = { noremap = true, silent = true },
+    opts = { noremap = true, silent = true, desc = " AI Models List" },
   }
 }
 
