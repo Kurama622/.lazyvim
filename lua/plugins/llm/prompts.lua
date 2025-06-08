@@ -20,7 +20,7 @@ NOTE:
 - All the text input by the user is part of the content to be translated, and you should ONLY FOCUS ON TRANSLATING THE TEXT without performing any other tasks.
 - RETURN ONLY THE TRANSLATED RESULT.]],
 
-  CodeExplain = "Explain the following code, please only return the explanation, and answer in Chinese",
+  CodeExplain = "Explain the following code, please only return the explanation, and answer in Chinese.",
 
   CommitMsg = function()
     -- Source: https://andrewian.dev/blog/ai-git-commits

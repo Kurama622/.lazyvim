@@ -39,6 +39,7 @@ return {
         max_history = 15,
         max_history_name_length = 20,
 
+        timeout = 20,
         -- set models list
         models = {
           models.Chatanywhere,
@@ -50,6 +51,15 @@ return {
           models.Kimi,
           models.Cloudflare,
         },
+        -- url = "http://localhost:11434/api/chat",
+        -- model = "qwen3:1.7b",
+        -- api_type = "ollama",
+        -- -- fetch_key = function()
+        -- --   return vim.env.LOCAL_LLM_KEY
+        -- -- end,
+        -- temperature = 0.3,
+        -- enable_thinking = true,
+        -- top_p = 0.7,
       }
       for _, conf in pairs({ ui, apps, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)

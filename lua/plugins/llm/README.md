@@ -505,6 +505,10 @@ You must:
               -- style = "nvim-cmp",
               -- style = "virtual_text",
               keymap = {
+                toggle = {
+                  mode = "n",
+                  keys = "<leader>cp",
+                },
                 virtual_text = {
                   accept = {
                     mode = "i",
@@ -517,10 +521,6 @@ You must:
                   prev = {
                     mode = "i",
                     keys = "<A-p>",
-                  },
-                  toggle = {
-                    mode = "n",
-                    keys = "<leader>cp",
                   },
                 },
               },

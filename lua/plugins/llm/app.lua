@@ -120,12 +120,12 @@ return {
       handler = tools.flexi_handler,
       prompt = prompts.CodeExplain,
       opts = {
-        fetch_key = function()
-          return vim.env.GLM_KEY
-        end,
-        url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        model = "glm-4-flash",
-        api_type = "zhipu",
+        -- fetch_key = function()
+        --   return vim.env.GLM_KEY
+        -- end,
+        -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        -- model = "glm-4-flash",
+        -- api_type = "zhipu",
         enter_flexible_window = true,
       },
     },
@@ -174,6 +174,7 @@ return {
         title = " Ask ",
         inline_assistant = true,
         language = "Chinese",
+        enable_thinking = false,
         -- url = "https://api.chatanywhere.tech/v1/chat/completions",
         -- model = "gpt-4o-mini",
         -- api_type = "openai",
@@ -218,14 +219,93 @@ return {
         language = "Chinese",
       },
     },
+    BashRunner = {
+      handler = tools.qa_handler,
+      prompt = [[Write a suitable bash script and run it through CodeRunner]],
+      opts = {
+        url = "https://api.siliconflow.cn/v1/chat/completions",
+        api_type = "openai",
+        max_tokens = 4096,
+        -- model = "Qwen/Qwen2.5-7B-Instruct",
+        model = "Qwen/Qwen3-8B",
+        fetch_key = function()
+          return vim.env.SILICONFLOW_TOKEN
+        end,
+        enable_thinking = false,
 
+        component_width = "60%",
+        component_height = "50%",
+        query = {
+          title = "  CodeRunner ",
+          hl = { link = "Define" },
+        },
+        input_box_opts = {
+          size = "15%",
+          win_options = {
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+          },
+        },
+        preview_box_opts = {
+          size = "85%",
+          win_options = {
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+          },
+        },
+        functions_tbl = {
+          CodeRunner = function(code)
+            -- Replace '\\n' that are not enclosed in quotes
+            code = code:gsub("([^\"'])\\n", "%1\n")
+            code = code:gsub("\\n([^\"'])", "\n%1")
+
+            local filepath = "/tmp/script.sh"
+
+            -- Print the code suggested by llm
+            vim.notify(
+              string.format("CodeRunner running...\n```bash\n%s\n```", code),
+              vim.log.levels.INFO,
+              { title = "llm: CodeRunner" }
+            )
+
+            local file = io.open(filepath, "w")
+            if file then
+              file:write(code)
+              file:close()
+              local script_result = vim.system({ "bash", filepath }, { text = true }):wait()
+              os.remove(filepath)
+              return script_result.stdout
+            else
+              return ""
+            end
+          end,
+        },
+        schema = {
+          {
+            type = "function",
+            ["function"] = {
+              name = "CodeRunner",
+              description = "Bash code interpreter",
+              parameters = {
+                properties = {
+                  code = {
+                    type = "string",
+                    description = "bash code",
+                  },
+                },
+                required = { "code" },
+                type = "object",
+              },
+            },
+          },
+        },
+      },
+    },
     Completion = {
       handler = tools.completion_handler,
       opts = {
         -------------------------------------------------
         ---                  ollama
         -------------------------------------------------
-        -- url = "http://localhost:11434/api/generate",
+        -- -- url = "http://localhost:11434/api/generate",
         -- url = "http://localhost:11434/v1/completions",
         -- model = "qwen2.5-coder:1.5b",
         -- api_type = "ollama",

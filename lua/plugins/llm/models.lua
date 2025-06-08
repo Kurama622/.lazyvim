@@ -53,12 +53,13 @@ return {
   Ollama = {
     name = "Ollama",
     url = "http://localhost:11434/api/chat",
-    model = "qwen:0.5b",
+    model = "qwen3:1.7b",
     api_type = "ollama",
     fetch_key = function()
       return vim.env.LOCAL_LLM_KEY
     end,
     temperature = 0.3,
+    enable_thinking = false,
     top_p = 0.7,
   },
   LocalLLM = {
@@ -100,15 +101,15 @@ return {
     end,
     temperature = 0.3,
     top_p = 0.7,
-    enable_thinking = true,
-    thinking_budget = 512,
+    enable_thinking = false,
+    -- thinking_budget = 512,
   },
   SiliconFlow = {
     name = "SiliconFlow",
     url = "https://api.siliconflow.cn/v1/chat/completions",
     -- model = "THUDM/glm-4-9b-chat",
     api_type = "openai",
-    max_tokens = 4096,
+    -- max_tokens = 4096,
     -- model = "01-ai/Yi-1.5-9B-Chat-16K",
     -- model = "google/gemma-2-9b-it",
     -- model = "meta-llama/Meta-Llama-3.1-8B-Instruct",
@@ -122,7 +123,6 @@ return {
     temperature = 0.3,
     top_p = 0.7,
     enable_thinking = true,
-    thinking_budget = 512,
   },
   Chatanywhere = {
     name = "Chatanywhere",
