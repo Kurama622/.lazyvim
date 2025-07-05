@@ -81,14 +81,29 @@ return {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
     opts = {
-      -- inlay_hints = { enabled = vim.fn.has("nvim-0.10") },
-      inlay_hints = { enabled = false },
-      ---@type lspconfig.options
       servers = {
-        clangd = {},
-        pyright = {},
+        clangd = {
+          on_attach = function()
+            if vim.lsp.inlay_hint then
+              vim.lsp.inlay_hint.enable(true)
+            end
+          end,
+        },
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              typeCheckingMode = "standard",
+              reportUnknownMemberType = false,
+              reportUnknownVariableType = false,
+            },
+          },
+          on_attach = function()
+            if vim.lsp.inlay_hint then
+              vim.lsp.inlay_hint.enable(false)
+            end
+          end,
+        },
       },
     },
   },
@@ -135,7 +150,7 @@ return {
     -- lazy = true,
     event = "BufRead",
     config = function()
-      vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "keyword" })
+      vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comments" })
       require("gitsigns").setup({
         signs = {
           add = { text = "┃" },
