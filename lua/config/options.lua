@@ -5,6 +5,7 @@
 -- tab -> spaces
 -- :retab!
 vim.opt.listchars = { tab = "▸~", trail = "▫" }
+vim.opt.fillchars:append({ diff = " " })
 -- vim.opt.fileencodings = { "utf-8", "gbk", "ucs-bom", "cp936" }
 vim.o.expandtab = true
 -- wrap

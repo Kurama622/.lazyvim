@@ -233,6 +233,13 @@ return {
         end,
         enable_thinking = false,
 
+        -- url = "http://localhost:11434/api/chat",
+        -- model = "qwen3:1.7b",
+        -- api_type = "ollama",
+        -- fetch_key = function()
+        --   return vim.env.LOCAL_LLM_KEY
+        -- end,
+        -- enable_thinking = false,
         component_width = "60%",
         component_height = "50%",
         query = {
