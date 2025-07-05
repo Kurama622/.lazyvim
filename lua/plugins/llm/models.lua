@@ -137,4 +137,13 @@ return {
     -- temperature = 0.3,
     -- top_p = 0.7,
   },
+  DashScope = {
+    name = "DashScope",
+    fetch_key = function()
+      return vim.env.DASHSCOPE_KEY
+    end,
+    url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+    model = "qwen2-0.5b-instruct",
+    api_type = "openai",
+  },
 }

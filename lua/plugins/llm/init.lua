@@ -30,10 +30,11 @@ return {
             layout = "vertical", -- vertical|horizontal split for default provider
             opts = { "internal", "filler", "closeoff", "algorithm:patience", "followwrap", "linematch:120" },
             provider = "mini_diff", -- default|mini_diff
+            -- disable_diagnostic = true,
           },
         },
         --[[ custom request args ]]
-        -- args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
+        args = [[return {url, "-s", "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         -- history_path = "/tmp/llm-history",
         save_session = true,
         max_history = 15,
@@ -42,24 +43,16 @@ return {
         timeout = 20,
         -- set models list
         models = {
-          models.Chatanywhere,
-          models.GithubModels,
           models.SiliconFlow,
+          models.GithubModels,
+          models.Chatanywhere,
           models.GLM,
           models.DeepSeek,
           models.Ollama,
           models.Kimi,
           models.Cloudflare,
+          models.Dashscope,
         },
-        -- url = "http://localhost:11434/api/chat",
-        -- model = "qwen3:1.7b",
-        -- api_type = "ollama",
-        -- -- fetch_key = function()
-        -- --   return vim.env.LOCAL_LLM_KEY
-        -- -- end,
-        -- temperature = 0.3,
-        -- enable_thinking = true,
-        -- top_p = 0.7,
       }
       for _, conf in pairs({ ui, apps, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)

@@ -145,7 +145,7 @@ return {
 
       sources = {
         -- if you want to use auto-complete
-        default = { "llm" },
+        -- default = { "llm" },
 
         ---@note Windsurf does not require the following configuration
         -- providers = {

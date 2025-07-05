@@ -134,12 +134,12 @@ return {
       prompt = prompts.CommitMsg,
 
       opts = {
-        -- fetch_key = function()
-        --   return vim.env.CHAT_ANYWHERE_KEY
-        -- end,
-        -- url = "https://api.chatanywhere.tech/v1/chat/completions",
-        -- model = "gpt-4o-mini",
-        -- api_type = "openai",
+        fetch_key = function()
+          return vim.env.CHAT_ANYWHERE_KEY
+        end,
+        url = "https://api.chatanywhere.tech/v1/chat/completions",
+        model = "gpt-4o-mini",
+        api_type = "openai",
         enter_flexible_window = true,
         apply_visual_selection = false,
         win_opts = {
@@ -154,7 +154,12 @@ return {
           },
           action = function()
             local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
-            vim.api.nvim_command(string.format('!git commit -m "%s"', table.concat(contents, '" -m "')))
+
+            local cmd = string.format('!git commit -m "%s"', table.concat(contents, '" -m "'))
+            cmd = (cmd:gsub(".", {
+              ["#"] = "\\#",
+            }))
+            vim.api.nvim_command(cmd)
 
             -- just for lazygit
             vim.schedule(function()
@@ -173,6 +178,7 @@ return {
         },
         title = " Ask ",
         inline_assistant = true,
+        enable_buffer_context = true,
         language = "Chinese",
         enable_thinking = false,
         -- url = "https://api.chatanywhere.tech/v1/chat/completions",
