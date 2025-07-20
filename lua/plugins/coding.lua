@@ -117,6 +117,7 @@ return {
         lua = { "stylua" },
         c = { "clang-format" },
         cpp = { "clang-format" },
+        json = { "clang-format" },
         python = { "autopep8" },
       },
     },

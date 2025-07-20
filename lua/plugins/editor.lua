@@ -125,6 +125,12 @@ return {
                 end,
               },
             },
+
+            -- columns = {
+            --   { "kind_icon", "kind" },
+            --   { "label", "label_description", gap = 1 },
+            --   { "source_name", "source_id", gap = 1 },
+            -- },
           },
         },
         documentation = { window = { border = "rounded" } },
@@ -145,12 +151,17 @@ return {
 
       sources = {
         -- if you want to use auto-complete
-        -- default = { "llm" },
+        -- default = { "lsp", "path", "snippets", "buffer", "llm" },
+        -- per_filetype = {
+        --   -- optionally inherit from the `default` sources
+        --   -- lua = { inherit_defaults = true, 'lsp', 'path' },
+        --   llm = { inherit_defaults = true, "lsp", "path", "snippets", "buffer", "llm" },
+        -- },
 
         ---@note Windsurf does not require the following configuration
         -- providers = {
         --   llm = {
-        --     name = "llm",
+        --     name = "LLM",
         --     module = "llm.common.completion.frontends.blink",
         --     timeout_ms = 10000,
         --     score_offset = 100,
