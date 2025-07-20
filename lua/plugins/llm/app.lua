@@ -24,9 +24,7 @@ return {
     OptimCompare = {
       handler = tools.action_handler,
       opts = {
-        fetch_key = function()
-          return vim.env.GITHUB_TOKEN
-        end,
+        fetch_key = vim.env.GITHUB_TOKEN,
         url = "https://models.inference.ai.azure.com/chat/completions",
         model = "gpt-4o-mini",
         api_type = "openai",
@@ -38,9 +36,7 @@ return {
       prompt = prompts.DocString,
       handler = tools.action_handler,
       opts = {
-        fetch_key = function()
-          return vim.env.GITHUB_TOKEN
-        end,
+        fetch_key = vim.env.GITHUB_TOKEN,
         url = "https://models.inference.ai.azure.com/chat/completions",
         model = "gpt-4o-mini",
         api_type = "openai",
@@ -55,23 +51,20 @@ return {
     Translate = {
       handler = tools.qa_handler,
       opts = {
-        fetch_key = function()
-          return vim.env.GLM_KEY
-        end,
+        fetch_key = vim.env.GLM_KEY,
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         model = "glm-4-flash",
         api_type = "zhipu",
 
         component_width = "60%",
         component_height = "50%",
-        query = {
-          title = " 󰊿 Trans ",
-          hl = { link = "Define" },
-        },
         input_box_opts = {
           size = "15%",
+          border = {
+            text = { top = " 󰊿 Trans " },
+          },
           win_options = {
-            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,FloatTitle:Search",
           },
         },
         preview_box_opts = {
@@ -101,9 +94,7 @@ return {
       prompt = prompts.WordTranslate,
       -- prompt = "Translate the following text to English, please only return the translation",
       opts = {
-        fetch_key = function()
-          return vim.env.GLM_KEY
-        end,
+        fetch_key = vim.env.GLM_KEY,
         url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         model = "glm-4-flash",
         api_type = "zhipu",
@@ -112,17 +103,15 @@ return {
         },
         -- args = [=[return string.format([[curl %s -N -X POST -H "Content-Type: application/json" -H "Authorization: Bearer %s" -d '%s']], url, LLM_KEY, vim.fn.json_encode(body))]=],
         -- args = [[return {url, "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
-        exit_on_move = true,
-        enter_flexible_window = false,
+        exit_on_move = false,
+        enter_flexible_window = true,
       },
     },
     CodeExplain = {
       handler = tools.flexi_handler,
       prompt = prompts.CodeExplain,
       opts = {
-        -- fetch_key = function()
-        --   return vim.env.GLM_KEY
-        -- end,
+        -- fetch_key = vim.env.GLM_KEY,
         -- url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
         -- model = "glm-4-flash",
         -- api_type = "zhipu",
@@ -134,9 +123,7 @@ return {
       prompt = prompts.CommitMsg,
 
       opts = {
-        fetch_key = function()
-          return vim.env.CHAT_ANYWHERE_KEY
-        end,
+        fetch_key = vim.env.CHAT_ANYWHERE_KEY,
         url = "https://api.chatanywhere.tech/v1/chat/completions",
         model = "gpt-4o-mini",
         api_type = "openai",
@@ -184,9 +171,7 @@ return {
         -- url = "https://api.chatanywhere.tech/v1/chat/completions",
         -- model = "gpt-4o-mini",
         -- api_type = "openai",
-        -- fetch_key = function()
-        --   return vim.env.CHAT_ANYWHERE_KEY
-        -- end,
+        -- fetch_key =  vim.env.CHAT_ANYWHERE_KEY,
         display = {
           mapping = {
             mode = "n",
@@ -234,17 +219,13 @@ return {
         max_tokens = 4096,
         -- model = "Qwen/Qwen2.5-7B-Instruct",
         model = "Qwen/Qwen3-8B",
-        fetch_key = function()
-          return vim.env.SILICONFLOW_TOKEN
-        end,
+        fetch_key = vim.env.SILICONFLOW_TOKEN,
         enable_thinking = false,
 
         -- url = "http://localhost:11434/api/chat",
         -- model = "qwen3:1.7b",
         -- api_type = "ollama",
-        -- fetch_key = function()
-        --   return vim.env.LOCAL_LLM_KEY
-        -- end,
+        -- fetch_key = vim.env.LOCAL_LLM_KEY,
         -- enable_thinking = false,
         component_width = "60%",
         component_height = "50%",
@@ -312,90 +293,83 @@ return {
         },
       },
     },
-    Completion = {
-      handler = tools.completion_handler,
-      opts = {
-        -------------------------------------------------
-        ---                  ollama
-        -------------------------------------------------
-        -- -- url = "http://localhost:11434/api/generate",
-        -- url = "http://localhost:11434/v1/completions",
-        -- model = "qwen2.5-coder:1.5b",
-        -- api_type = "ollama",
-
-        -------------------------------------------------
-        ---                 deepseek
-        -------------------------------------------------
-        -- url = "https://api.deepseek.com/beta/completions",
-        -- model = "deepseek-chat",
-        -- api_type = "deepseek",
-        -- fetch_key = function()
-        --   return vim.env.DEEPSEEK_TOKEN
-        -- end,
-
-        -------------------------------------------------
-        ---   openrouter
-        -------------------------------------------------
-        -- url = "https://openrouter.ai/api/v1/completions",
-        -- model = "deepseek/deepseek-chat-v3-0324",
-        -- api_type = "deepseek",
-        -- fetch_key = function()
-        --   -- return vim.env.OPENROUTER
-        --   return vim.env.OPENROUTER_KEY
-        -- end,
-
-        -------------------------------------------------
-        ---                 siliconflow
-        -------------------------------------------------
-        -- url = "https://api.siliconflow.cn/v1/completions",
-        -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
-        -- api_type = "openai",
-        -- fetch_key = function()
-        --   return vim.env.SILICONFLOW_TOKEN
-        -- end,
-
-        -------------------------------------------------
-        ---                 codeium
-        -------------------------------------------------
-        api_type = "codeium",
-
-        n_completions = 2,
-        context_window = 16000,
-        max_tokens = 4096,
-        keep_alive = -1,
-        filetypes = {
-          sh = false,
-          zsh = false,
-        },
-        timeout = 10,
-        default_filetype_enabled = true,
-        auto_trigger = true,
-        only_trigger_by_keywords = true,
-        style = "blink.cmp",
-        -- style = "nvim-cmp",
-        -- style = "virtual_text",
-
-        keymap = {
-          toggle = {
-            mode = "n",
-            keys = "<leader>cp",
-          },
-          virtual_text = {
-            accept = {
-              mode = "i",
-              keys = "<A-a>",
-            },
-            next = {
-              mode = "i",
-              keys = "<A-n>",
-            },
-            prev = {
-              mode = "i",
-              keys = "<A-p>",
-            },
-          },
-        },
-      },
-    },
+    -- Completion = {
+    --   handler = tools.completion_handler,
+    --   opts = {
+    --     -------------------------------------------------
+    --     ---                  ollama
+    --     -------------------------------------------------
+    --     -- url = "http://localhost:11434/api/generate",
+    --     url = "http://localhost:11434/v1/completions",
+    --     model = "qwen2.5-coder:1.5b",
+    --     api_type = "ollama",
+    --
+    --     -------------------------------------------------
+    --     ---                 deepseek
+    --     -------------------------------------------------
+    --     -- url = "https://api.deepseek.com/beta/completions",
+    --     -- model = "deepseek-chat",
+    --     -- api_type = "deepseek",
+    --     -- fetch_key = vim.env.DEEPSEEK_TOKEN,
+    --
+    --     -------------------------------------------------
+    --     ---   openrouter
+    --     -------------------------------------------------
+    --     -- url = "https://openrouter.ai/api/v1/completions",
+    --     -- model = "deepseek/deepseek-chat-v3-0324",
+    --     -- api_type = "deepseek",
+    --     -- fetch_key = vim.env.OPENROUTER_KEY,
+    --
+    --     -------------------------------------------------
+    --     ---                 siliconflow
+    --     -------------------------------------------------
+    --     -- url = "https://api.siliconflow.cn/v1/completions",
+    --     -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
+    --     -- api_type = "openai",
+    --     -- fetch_key = vim.env.SILICONFLOW_TOKEN,
+    --
+    --     -------------------------------------------------
+    --     ---                 codeium
+    --     -------------------------------------------------
+    --     -- api_type = "codeium",
+    --
+    --     n_completions = 2,
+    --     context_window = 16000,
+    --     max_tokens = 4096,
+    --     keep_alive = -1,
+    --     filetypes = {
+    --       sh = false,
+    --       zsh = false,
+    --     },
+    --     timeout = 10,
+    --     default_filetype_enabled = true,
+    --     auto_trigger = true,
+    --     only_trigger_by_keywords = true,
+    --     -- style = "blink.cmp",
+    --     style = "nvim-cmp",
+    --     -- style = "virtual_text",
+    --
+    --     keymap = {
+    --       toggle = {
+    --         mode = "n",
+    --         keys = "<leader>cp",
+    --       },
+    --       virtual_text = {
+    --         accept = {
+    --           mode = "i",
+    --           keys = "<A-a>",
+    --         },
+    --         next = {
+    --           mode = "i",
+    --           keys = "<A-n>",
+    --         },
+    --         prev = {
+    --           mode = "i",
+    --           keys = "<A-p>",
+    --         },
+    --       },
+    --     },
+    --   },
+    -- },
   },
 }

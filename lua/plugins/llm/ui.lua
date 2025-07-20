@@ -1,4 +1,5 @@
 local Text = require("nui.text")
+
 return {
   -- style = "right",
 
@@ -63,8 +64,7 @@ return {
         size = { height = "100%", width = "20%" },
         win_options = {
           winblend = 0,
-          -- winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
-          winhighlight = "Normal:Title,FloatBorder:Title",
+          winhighlight = "Normal:LlmBlueNormal,FloatBorder:Title",
         },
         order = 3,
       },

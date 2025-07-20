@@ -6,9 +6,10 @@ return {
   {
     "Kurama622/llm.nvim",
     -- dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-    dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim", "Exafunction/windsurf.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim", "Kurama622/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
+      vim.api.nvim_set_hl(0, "LlmCmds", { link = "String" })
       local apps = require("plugins.llm.app")
       local opts = {
         prompt = "You are a helpful Chinese assistant.",
@@ -31,6 +32,22 @@ return {
             opts = { "internal", "filler", "closeoff", "algorithm:patience", "followwrap", "linematch:120" },
             provider = "mini_diff", -- default|mini_diff
             -- disable_diagnostic = true,
+          },
+        },
+        web_search = {
+          url = "https://api.tavily.com/search",
+          fetch_key = vim.env.TAVILY_TOKEN,
+          params = {
+            auto_parameters = false,
+            topic = "general",
+            search_depth = "basic",
+            chunks_per_source = 3,
+            max_results = 3,
+            include_answer = true,
+            include_raw_content = true,
+            include_images = false,
+            include_image_descriptions = false,
+            include_favicon = false,
           },
         },
         --[[ custom request args ]]

@@ -6,9 +6,7 @@ return {
     name = "Cloudflare",
     model = "@cf/google/gemma-7b-it-lora",
     api_type = "workers-ai",
-    fetch_key = function()
-      return vim.env.WORKERS_AI_KEY
-    end,
+    fetch_key = vim.env.WORKERS_AI_KEY,
     max_tokens = 1024,
     temperature = 0.3,
     top_p = 0.7,
@@ -20,9 +18,7 @@ return {
     model = "deepseek/deepseek-chat-v3-0324:free",
     max_tokens = 8000,
     api_type = "openai",
-    fetch_key = function()
-      return vim.env.OPENROUTER_KEY
-    end,
+    fetch_key = vim.env.OPENROUTER_KEY,
     temperature = 0.3,
     top_p = 0.7,
   },
@@ -32,9 +28,7 @@ return {
     model = "glm-4-flash",
     api_type = "zhipu",
     max_tokens = 8000,
-    fetch_key = function()
-      return vim.env.GLM_KEY
-    end,
+    fetch_key = vim.env.GLM_KEY,
     temperature = 0.3,
     top_p = 0.7,
   },
@@ -44,9 +38,7 @@ return {
     model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
     api_type = "openai",
     max_tokens = 4096,
-    fetch_key = function()
-      return vim.env.KIMI_KEY
-    end,
+    fetch_key = vim.env.KIMI_KEY,
     temperature = 0.3,
     top_p = 0.7,
   },
@@ -55,9 +47,7 @@ return {
     url = "http://localhost:11434/api/chat",
     model = "qwen3:1.7b",
     api_type = "ollama",
-    fetch_key = function()
-      return vim.env.LOCAL_LLM_KEY
-    end,
+    fetch_key = vim.env.LOCAL_LLM_KEY,
     temperature = 0.3,
     enable_thinking = false,
     top_p = 0.7,
@@ -67,9 +57,7 @@ return {
     url = "http://localhost:11434/api/chat",
     model = "qwen:0.5b",
     api_type = "ollama",
-    fetch_key = function()
-      return vim.env.LOCAL_LLM_KEY
-    end,
+    fetch_key = vim.env.LOCAL_LLM_KEY,
     streaming_handler = utils.local_llm_streaming_handler,
     parse_handler = utils.local_llm_parse_handler,
     temperature = 0.3,
@@ -79,14 +67,12 @@ return {
     name = "GithubModels",
     url = "https://models.inference.ai.azure.com/chat/completions",
     -- model = "gpt-4o",
-    model = "gpt-4o-mini",
+    model = "gpt-4.1-mini",
     api_type = "openai",
     -- max_tokens = 4096,
     max_tokens = 8000,
     -- model = "gpt-4o-mini",
-    fetch_key = function()
-      return vim.env.GITHUB_TOKEN
-    end,
+    fetch_key = vim.env.GITHUB_TOKEN,
     temperature = 0.3,
     top_p = 0.7,
   },
@@ -96,9 +82,7 @@ return {
     model = "deepseek-chat", -- (think: deepseek-reasoner)
     api_type = "openai",
     max_tokens = 8000,
-    fetch_key = function()
-      return vim.env.DEEPSEEK_TOKEN
-    end,
+    fetch_key = vim.env.DEEPSEEK_TOKEN,
     temperature = 0.3,
     top_p = 0.7,
     enable_thinking = false,
@@ -117,18 +101,14 @@ return {
     model = "Qwen/Qwen3-8B", -- think
     -- model = "Qwen/Qwen2.5-Coder-7B-Instruct",
     -- model = "internlm/internlm2_5-7b-chat",
-    fetch_key = function()
-      return vim.env.SILICONFLOW_TOKEN
-    end,
+    fetch_key = vim.env.SILICONFLOW_TOKEN,
     temperature = 0.3,
     top_p = 0.7,
     enable_thinking = true,
   },
   Chatanywhere = {
     name = "Chatanywhere",
-    fetch_key = function()
-      return vim.env.CHAT_ANYWHERE_KEY
-    end,
+    fetch_key = vim.env.CHAT_ANYWHERE_KEY,
     url = "https://api.chatanywhere.tech/v1/chat/completions",
     model = "gpt-4o-mini",
     -- model = "gpt-4o",
@@ -139,9 +119,7 @@ return {
   },
   DashScope = {
     name = "DashScope",
-    fetch_key = function()
-      return vim.env.DASHSCOPE_KEY
-    end,
+    fetch_key = vim.env.DASHSCOPE_KEY,
     url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
     model = "qwen2-0.5b-instruct",
     api_type = "openai",
