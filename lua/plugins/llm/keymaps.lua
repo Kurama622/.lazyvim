@@ -22,7 +22,7 @@ return {
     ["Session:Toggle"]    = { mode = "n", key = "<leader>ac" },
     ["Session:Close"]     = { mode = "n", key = {"Q", "<esc>"} },
     -- ["Session:History"]     = { mode = "n", key = {"<C-h>"} },
-    ["Session:Models"]     = { mode = "i", key = "@" },
+    -- ["Session:Models"]     = { mode = "i", key = "@" },
     -- ["Session:Models"]     = { mode = "n", key = "<C-m>" },
 
     -- Focus

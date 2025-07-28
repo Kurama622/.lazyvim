@@ -51,7 +51,7 @@ return {
           },
         },
         --[[ custom request args ]]
-        args = [[return {url, "-s", "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
+        -- args = [[return {url, "-s", "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         -- history_path = "/tmp/llm-history",
         save_session = true,
         max_history = 15,
@@ -89,6 +89,7 @@ return {
       { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>", desc = " Generate a Docstring" },
       { "<leader>ak", mode = { "v", "n" }, "<cmd>LLMAppHandler Ask<cr>", desc = " Ask LLM" },
       { "<leader>aa", mode = { "v", "n" }, "<cmd>LLMAppHandler AttachToChat<cr>", desc = " Ask LLM (multi-turn)" },
+      { "<leader>ab", mode = { "v", "n" }, "<cmd>LLMAppHandler BashRunner<cr>", desc = " bash runner" },
       -- { "<leader>cp", mode = { "v", "n" }, "<cmd>LLMAppHandler Completion<cr>", desc = " Code Completion" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },

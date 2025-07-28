@@ -56,6 +56,7 @@ return {
         model = "glm-4-flash",
         api_type = "zhipu",
 
+        -- args = [[return {url, "-s", "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
         component_width = "60%",
         component_height = "50%",
         input_box_opts = {
@@ -247,19 +248,13 @@ return {
         },
         functions_tbl = {
           CodeRunner = function(code)
-            -- Replace '\\n' that are not enclosed in quotes
-            code = code:gsub("([^\"'])\\n", "%1\n")
-            code = code:gsub("\\n([^\"'])", "\n%1")
-
             local filepath = "/tmp/script.sh"
 
-            -- Print the code suggested by llm
             vim.notify(
               string.format("CodeRunner running...\n```bash\n%s\n```", code),
               vim.log.levels.INFO,
               { title = "llm: CodeRunner" }
             )
-
             local file = io.open(filepath, "w")
             if file then
               file:write(code)
