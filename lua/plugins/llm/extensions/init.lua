@@ -6,7 +6,7 @@ return {
     CodeExplain = require("plugins.llm.extensions.code_explain"),
     CommitMsg = require("plugins.llm.extensions.commit_msg"),
     Completion = require("plugins.llm.extensions.completion"),
-    Docstring = require("plugins.llm.extensions.docstring"),
+    DocString = require("plugins.llm.extensions.docstring"),
     FormulaRecognition = require("plugins.llm.extensions.formula_recognition"),
     OptimCompare = require("plugins.llm.extensions.optim_compare"),
     OptimizeCode = require("plugins.llm.extensions.optimize_code"),
