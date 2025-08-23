@@ -10,6 +10,7 @@ return {
     "ibhagwan/fzf-lua",
     config = function()
       require("fzf-lua").setup({
+        fzf_opts = { ["--cycle"] = true },
         fzf_colors = {
           false, -- inherit fzf colors that aren't specified below from
           -- the auto-generated theme similar to `fzf_colors=true`
@@ -28,7 +29,6 @@ return {
       })
     end,
   },
-
   {
     "hrsh7th/nvim-cmp",
     dependencies = { "Kurama622/llm.nvim" },
@@ -41,49 +41,6 @@ return {
         priority = 100,
       })
 
-      local kind_icons = {
-        Text = "",
-        Method = "󰆧",
-        Function = "󰊕",
-        Constructor = "",
-        Field = "󰇽",
-        Variable = "󰂡",
-        Class = "󰠱",
-        Interface = "",
-        Module = "",
-        Property = "󰜢",
-        Unit = "",
-        Value = "󰎠",
-        Enum = "",
-        Keyword = "󰌋",
-        Snippet = "",
-        Color = "󰏘",
-        File = "󰈙",
-        Reference = "",
-        Folder = "󰉋",
-        EnumMember = "",
-        Constant = "󰏿",
-        Struct = "",
-        Event = "",
-        Operator = "󰆕",
-        TypeParameter = "󰅲",
-        llm = " ",
-      }
-      opts.formatting = {
-        format = function(entry, vim_item)
-          vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
-
-          vim_item.menu = ({
-            buffer = "[Buffer]",
-            nvim_lsp = "[LSP]",
-            luasnip = "[LuaSnip]",
-            nvim_lua = "[Lua]",
-            latex_symbols = "[LaTeX]",
-            llm = "[LLM]",
-          })[entry.source.name]
-          return vim_item
-        end,
-      }
       opts.performance = {
         -- It is recommended to increase the timeout duration due to
         -- the typically slower response speed of LLMs compared to
@@ -151,12 +108,11 @@ return {
 
       sources = {
         -- if you want to use auto-complete
-        -- default = { "lsp", "path", "snippets", "buffer", "llm" },
-        -- per_filetype = {
-        --   -- optionally inherit from the `default` sources
-        --   -- lua = { inherit_defaults = true, 'lsp', 'path' },
-        --   llm = { inherit_defaults = true, "lsp", "path", "snippets", "buffer", "llm" },
-        -- },
+        default = { "lsp", "path", "snippets", "buffer", "llm" },
+        per_filetype = {
+          -- optionally inherit from the `default` sources
+          llm = { inherit_defaults = false },
+        },
 
         ---@note Windsurf does not require the following configuration
         -- providers = {
@@ -234,7 +190,7 @@ return {
     opts = function()
       return {
         ui = {
-          relative = "win",
+          relative = "editor",
           border = "rounded",
           float_hl = "Normal",
           border_hl = "FloatBorder",
@@ -256,12 +212,19 @@ return {
         },
       }
     end,
-    keys = {
-      { "<F5>", mode = { "n", "t" }, "<cmd>FloatRunToggle<cr>" },
-      { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
-      { "<F14>", mode = { "n", "t" }, "<cmd>FloatTerm<cr>" },
-      { "<C-j>", mode = "t", "<cmd>FloatTermNext<cr>" },
-      { "<C-k>", mode = "t", "<cmd>FloatTermPrev<cr>" },
-    },
+    keys = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "FloatTerm",
+        callback = function()
+          vim.keymap.set("t", "<C-j>", "<cmd>FloatTermNext<CR>", { buffer = true })
+          vim.keymap.set("t", "<C-k>", "<cmd>FloatTermPrev<CR>", { buffer = true })
+        end,
+      })
+      return {
+        { "<F5>", mode = { "n", "t" }, "<cmd>FloatRunToggle<cr>" },
+        { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
+        { "<F14>", mode = { "n", "t" }, "<cmd>FloatTerm<cr>" },
+      }
+    end,
   },
 }
