@@ -10,7 +10,7 @@ return {
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       vim.api.nvim_set_hl(0, "LlmCmds", { link = "String" })
-      local apps = require("plugins.llm.app")
+      local extensions = require("plugins.llm.extensions")
       local opts = {
         prompt = "You are a helpful Chinese assistant.",
         enable_trace = false,
@@ -57,12 +57,11 @@ return {
         max_history = 15,
         max_history_name_length = 20,
 
-        timeout = 20,
         -- set models list
         models = {
-          models.SiliconFlow,
-          models.GithubModels,
           models.Chatanywhere,
+          models.GithubModels,
+          models.SiliconFlow,
           models.GLM,
           models.DeepSeek,
           models.Ollama,
@@ -71,7 +70,7 @@ return {
           models.Dashscope,
         },
       }
-      for _, conf in pairs({ ui, apps, keymaps }) do
+      for _, conf in pairs({ ui, extensions, keymaps }) do
         opts = vim.tbl_deep_extend("force", opts, conf)
       end
 

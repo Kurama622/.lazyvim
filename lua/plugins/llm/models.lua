@@ -46,10 +46,11 @@ return {
     name = "Ollama",
     url = "http://localhost:11434/api/chat",
     model = "qwen3:1.7b",
+    -- model = "qwen:0.5b",
     api_type = "ollama",
     fetch_key = vim.env.LOCAL_LLM_KEY,
     temperature = 0.3,
-    enable_thinking = false,
+    enable_thinking = true,
     top_p = 0.7,
   },
   LocalLLM = {
