@@ -1,7 +1,5 @@
-local Text = require("nui.text")
-
 return {
-  -- style = "right",
+  style = "right",
 
   chat_ui_opts = {
     relative = "editor",
@@ -18,13 +16,13 @@ return {
       float = {
         border = {
           text = {
-            top = Text(" Enter Your Question ", "LlmYellowNormal"),
+            top = " Enter Your Question ",
             top_align = "center",
           },
         },
         win_options = {
           winblend = 0,
-          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal",
+          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal,FloatTitle:LlmYellowNormal",
         },
         size = { height = "10%", width = "80%" },
         order = 2,
@@ -38,15 +36,15 @@ return {
         },
         border = {
           text = {
-            top = Text(" Enter Your Question ", "LlmYellowNormal"),
+            top = " Enter Your Question ",
             top_align = "center",
           },
         },
         win_options = {
           winblend = 0,
-          winhighlight = "Normal:String,FloatBorder:LlmYellowLight",
+          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal,FloatTitle:LlmYellowNormal",
         },
-        size = { height = "5%", width = "80%" },
+        size = { height = 2, width = "80%" },
       },
     },
     output = {
@@ -57,6 +55,9 @@ return {
           winblend = 0,
           winhighlight = "Normal:Normal,FloatBorder:Title",
         },
+      },
+      split = {
+        size = "40%",
       },
     },
     history = {
@@ -69,8 +70,7 @@ return {
         order = 3,
       },
       split = {
-        relative = "win",
-        size = { height = "30%", width = "60%" },
+        size = { height = "60%", width = "60%" },
       },
     },
     models = {
@@ -78,13 +78,13 @@ return {
         size = { height = "100%", width = "20%" },
         border = {
           text = {
-            top = Text(" Models ", "LlmPurpleNormal"),
+            top = " Models ",
             top_align = "center",
           },
         },
         win_options = {
           winblend = 0,
-          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal",
+          winhighlight = "Normal:LlmRedLight,FloatBorder:LlmPurpleNormal,FloatTitle:LlmPurpleLight",
         },
         order = 3,
       },
