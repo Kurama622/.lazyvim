@@ -70,6 +70,7 @@ return {
         order = 3,
       },
       split = {
+        cmd = "fzf --cycle --reverse",
         size = { height = "60%", width = "60%" },
       },
     },
