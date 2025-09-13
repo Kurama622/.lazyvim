@@ -239,4 +239,13 @@ return {
       }
     end,
   },
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      vim.diagnostic.config({
+        virtual_lines = true,
+      })
+      require("lsp_lines").setup()
+    end,
+  },
 }
