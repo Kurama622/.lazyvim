@@ -89,6 +89,7 @@ return {
       { "<leader>ak", mode = { "v", "n" }, "<cmd>LLMAppHandler Ask<cr>", desc = " Ask LLM" },
       { "<leader>aa", mode = { "v", "n" }, "<cmd>LLMAppHandler AttachToChat<cr>", desc = " Ask LLM (multi-turn)" },
       { "<leader>ab", mode = { "v", "n" }, "<cmd>LLMAppHandler BashRunner<cr>", desc = " bash runner" },
+      { "<leader>ai", mode = { "v", "n" }, "<cmd>LLMAppHandler FormulaRecognition<cr>", desc = " formula recognition" },
       -- { "<leader>cp", mode = { "v", "n" }, "<cmd>LLMAppHandler Completion<cr>", desc = " Code Completion" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },

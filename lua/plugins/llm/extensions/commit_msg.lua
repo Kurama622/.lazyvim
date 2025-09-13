@@ -14,7 +14,7 @@ return {
     win_opts = {
       relative = "editor",
       position = "50%",
-      zindex = 100,
+      zindex = 70,
     },
     accept = {
       mapping = {

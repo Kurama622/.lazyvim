@@ -7,4 +7,8 @@ return {
     "nvimdev/dashboard-nvim",
     enabled = false,
   },
+  {
+    "folke/trouble.nvim",
+    enabled = false,
+  },
 }

@@ -6,6 +6,10 @@ return {
       row = 2,
       col = 0,
     },
+    size = {
+      height = 1,
+      width = "50%",
+    },
     title = " Ask ",
     inline_assistant = true,
     enable_buffer_context = true,

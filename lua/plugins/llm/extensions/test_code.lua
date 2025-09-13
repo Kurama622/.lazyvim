@@ -5,7 +5,10 @@ return {
   prompt = prompts.TestCode,
   opts = {
     right = {
-      title = " Test Cases ",
+      border = {
+        style = "rounded",
+        text = { top = " Test Cases ", top_align = "center" },
+      },
     },
   },
 }
