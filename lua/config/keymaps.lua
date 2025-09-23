@@ -15,6 +15,7 @@ local all_maps = {
   { mode = "n", lhs = "S",          rhs = "<cmd>w<cr>" },
   { mode = "n", lhs = "Q",          rhs = "<cmd>quit<cr>" },
   { mode = "n", lhs = "<leader>d",  rhs = "<cmd>Dashboard<cr>" },
+  { mode = "n", lhs = "<leader>fl",  rhs = "<cmd>FzfLua files cwd='~/.config/nvim/lua/plugins/llm'<cr>" },
   { mode = "n", lhs = "<up>",       rhs = ":res +5<cr>",             opts = { noremap = true, silent = true } },
   { mode = "n", lhs = "<down>",     rhs = ":res -5<cr>",             opts = { noremap = true, silent = true } },
   { mode = "n", lhs = "<left>",     rhs = ":vertical resize -5<cr>", opts = { noremap = true, silent = true } },
