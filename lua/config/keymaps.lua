@@ -33,6 +33,6 @@ for _, mapping in ipairs(all_maps) do
   set_keymap(mapping.mode, mapping.lhs, mapping.rhs, mapping.opts)
 end
 
-require("lazy.view.config").keys.close = "<Esc>"
+-- require("lazy.view.config").keys.close = "<Esc>"
 
 -- <leader>fc open nvim config

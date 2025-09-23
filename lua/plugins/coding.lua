@@ -79,35 +79,35 @@ return {
   -- },
 
   -- lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      diagnostics = { virtual_text = false },
-      servers = {
-        clangd = {
-          on_attach = function()
-            if vim.lsp.inlay_hint then
-              vim.lsp.inlay_hint.enable(true)
-            end
-          end,
-        },
-        basedpyright = {
-          settings = {
-            basedpyright = {
-              typeCheckingMode = "standard",
-              reportUnknownMemberType = false,
-              reportUnknownVariableType = false,
-            },
-          },
-          on_attach = function()
-            if vim.lsp.inlay_hint then
-              vim.lsp.inlay_hint.enable(false)
-            end
-          end,
-        },
-      },
-    },
-  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   opts = {
+  --     diagnostics = { virtual_text = false },
+  --     servers = {
+  --       clangd = {
+  --         on_attach = function()
+  --           if vim.lsp.inlay_hint then
+  --             vim.lsp.inlay_hint.enable(true)
+  --           end
+  --         end,
+  --       },
+  --       basedpyright = {
+  --         settings = {
+  --           basedpyright = {
+  --             typeCheckingMode = "standard",
+  --             reportUnknownMemberType = false,
+  --             reportUnknownVariableType = false,
+  --           },
+  --         },
+  --         on_attach = function()
+  --           if vim.lsp.inlay_hint then
+  --             vim.lsp.inlay_hint.enable(false)
+  --           end
+  --         end,
+  --       },
+  --     },
+  --   },
+  -- },
 
   -- format
   {

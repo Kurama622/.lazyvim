@@ -1,5 +1,5 @@
 return {
-  style = "right",
+  -- style = "right",
 
   chat_ui_opts = {
     relative = "editor",
