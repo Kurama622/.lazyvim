@@ -1,6 +1,7 @@
 local models = require("plugins.llm.models")
 local ui = require("plugins.llm.ui")
 local keymaps = require("plugins.llm.keymaps")
+local api, tbl_deep_extend, env = vim.api, vim.tbl_deep_extend, vim.env
 
 return {
   {
@@ -9,7 +10,7 @@ return {
     dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim", "Kurama622/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
-      vim.api.nvim_set_hl(0, "LlmCmds", { link = "String" })
+      api.nvim_set_hl(0, "LlmCmds", { link = "String" })
       local extensions = require("plugins.llm.extensions")
       local opts = {
         prompt = "You are a helpful Chinese assistant.",
@@ -36,7 +37,7 @@ return {
         },
         web_search = {
           url = "https://api.tavily.com/search",
-          fetch_key = vim.env.TAVILY_TOKEN,
+          fetch_key = env.TAVILY_TOKEN,
           params = {
             auto_parameters = false,
             topic = "general",
@@ -59,8 +60,8 @@ return {
 
         -- set models list
         models = {
-          models.Chatanywhere,
           models.GithubModels,
+          models.Chatanywhere,
           models.SiliconFlow,
           models.GLM,
           models.DeepSeek,
@@ -71,7 +72,7 @@ return {
         },
       }
       for _, conf in pairs({ ui, extensions, keymaps }) do
-        opts = vim.tbl_deep_extend("force", opts, conf)
+        opts = tbl_deep_extend("force", opts, conf)
       end
 
       require("llm").setup(opts)

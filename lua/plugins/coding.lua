@@ -1,8 +1,14 @@
+local api = vim.api
 return {
-
+  {
+    "nvim-mini/mini.pairs",
+    config = function()
+      require("mini.pairs").setup()
+    end,
+  },
   -- surround
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     opts = {
       mappings = {
         add = "sa", -- Add surrounding in Normal and Visual modes
@@ -78,41 +84,9 @@ return {
   --   end,
   -- },
 
-  -- lspconfig
-  -- {
-  --   "neovim/nvim-lspconfig",
-  --   opts = {
-  --     diagnostics = { virtual_text = false },
-  --     servers = {
-  --       clangd = {
-  --         on_attach = function()
-  --           if vim.lsp.inlay_hint then
-  --             vim.lsp.inlay_hint.enable(true)
-  --           end
-  --         end,
-  --       },
-  --       basedpyright = {
-  --         settings = {
-  --           basedpyright = {
-  --             typeCheckingMode = "standard",
-  --             reportUnknownMemberType = false,
-  --             reportUnknownVariableType = false,
-  --           },
-  --         },
-  --         on_attach = function()
-  --           if vim.lsp.inlay_hint then
-  --             vim.lsp.inlay_hint.enable(false)
-  --           end
-  --         end,
-  --       },
-  --     },
-  --   },
-  -- },
-
   -- format
   {
     "stevearc/conform.nvim",
-    optional = true,
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
@@ -120,6 +94,11 @@ return {
         cpp = { "clang-format" },
         json = { "clang-format" },
         python = { "autopep8" },
+      },
+      format_on_save = {
+        -- These options will be passed to conform.format()
+        timeout_ms = 500,
+        lsp_format = "fallback",
       },
     },
   },
@@ -152,7 +131,7 @@ return {
     -- lazy = true,
     event = "BufRead",
     config = function()
-      vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comments" })
+      api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comments" })
       require("gitsigns").setup({
         signs = {
           add = { text = "┃" },

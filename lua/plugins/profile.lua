@@ -19,7 +19,7 @@ return {
           statusline = true,
           tabline = true,
         },
-        disable_keys = { "h", "j", "k", "<Left>", "<Right>", "<Up>", "<Down>", "<C-f>" },
+        disable_keys = { "h", "j", "k", "<Left>", "<Right>", "<Up>", "<Down>", "<C-f>", "e", "w" },
         cursor_pos = { 17, 46 },
         format = function()
           local header = {
@@ -78,7 +78,7 @@ return {
         n = {
           ["r"] = "<cmd>FzfLua oldfiles<cr>",
           ["f"] = "<cmd>FzfLua files<cr>",
-          ["c"] = "<cmd>FzfLua files cwd=$HOME/.config/nvim<cr>",
+          ["d"] = "<cmd>FzfLua files cwd=$HOME/.config/nvim<cr>",
           ["/"] = "<cmd>FzfLua live_grep<cr>",
           ["n"] = "<cmd>enew<cr>",
           ["l"] = "<cmd>Lazy<cr>",

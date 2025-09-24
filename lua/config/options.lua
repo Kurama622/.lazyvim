@@ -1,20 +1,39 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+local opt, g, env, fn, lsp, diagnostic = vim.opt, vim.g, vim.env, vim.fn, vim.lsp, vim.diagnostic
+
+g.mapleader = " "
+g.maplocalleader = "\\"
+g.autoformat = true
 
 -- tab -> spaces
 -- :retab!
-vim.opt.listchars = { tab = "▸~", trail = "▫" }
-vim.opt.fillchars:append({ diff = " " })
--- vim.opt.fileencodings = { "utf-8", "gbk", "ucs-bom", "cp936" }
-vim.opt.expandtab = true
-vim.opt.number = true
-vim.opt.relativenumber = true
--- wrap
-vim.opt.wrap = true
-vim.opt.linebreak = false
--- spell
-vim.opt.spell = false
+opt.listchars = { tab = "▸~", trail = "▫" }
+opt.fillchars:append({ diff = " " })
+opt.shiftwidth = 2
+opt.tabstop = 2
+opt.formatexpr = "v:lua.require'conform'.formatexpr()"
+opt.formatoptions = "jcroqlnt"
+opt.completeopt = "menu,menuone,noselect"
+-- opt.fileencodings = { "utf-8", "gbk", "ucs-bom", "cp936" }
+opt.expandtab = true
+opt.number = true
+opt.relativenumber = true
+opt.clipboard = env.SSH_TTY and "" or "unnamedplus"
+opt.wrap = true -- wrap
+opt.linebreak = false
+opt.spell = false -- spell
+opt.termguicolors = true
 
-vim.g.autoformat = true
+local function setup_lsp()
+  local config_files = fn.glob(fn.stdpath('config') .. '/lsp/*.lua', false, true)
+  local servers = {}
 
-vim.opt.termguicolors = true
+  for _, file in ipairs(config_files) do
+    local server_name = fn.fnamemodify(file, ':t:r')
+    table.insert(servers, server_name)
+  end
+
+  lsp.enable(servers)
+end
+
+setup_lsp()
+diagnostic.config({ signs = { text = { '', '󰠠', '', '' } } })
