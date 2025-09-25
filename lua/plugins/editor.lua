@@ -1,4 +1,5 @@
 local api, keymap, diagnostic = vim.api, vim.keymap, vim.diagnostic
+local cmd, o = vim.cmd, vim.o
 return {
   {
     "folke/snacks.nvim",
@@ -11,6 +12,7 @@ return {
       -- refer to the configuration section below
       bigfile = { enabled = true },
       dashboard = { enabled = false },
+      lazygit = { enabled = true },
       explorer = { enabled = true },
       indent = { enabled = true },
       input = { enabled = true },
@@ -89,13 +91,6 @@ return {
         desc = "Find Files",
       },
       {
-        "<leader>fg",
-        function()
-          Snacks.picker.git_files()
-        end,
-        desc = "Find Git Files",
-      },
-      {
         "<leader>fp",
         function()
           Snacks.picker.projects()
@@ -110,6 +105,13 @@ return {
         desc = "Recent",
       },
       -- git
+      {
+        "<leader>fg",
+        function()
+          Snacks.lazygit.open()
+        end,
+        desc = "Open LazyGit",
+      },
       {
         "<leader>gb",
         function()
@@ -594,8 +596,8 @@ return {
       -- HACK: noice shows messages from before it was enabled,
       -- but this is not ideal when Lazy is installing plugins,
       -- so clear the messages in this case.
-      if vim.o.filetype == "lazy" then
-        vim.cmd([[messages clear]])
+      if o.filetype == "lazy" then
+        cmd([[messages clear]])
       end
       require("noice").setup(opts)
     end,
@@ -749,7 +751,7 @@ return {
   {
     "nvimdev/indentmini.nvim",
     config = function()
-      vim.cmd.highlight("IndentLineCurrent guifg=#000000")
+      cmd.highlight("IndentLineCurrent guifg=#000000")
       require("indentmini").setup({
         char = "▌",
         only_current = true,
@@ -757,24 +759,7 @@ return {
       })
     end,
   },
-  {
-    "folke/snacks.nvim",
-    priority = 1000,
-    lazy = false,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-      dashboard = { enabled = false },
-      indent = { enabled = false },
-      -- bigfile = { enabled = true },
-      -- notifier = { enabled = true },
-      -- quickfile = { enabled = true },
-      -- statuscolumn = { enabled = true },
-      -- words = { enabled = true },
-    },
-  },
-  -- nvim v0.8.0
+
   {
     "kdheepak/lazygit.nvim",
     lazy = true,
@@ -851,5 +836,23 @@ return {
       })
       require("lsp_lines").setup()
     end,
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
   },
 }
