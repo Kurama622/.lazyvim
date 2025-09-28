@@ -1,3 +1,4 @@
+local api, g = vim.api, vim.g
 return {
   -- markdown
   {
@@ -14,7 +15,7 @@ return {
     "Kurama622/markdown-org",
     ft = "markdown",
     config = function()
-      vim.g.language_path = {
+      g.language_path = {
         python = "python",
         python3 = "python3",
         go = "go",
@@ -25,10 +26,10 @@ return {
       }
       return {
         default_quick_keys = 0,
-        vim.api.nvim_set_var("org#style#border", 2),
-        vim.api.nvim_set_var("org#style#bordercolor", "FloatBorder"),
-        vim.api.nvim_set_var("org#style#color", "String"),
-        vim.api.nvim_set_var("org_output_to_clipboard", 0),
+        api.nvim_set_var("org#style#border", 2),
+        api.nvim_set_var("org#style#bordercolor", "FloatBorder"),
+        api.nvim_set_var("org#style#color", "String"),
+        api.nvim_set_var("org_output_to_clipboard", 0),
       }
     end,
     keys = {
@@ -58,8 +59,10 @@ return {
     ---@type render.md.UserConfig
 
     config = function()
-      vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#4fd6be", bg = "NONE" })
+      api.nvim_set_hl(0, "RenderMarkdownCodeInline", { fg = "#4fd6be", bg = "NONE" })
+      api.nvim_set_hl(0, "RenderMarkdownCode", { bg = "NONE" })
       require("render-markdown").setup({
+        restart_highlighter = true,
         heading = {
           enabled = true,
           sign = false,
@@ -93,26 +96,7 @@ return {
           left_margin = 0.5,
           highlight = "RenderMarkdownDash",
         },
-        code = {
-          enabled = true,
-          sign = true,
-          style = "none",
-          position = "left",
-          language_pad = 0,
-          language_name = true,
-          disable_background = { "diff" },
-          width = "full",
-          left_margin = 0,
-          left_pad = 0,
-          right_pad = 0,
-          min_width = 0,
-          border = "thin",
-          above = "▄",
-          below = "▀",
-          highlight = "RenderMarkdownCode",
-          highlight_inline = "RenderMarkdownCodeInline",
-          highlight_language = nil,
-        },
+        code = { style = "normal" },
       })
     end,
   },

@@ -6,8 +6,7 @@ local api, tbl_deep_extend, env = vim.api, vim.tbl_deep_extend, vim.env
 return {
   {
     "Kurama622/llm.nvim",
-    -- dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-    dependencies = { "nvim-lua/plenary.nvim", "Kurama622/nui.nvim", "Kurama622/windsurf.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Kurama622/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
       api.nvim_set_hl(0, "LlmCmds", { link = "String" })

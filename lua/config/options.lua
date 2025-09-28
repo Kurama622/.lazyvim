@@ -18,17 +18,18 @@ opt.expandtab = true
 opt.number = true
 opt.relativenumber = true
 opt.clipboard = env.SSH_TTY and "" or "unnamedplus"
-opt.wrap = true -- wrap
+opt.wrap = true
 opt.linebreak = false
-opt.spell = false -- spell
+opt.spell = false
 opt.termguicolors = true
+opt.conceallevel = 2
 
 local function setup_lsp()
-  local config_files = fn.glob(fn.stdpath('config') .. '/lsp/*.lua', false, true)
+  local config_files = fn.glob(fn.stdpath("config") .. "/lsp/*.lua", false, true)
   local servers = {}
 
   for _, file in ipairs(config_files) do
-    local server_name = fn.fnamemodify(file, ':t:r')
+    local server_name = fn.fnamemodify(file, ":t:r")
     table.insert(servers, server_name)
   end
 
@@ -36,4 +37,4 @@ local function setup_lsp()
 end
 
 setup_lsp()
-diagnostic.config({ signs = { text = { '', '󰠠', '', '' } } })
+diagnostic.config({ signs = { text = { "", "󰠠", "", "" } } })

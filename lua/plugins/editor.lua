@@ -1,11 +1,11 @@
+---@diagnostic disable: undefined-global
 local api, keymap, diagnostic = vim.api, vim.keymap, vim.diagnostic
-local cmd, o = vim.cmd, vim.o
+local cmd, o, fn = vim.cmd, vim.o, vim.fn
 return {
   {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    ---@type snacks.Config
     opts = {
       -- your configuration comes here
       -- or leave it empty to use the default settings
@@ -79,7 +79,7 @@ return {
       {
         "<leader>fc",
         function()
-          Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+          Snacks.picker.files({ cwd = fn.stdpath("config") })
         end,
         desc = "Find Config File",
       },
