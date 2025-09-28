@@ -23,6 +23,10 @@ opt.linebreak = false
 opt.spell = false
 opt.termguicolors = true
 opt.conceallevel = 2
+opt.undofile = true
+opt.undolevels = 10000
+opt.smartindent = true
+opt.laststatus = 3
 
 local function setup_lsp()
   local config_files = fn.glob(fn.stdpath("config") .. "/lsp/*.lua", false, true)
