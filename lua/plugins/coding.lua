@@ -184,7 +184,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>gg", mode = "n", "<cmd>Gitsigns toggle_current_line_blame<cr>" },
+      { "<leader>gg", mode = "n", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Git Blame" },
     },
   },
 }

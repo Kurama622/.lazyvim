@@ -1,12 +1,20 @@
-vim.g.lazyvim_check_order = false
+local g, fn, opt = vim.g, vim.fn, vim.opt
+local fs_stat, env = vim.loop.fs_stat, vim.env
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  -- bootstrap lazy.nvim
-  -- stylua: ignore
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
+g.lazyvim_check_order = false
+
+local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not fs_stat(lazypath) then
+  fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+opt.rtp:prepend(env.LAZY or lazypath)
 
 require("lazy").setup({
   spec = {

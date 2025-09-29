@@ -1,3 +1,4 @@
+local api = vim.api
 return {
   {
     "Kurama622/profile.nvim",
@@ -72,7 +73,7 @@ return {
           comp:git_contributions_render("ProfileGreen")
         end,
       })
-      vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>Profile<cr>", { silent = true })
+      api.nvim_set_keymap("n", "<leader>p", "<cmd>Profile<cr>", { silent = true })
 
       local user_mappings = {
         n = {
@@ -84,12 +85,12 @@ return {
           ["l"] = "<cmd>Lazy<cr>",
         },
       }
-      vim.api.nvim_create_autocmd("FileType", {
+      api.nvim_create_autocmd("FileType", {
         pattern = "profile",
         callback = function()
           for mode, mapping in pairs(user_mappings) do
             for key, cmd in pairs(mapping) do
-              vim.api.nvim_buf_set_keymap(0, mode, key, cmd, { noremap = true, silent = true })
+              api.nvim_buf_set_keymap(0, mode, key, cmd, { noremap = true, silent = true })
             end
           end
         end,

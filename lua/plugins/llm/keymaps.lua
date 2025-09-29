@@ -28,8 +28,8 @@ return {
     -- ["Session:Models"]     = { mode = "n", key = "<C-m>" },
 
     -- Focus
-    ["Focus:Input"]       = { mode = "n", key = {"i", "<C-w>"} },
-    ["Focus:Output"]      = { mode = { "n", "i" }, key = "<C-w>" },
+    ["Focus:Input"]       = { mode = "n", key = {"i" } },
+    ["Focus:Output"]      = { mode = { "n", "i" }, key = "<C-o>" },
 
     -- Scroll [default]
     ["PageUp"]            = { mode = {"i","n"}, key = "<C-b>" },
