@@ -11,9 +11,7 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
       bigfile = { enabled = true },
-      dashboard = { enabled = false },
       lazygit = { enabled = true },
-      explorer = { enabled = true },
       indent = { enabled = true },
       input = { enabled = true },
       picker = { enabled = true },
@@ -23,6 +21,8 @@ return {
       scroll = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },
+      dashboard = { enabled = false },
+      explorer = { enabled = false },
     },
     keys = {
       -- Top Pickers & Explorer
@@ -60,13 +60,6 @@ return {
           Snacks.picker.notifications()
         end,
         desc = "Notification History",
-      },
-      {
-        "<leader>e",
-        function()
-          Snacks.explorer()
-        end,
-        desc = "File Explorer",
       },
       -- find
       {
@@ -706,6 +699,7 @@ return {
   {
     "saghen/blink.cmp",
     dependencies = { "Kurama622/llm.nvim" },
+    version = "1.6.0",
     opts = {
       completion = {
         menu = {
@@ -794,6 +788,9 @@ return {
         group_empty_dirs = true, -- when true, empty folders will be grouped together
         hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
       },
+    },
+    keys = {
+      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "NeoTree" },
     },
   },
   {

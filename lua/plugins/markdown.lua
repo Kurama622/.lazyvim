@@ -53,7 +53,10 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" }, -- if you use standalone mini plugins
+    dependencies = {
+      { "nvim-treesitter/nvim-treesitter", branch = "main" },
+      "nvim-mini/mini.icons",
+    }, -- if you use standalone mini plugins
     ft = { "markdown", "llm" },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
@@ -66,8 +69,8 @@ return {
         heading = {
           enabled = true,
           sign = false,
-          position = "inline",
-          icons = { "██ ", "█ ", "█ ", "▌ ", "▌ ", "│ " },
+          position = "overlay", -- inline | overlay
+          icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
           signs = { "󰫎 " },
           width = "block",
           left_margin = 0,
