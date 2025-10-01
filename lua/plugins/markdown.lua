@@ -56,8 +56,24 @@ return {
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter",
+        lazy = false,
         branch = "main",
-        config = function()
+        build = ":TSUpdate",
+        opts = {
+          -- A list of parser names, or "all" (the listed parsers MUST always be installed)
+          ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "html", "markdown", "markdown_inline", "python" },
+        },
+        config = function(_, opts)
+          local TS = require("nvim-treesitter")
+          TS.setup(opts)
+          local parser = vim.tbl_filter(function(lang)
+            return not vim.tbl_contains(TS.get_installed(), lang)
+          end, opts.ensure_installed)
+          if #parser > 0 then
+            vim.schedule(function()
+              TS.install(parser)
+            end)
+          end
           vim.api.nvim_create_autocmd("FileType", {
             pattern = { "llm", "markdown" },
             callback = function()
