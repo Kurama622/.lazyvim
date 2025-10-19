@@ -78,8 +78,8 @@ return {
     end,
     keys = {
       { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>", desc = " Toggle LLM Chat" },
-      { "<leader>ts", mode = "x", "<cmd>LLMAppHandler WordTranslate<cr>", desc = " Word Translate" },
-      { "<leader>ae", mode = "v", "<cmd>LLMAppHandler CodeExplain<cr>", desc = " Explain the Code" },
+      { "<leader>ts", mode = { "x", "n" }, "<cmd>LLMAppHandler WordTranslate<cr>", desc = " Word Translate" },
+      { "<leader>ae", mode = { "n", "v" }, "<cmd>LLMAppHandler CodeExplain<cr>", desc = " Explain the Code" },
       { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>", desc = " AI Translator" },
       { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>", desc = " Generate Test Cases" },
       { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>", desc = " Optimize the Code" },
@@ -93,7 +93,7 @@ return {
       -- { "<leader>cp", mode = { "v", "n" }, "<cmd>LLMAppHandler Completion<cr>", desc = " Code Completion" },
       -- { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimizeCode<cr>" },
       -- { "<leader>ae", mode = "v", "<cmd>LLMSelectedTextHandler 请解释下面这段代码<cr>" },
-      -- { "<leader>ts", mode = "x", "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
+      -- { "<leader>ts", mode = { "x", "n" }, "<cmd>LLMSelectedTextHandler 英译汉<cr>" },
     },
   },
 }

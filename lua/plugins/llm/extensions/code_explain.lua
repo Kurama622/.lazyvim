@@ -14,5 +14,6 @@ return {
     -- fetch_key = vim.env.LOCAL_LLM_KEY,
     -- api_type = "ollama",
     enter_flexible_window = true,
+    enable_buffer_context = true,
   },
 }

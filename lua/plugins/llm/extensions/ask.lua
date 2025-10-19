@@ -14,11 +14,11 @@ return {
     inline_assistant = true,
     enable_buffer_context = true,
     language = "Chinese",
-    enable_thinking = false,
+    diagnostic = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR },
     -- url = "https://api.chatanywhere.tech/v1/chat/completions",
     -- model = "gpt-4o-mini",
     -- api_type = "openai",
-    -- fetch_key =  vim.env.CHAT_ANYWHERE_KEY,
+    -- fetch_key = vim.env.CHAT_ANYWHERE_KEY,
     display = {
       mapping = {
         mode = "n",
