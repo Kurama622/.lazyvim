@@ -30,10 +30,10 @@ return {
   {
     "Kurama622/llm.nvim",
     -- If code completion uses Codeium, it requires `Exafunction/codeium.nvim`; otherwise, it does not.
-    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Exafunction/codeium.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Exafunction/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     config = function()
-      local tools = require("llm.common.tools")
+      local tools = require("llm.tools")
       -- vim.api.nvim_set_hl(0, "Query", { fg = "#6aa84f", bg = "NONE" })
       require("llm").setup({
         -- enable_trace = true,
