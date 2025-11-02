@@ -34,6 +34,10 @@ return {
             -- disable_diagnostic = true,
           },
         },
+        lsp = {
+          methods = { "definition", "declaration" },
+          root_dir = { ".git" },
+        },
         web_search = {
           url = "https://api.tavily.com/search",
           fetch_key = env.TAVILY_TOKEN,
