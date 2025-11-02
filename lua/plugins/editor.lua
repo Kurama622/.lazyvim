@@ -624,6 +624,11 @@ return {
         desc = "Open Configs",
       },
       {
+        "<leader>fl",
+        "<cmd>FzfLua files cwd=~/.config/nvim/lua/plugins/llm<cr>",
+        desc = "Open Configs(llm.nvim)",
+      },
+      {
         "<leader>/",
         "<cmd>FzfLua live_grep<cr>",
         desc = "Live Grep",

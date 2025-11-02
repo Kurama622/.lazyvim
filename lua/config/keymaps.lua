@@ -25,10 +25,6 @@ local all_maps = {
     end,
     opts = { noremap = true, silent = true, desc = " AI Models List" },
   },
-  { mode = "n", lhs = "<leader>fl",
-    rhs = "<cmd>FzfLua files cwd='~/.config/nvim/lua/plugins/llm'<cr>",
-    opts = { desc = "Find Config File(llm.nvim)" }
-  },
   { mode = "n", lhs = "<leader><tab><tab>", rhs = "<cmd>tabnew<cr>", opts = { desc = "New Tab" } },
   { mode = "n", lhs = "<leader>-", rhs = "<C-W>s", opts = { desc = "Split Window Below", remap = true } },
   { mode = "n", lhs = "<leader>|", rhs = "<C-W>v", opts = { desc = "Split Window Right", remap = true } },
