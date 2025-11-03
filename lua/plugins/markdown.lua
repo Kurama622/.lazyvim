@@ -117,6 +117,7 @@ return {
             "RenderMarkdownH6",
           },
         },
+        bullet = { highlight = "String" },
         dash = {
           enabled = true,
           icon = "─",
