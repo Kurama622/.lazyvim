@@ -2,6 +2,7 @@ local api = vim.api
 return {
   {
     "Kurama622/profile.nvim",
+    dependencies = { "ibhagwan/fzf-lua" },
     config = function()
       local comp = require("profile.components")
       require("profile").setup({
