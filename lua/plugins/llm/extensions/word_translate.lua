@@ -7,7 +7,8 @@ return {
   opts = {
     fetch_key = vim.env.GLM_KEY,
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-    model = "glm-4-flash",
+    model = "glm-4.5-flash",
+    enable_thinking = false,
     api_type = "zhipu",
     win_opts = {
       zindex = 120,

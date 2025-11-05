@@ -71,7 +71,8 @@ return {
           models.Ollama,
           models.Kimi,
           models.Cloudflare,
-          models.Dashscope,
+          models.DashScope,
+          models.OpenRouter,
         },
       }
       for _, conf in pairs({ ui, extensions, keymaps }) do

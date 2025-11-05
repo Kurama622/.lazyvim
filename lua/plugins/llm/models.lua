@@ -14,8 +14,9 @@ return {
   OpenRouter = {
     name = "OpenRouter",
     url = "https://openrouter.ai/api/v1/chat/completions",
-    -- model = "google/gemini-2.0-flash-exp:free",
-    model = "deepseek/deepseek-chat-v3-0324:free",
+    -- model = "deepseek/deepseek-chat-v3-0324:free",
+    model = "tngtech/deepseek-r1t2-chimera:free",
+
     max_tokens = 8000,
     api_type = "openai",
     fetch_key = vim.env.OPENROUTER_KEY,
@@ -25,12 +26,13 @@ return {
   GLM = {
     name = "GLM",
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-    model = "glm-4-flash",
+    model = "glm-4.5-flash",
     api_type = "zhipu",
-    max_tokens = 8000,
+    max_tokens = 96000,
     fetch_key = vim.env.GLM_KEY,
     temperature = 0.3,
     top_p = 0.7,
+    enable_thinking = true,
   },
   Kimi = {
     name = "Kimi",
