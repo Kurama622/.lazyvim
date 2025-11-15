@@ -35,7 +35,9 @@ return {
           },
         },
         lsp = {
-          methods = { "definition", "declaration" },
+          cpp = { methods = { "definition", "declaration" } },
+          python = { methods = { "definition" } },
+
           root_dir = { ".git" },
         },
         web_search = {
@@ -87,7 +89,7 @@ return {
       { "<leader>ae", mode = { "n", "v" }, "<cmd>LLMAppHandler CodeExplain<cr>", desc = " Explain the Code" },
       { "<leader>at", mode = "n", "<cmd>LLMAppHandler Translate<cr>", desc = " AI Translator" },
       { "<leader>tc", mode = "x", "<cmd>LLMAppHandler TestCode<cr>", desc = " Generate Test Cases" },
-      { "<leader>ao", mode = "x", "<cmd>LLMAppHandler OptimCompare<cr>", desc = " Optimize the Code" },
+      { "<leader>ao", mode = { "x", "n" }, "<cmd>LLMAppHandler OptimCompare<cr>", desc = " Optimize the Code" },
       { "<leader>au", mode = "n", "<cmd>LLMAppHandler UserInfo<cr>", desc = " Check Account Information" },
       { "<leader>ag", mode = "n", "<cmd>LLMAppHandler CommitMsg<cr>", desc = " Generate AI Commit Message" },
       { "<leader>ad", mode = "v", "<cmd>LLMAppHandler DocString<cr>", desc = " Generate a Docstring" },

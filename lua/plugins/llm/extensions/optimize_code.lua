@@ -6,5 +6,6 @@ return {
     left = {
       focusable = false,
     },
+    diagnostic = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR },
   },
 }
