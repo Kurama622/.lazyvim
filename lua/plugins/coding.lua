@@ -1,10 +1,9 @@
 local api = vim.api
 return {
   {
-    "nvim-mini/mini.pairs",
-    config = function()
-      require("mini.pairs").setup()
-    end,
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
   },
   -- surround
   {
