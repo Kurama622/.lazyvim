@@ -28,6 +28,13 @@ local all_maps = {
   { mode = "n", lhs = "<leader><tab><tab>", rhs = "<cmd>tabnew<cr>", opts = { desc = "New Tab" } },
   { mode = "n", lhs = "<leader>-", rhs = "<C-W>s", opts = { desc = "Split Window Below", remap = true } },
   { mode = "n", lhs = "<leader>|", rhs = "<C-W>v", opts = { desc = "Split Window Right", remap = true } },
+  { mode = {"n", "s"}, lhs = "<esc>",
+    rhs = function()
+      vim.cmd("noh")
+      return "<esc>"
+    end,
+    opts = { expr = true, desc = "Escape and Clear hlsearch" },
+  },
 }
 
 for _, mapping in ipairs(all_maps) do

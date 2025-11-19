@@ -729,6 +729,7 @@ return {
           end,
         },
         ["<CR>"] = { "select_and_accept", "fallback" },
+        ["<C-space>"] = { "hide" },
       },
 
       sources = {
