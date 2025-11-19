@@ -37,6 +37,7 @@ return {
         lsp = {
           cpp = { methods = { "definition", "declaration" } },
           python = { methods = { "definition" } },
+          lua = { methods = { "definition", "declaration" } },
 
           root_dir = { ".git" },
         },
