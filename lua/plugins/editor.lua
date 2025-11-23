@@ -362,6 +362,13 @@ return {
         desc = "Delete Buffer",
       },
       {
+        "<leader>cr",
+        function()
+          vim.lsp.buf.rename()
+        end,
+        desc = "Rename",
+      },
+      {
         "<leader>cR",
         function()
           Snacks.rename.rename_file()
@@ -825,7 +832,7 @@ return {
           y = 0.5,
         },
         run_command = {
-          cpp = "g++ -std=c++11 %s -Wall -o {} && {}",
+          cpp = "bear -- g++ -std=c++11 %s -Wall -o {} && {}",
           python = "python %s",
           -- lua = "lua %s",
           sh = "bash %s",
