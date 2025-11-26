@@ -775,7 +775,21 @@ return {
       },
     },
     keys = {
-      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "NeoTree" },
+      {
+        "<leader>e",
+
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
+        end,
+        desc = "NeoTree (cwd)",
+      },
+      {
+        "<leader>E",
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = vim.fs.root(0, ".git") })
+        end,
+        desc = "NeoTree (Root Dir)",
+      },
     },
   },
   {
