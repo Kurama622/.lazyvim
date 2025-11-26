@@ -9,17 +9,35 @@ local function set_keymap(mode, lhs, rhs, opts)
   keymap.set(mode, lhs, rhs, opts)
 end
 
--- stylua: ignore
 local all_maps = {
   -- Normal mode mappings
-  { mode = "n", lhs = "S",          rhs = "<cmd>w<cr>" },
-  { mode = "n", lhs = "Q",          rhs = "<cmd>quit<cr>" },
-  { mode = "n", lhs = "<up>",       rhs = ":res +5<cr>",             opts = { noremap = true, silent = true } },
-  { mode = "n", lhs = "<down>",     rhs = ":res -5<cr>",             opts = { noremap = true, silent = true } },
-  { mode = "n", lhs = "<left>",     rhs = ":vertical resize -5<cr>", opts = { noremap = true, silent = true } },
-  { mode = "n", lhs = "<right>",    rhs = ":vertical resize +5<cr>", opts = { noremap = true, silent = true } },
   {
-    mode = "n", lhs = "<leader>am",
+    mode = "n",
+    lhs = "S",
+    rhs = function()
+      if vim.fn.expand("%") ~= "" then
+        vim.cmd("silent write")
+      else
+        vim.ui.input({ prompt = "Save As: " }, function(name)
+          if name then
+            vim.cmd("silent saveas " .. name)
+          end
+        end)
+      end
+    end,
+    opts = {
+      noremap = true,
+      silent = true,
+    },
+  },
+  { mode = "n", lhs = "Q", rhs = "<cmd>quit<cr>" },
+  { mode = "n", lhs = "<up>", rhs = ":res +5<cr>", opts = { noremap = true, silent = true } },
+  { mode = "n", lhs = "<down>", rhs = ":res -5<cr>", opts = { noremap = true, silent = true } },
+  { mode = "n", lhs = "<left>", rhs = ":vertical resize -5<cr>", opts = { noremap = true, silent = true } },
+  { mode = "n", lhs = "<right>", rhs = ":vertical resize +5<cr>", opts = { noremap = true, silent = true } },
+  {
+    mode = "n",
+    lhs = "<leader>am",
     rhs = function()
       require("llm.common.api").ModelsPreview()
     end,
@@ -28,7 +46,9 @@ local all_maps = {
   { mode = "n", lhs = "<leader><tab><tab>", rhs = "<cmd>tabnew<cr>", opts = { desc = "New Tab" } },
   { mode = "n", lhs = "<leader>-", rhs = "<C-W>s", opts = { desc = "Split Window Below", remap = true } },
   { mode = "n", lhs = "<leader>|", rhs = "<C-W>v", opts = { desc = "Split Window Right", remap = true } },
-  { mode = {"n", "s"}, lhs = "<esc>",
+  {
+    mode = { "n", "s" },
+    lhs = "<esc>",
     rhs = function()
       vim.cmd("noh")
       return "<esc>"
