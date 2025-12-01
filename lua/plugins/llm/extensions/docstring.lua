@@ -1,8 +1,7 @@
 local prompts = require("plugins.llm.prompts")
-local tools = require("llm.tools")
 return {
   prompt = prompts.DocString,
-  handler = tools.action_handler,
+  handler = "action_handler",
   opts = {
     fetch_key = vim.env.GITHUB_TOKEN,
     url = "https://models.inference.ai.azure.com/chat/completions",

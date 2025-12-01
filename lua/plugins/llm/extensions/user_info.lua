@@ -1,7 +1,7 @@
-local tools = require("llm.tools")
 -- check siliconflow's balance
 return {
   handler = function()
+    local tools = require("llm.tools")
     local key = os.getenv("SILICONFLOW_TOKEN")
     local res = tools.curl_request_handler(
       "https://api.siliconflow.cn/v1/user/info",

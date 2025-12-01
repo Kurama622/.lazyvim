@@ -1,6 +1,5 @@
-local tools = require("llm.tools")
 return {
-  handler = tools.qa_handler,
+  handler = "qa_handler",
   opts = {
     fetch_key = vim.env.GLM_KEY,
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",

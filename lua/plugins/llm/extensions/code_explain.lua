@@ -1,7 +1,6 @@
 local prompts = require("plugins.llm.prompts")
-local tools = require("llm.tools")
 return {
-  handler = tools.flexi_handler,
+  handler = "flexi_handler",
   prompt = prompts.CodeExplain,
   opts = {
     fetch_key = vim.env.GLM_KEY,

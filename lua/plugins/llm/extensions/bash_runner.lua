@@ -1,6 +1,5 @@
-local tools = require("llm.tools")
 return {
-  handler = tools.qa_handler,
+  handler = "qa_handler",
   prompt = [[Write a suitable bash script and run it through CodeRunner]],
   opts = {
     url = "https://api.siliconflow.cn/v1/chat/completions",
