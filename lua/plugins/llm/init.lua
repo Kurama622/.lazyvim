@@ -1,4 +1,5 @@
 local models = require("plugins.llm.models")
+local extensions = require("plugins.llm.extensions")
 local ui = require("plugins.llm.ui")
 local keymaps = require("plugins.llm.keymaps")
 local api, tbl_deep_extend, env = vim.api, vim.tbl_deep_extend, vim.env
@@ -8,10 +9,9 @@ return {
     "Kurama622/llm.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Kurama622/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
-    config = function()
+    opts = function()
       api.nvim_set_hl(0, "LlmCmds", { link = "String" })
-      local extensions = require("plugins.llm.extensions")
-      local opts = {
+      return tbl_deep_extend("force", ui, extensions, keymaps, {
         prompt = "You are a helpful Chinese assistant.",
         enable_trace = false,
         -- log_level = 1,
@@ -34,13 +34,17 @@ return {
             -- disable_diagnostic = true,
           },
         },
+
+        -- enable lsp
         lsp = {
+          c = { methods = { "definition", "declaration" } },
           cpp = { methods = { "definition", "declaration" } },
           python = { methods = { "definition" } },
           lua = { methods = { "definition", "declaration" } },
 
-          root_dir = { ".git" },
+          root_dir = { { "stylua.toml", ".luarc.json" }, ".git" },
         },
+
         web_search = {
           url = "https://api.tavily.com/search",
           fetch_key = env.TAVILY_TOKEN,
@@ -66,8 +70,8 @@ return {
 
         -- set models list
         models = {
-          models.GithubModels,
           models.Chatanywhere,
+          models.GithubModels,
           models.SiliconFlow,
           models.GLM,
           models.DeepSeek,
@@ -77,12 +81,7 @@ return {
           models.DashScope,
           models.OpenRouter,
         },
-      }
-      for _, conf in pairs({ ui, extensions, keymaps }) do
-        opts = tbl_deep_extend("force", opts, conf)
-      end
-
-      require("llm").setup(opts)
+      })
     end,
     keys = {
       { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>", desc = " Toggle LLM Chat" },
