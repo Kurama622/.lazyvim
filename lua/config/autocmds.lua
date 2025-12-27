@@ -6,7 +6,7 @@ local uv = vim.loop
 local fs_stat, fs_open, fs_write, fs_close = uv.fs_stat, uv.fs_open, uv.fs_write, uv.fs_close
 
 g.clangd_version_for_cpp = "c++17"
-g.clangd_version_for_c = "c11"
+g.clangd_version_for_c = "c17"
 
 local function file_exists(path)
   local stat = fs_stat(path)
