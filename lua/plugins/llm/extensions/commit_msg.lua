@@ -1,5 +1,4 @@
 local prompts = require("plugins.llm.prompts")
-local tools = require("llm.tools")
 return {
   handler = "flexi_handler",
   prompt = prompts.CommitMsg,

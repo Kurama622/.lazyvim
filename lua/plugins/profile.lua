@@ -83,6 +83,7 @@ return {
           ["d"] = "<cmd>FzfLua files cwd=$HOME/.config/nvim<cr>",
           ["/"] = "<cmd>FzfLua live_grep<cr>",
           ["n"] = "<cmd>enew<cr>",
+          ["<tab><tab>"] = "<cmd>enew<cr>",
           ["l"] = "<cmd>Lazy<cr>",
         },
       }

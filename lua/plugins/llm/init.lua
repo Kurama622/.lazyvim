@@ -10,7 +10,6 @@ return {
     dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Kurama622/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     opts = function()
-      api.nvim_set_hl(0, "LlmCmds", { link = "String" })
       return tbl_deep_extend("force", ui, extensions, keymaps, {
         prompt = "You are a helpful Chinese assistant.",
         enable_trace = false,
@@ -35,6 +34,7 @@ return {
           },
         },
 
+        diagnostic = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR },
         -- enable lsp
         lsp = {
           c = { methods = { "definition", "declaration" } },
@@ -79,6 +79,7 @@ return {
           models.Kimi,
           models.Cloudflare,
           models.DashScope,
+          models.LMStudio,
           models.OpenRouter,
         },
       })
