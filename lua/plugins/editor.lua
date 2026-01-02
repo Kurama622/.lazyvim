@@ -615,8 +615,10 @@ return {
       },
       {
         "<leader>ff",
-        "<cmd>FzfLua files<CR>",
-        desc = "Find Files",
+        function()
+          require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h") })
+        end,
+        desc = "Find Files (current buffer dir)",
       },
       {
         "<leader>fc",
@@ -819,9 +821,9 @@ return {
         "<leader>e",
 
         function()
-          require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
+          require("neo-tree.command").execute({ toggle = true, dir = vim.fn.expand("%:p:h") })
         end,
-        desc = "NeoTree (cwd)",
+        desc = "NeoTree (curren buffer path)",
       },
       {
         "<leader>E",
