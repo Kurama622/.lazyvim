@@ -587,8 +587,16 @@ return {
   },
   {
     "ibhagwan/fzf-lua",
+    -- dependencies = {
+    --   "echasnovski/mini.icons",
+    -- },
     config = function()
       require("fzf-lua").setup({
+        -- defaults = {
+        --   file_icons = true,
+        --   git_icons = false, -- show git icons (requires a colorscheme that supports git signs)
+        --   color_icons = true, -- colorize file/git icons
+        -- },
         fzf_opts = { ["--cycle"] = true },
         fzf_colors = {
           false, -- inherit fzf colors that aren't specified below from
@@ -610,7 +618,9 @@ return {
     keys = {
       {
         "<leader><space>",
-        "<cmd>FzfLua files<CR>",
+        function()
+          require("fzf-lua").files({ cwd = vim.uv.cwd() })
+        end,
         desc = "Find Files",
       },
       {
