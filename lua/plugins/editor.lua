@@ -817,9 +817,30 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
+      popup_border_style = "single",
       filesystem = {
         follow_current_file = {
           enabled = true, -- This will find and focus the file in the active buffer every
+        },
+        filtered_items = {
+          border = "single",
+          never_show = {
+            ".DS_Store",
+          },
+        },
+        window = {
+          mappings = {
+            ["w"] = "nop",
+          },
+          popup = {
+            border = "rounded",
+
+            position = { col = "50%", row = "30%" },
+            size = {
+              width = "60%",
+              height = "40%",
+            },
+          },
         },
         -- time the current file is changed while the tree is open.
         group_empty_dirs = true, -- when true, empty folders will be grouped together
@@ -829,16 +850,15 @@ return {
     keys = {
       {
         "<leader>e",
-
         function()
-          require("neo-tree.command").execute({ toggle = true, dir = vim.fn.expand("%:p:h") })
+          require("neo-tree.command").execute({ toggle = true, dir = vim.fn.expand("%:p:h"), position = "float" })
         end,
         desc = "NeoTree (curren buffer path)",
       },
       {
         "<leader>E",
         function()
-          require("neo-tree.command").execute({ toggle = true, dir = vim.fs.root(0, ".git") })
+          require("neo-tree.command").execute({ toggle = true, dir = vim.fs.root(0, ".git"), position = "float" })
         end,
         desc = "NeoTree (Root Dir)",
       },
