@@ -3,9 +3,16 @@ return {
   opts = {
     fetch_key = vim.env.GLM_KEY,
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-    model = "glm-4.5-flash",
+    -- model = "glm-4.5-flash",
+    model = "glm-4-flash",
     api_type = "zhipu",
     enable_thinking = false,
+    accept = {
+      action = function(self, opts)
+        vim.api.nvim_set_current_win(opts.winid)
+        vim.api.nvim_command("normal! gg^vGkk$hy")
+      end,
+    },
 
     -- args = [[return {url, "-s", "-N", "-X", "POST", "-H", "Content-Type: application/json", "-H", authorization, "-d", vim.fn.json_encode(body)}]],
     component_width = "60%",

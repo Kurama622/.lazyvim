@@ -31,30 +31,6 @@ return {
     },
   },
 
-  -- treesitter set dependencies
-  {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-    },
-    opts = {
-      ensure_installed = {
-        "bash",
-        "html",
-        "c",
-        "cpp",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "regex",
-        "vim",
-        "yaml",
-      },
-    },
-  },
-
   -- ai
   -- {
   --   "Exafunction/codeium.vim",

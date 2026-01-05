@@ -61,7 +61,19 @@ return {
         build = ":TSUpdate",
         opts = {
           -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-          ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "html", "markdown", "markdown_inline", "python" },
+          ensure_installed = {
+            "c",
+            "cpp",
+            "lua",
+            "vim",
+            "vimdoc",
+            "query",
+            "html",
+            "regex",
+            "markdown",
+            "markdown_inline",
+            "python",
+          },
         },
         config = function(_, opts)
           local TS = require("nvim-treesitter")

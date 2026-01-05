@@ -58,7 +58,7 @@ return {
     default_filetype_enabled = true,
     auto_trigger = true,
     only_trigger_by_keywords = true,
-    style = "blink.cmp",
+    -- style = "blink.cmp",
     -- style = "nvim-cmp",
     -- style = "virtual_text",
 
