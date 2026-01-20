@@ -18,6 +18,7 @@ return {
         p.filetype(),
         p.diagnostic(),
         p.rightpar(),
+        p.space(),
         p.progress(),
         p.lsp(),
         p.space(),
