@@ -873,7 +873,6 @@ return {
     opts = {
       parse_stdout_as_stderr = false,
     },
-    config = function() end,
     keys = {
       { "<F5>", "<cmd>QfCompile<CR>", desc = "compile" },
       { "<F17>", "<cmd>QfRecompile<CR>", desc = "recompile" },
