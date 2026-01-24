@@ -571,19 +571,14 @@ return {
             filetype = "snacks_layout_box",
           },
         },
+        custom_filter = function(bufnr, _)
+          if vim.bo[bufnr].ft == "qf" then
+            return false
+          end
+          return true
+        end,
       },
     },
-    config = function(_, opts)
-      require("bufferline").setup(opts)
-      -- Fix bufferline when restoring a session
-      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
-        callback = function()
-          vim.schedule(function()
-            pcall(nvim_bufferline)
-          end)
-        end,
-      })
-    end,
   },
   {
     "ibhagwan/fzf-lua",
@@ -814,18 +809,24 @@ return {
   },
   {
     "Kurama622/fsbuffer.nvim",
+    cmd = "Fsbuffer",
+    opts = {
+      search = {
+        cmd = "fzf-fd",
+      },
+    },
     keys = {
       {
         "<leader>e",
         function()
-          require("fsbuffer"):toggle(vim.fn.expand("%:p:h"))
+          require("fsbuffer"):toggle(vim.fn.expand("%:p:h") .. "/")
         end,
         desc = "Fsbuffer (Current Buffer Dir)",
       },
       {
         "<leader>E",
         function()
-          require("fsbuffer"):toggle(vim.fs.root(0, ".git"))
+          require("fsbuffer"):toggle(vim.fs.root(0, ".git") .. "/")
         end,
         desc = "Fsbuffer (Root Dir)",
       },
@@ -867,51 +868,17 @@ return {
       end, { desc = "AI Commit Msg" })
     end,
   },
-
-  -- run code
   {
-    "Kurama622/FloatRun",
-    cmd = { "FloatRunToggle", "FloatTermToggle" },
-    opts = function()
-      return {
-        ui = {
-          relative = "editor",
-          border = "rounded",
-          float_hl = "Normal",
-          border_hl = "FloatBorder",
-          blend = 0,
-          height = 0.5,
-          width = 0.7,
-          x = 0.5,
-          y = 0.5,
-        },
-        run_command = {
-          c = "gcc %s -Wall -o {} && {}",
-          cpp = "bear -- g++ -std=c++11 %s -Wall -o {} && {}",
-          python = "python %s",
-          -- lua = "lua %s",
-          sh = "bash %s",
-          Zsh = "bash %s",
-          lua = "<builtin>luafile %s",
-          rust = "cargo run",
-          [""] = "",
-        },
-      }
-    end,
-    keys = function()
-      api.nvim_create_autocmd("FileType", {
-        pattern = "FloatTerm",
-        callback = function()
-          keymap.set("t", "<C-j>", "<cmd>FloatTermNext<CR>", { buffer = true })
-          keymap.set("t", "<C-k>", "<cmd>FloatTermPrev<CR>", { buffer = true })
-        end,
-      })
-      return {
-        { "<F5>", mode = { "n", "t" }, "<cmd>FloatRunToggle<cr>" },
-        { "<F2>", mode = { "n", "t" }, "<cmd>FloatTermToggle<cr>" },
-        { "<F14>", mode = { "n", "t" }, "<cmd>FloatTerm<cr>" },
-      }
-    end,
+    "Kurama622/qfrun.nvim",
+    opts = {
+      parse_stdout_as_stderr = false,
+    },
+    config = function() end,
+    keys = {
+      { "<F5>", "<cmd>QfCompile<CR>", desc = "compile" },
+      { "<F17>", "<cmd>QfRecompile<CR>", desc = "recompile" },
+      { "<C-c>", "<cmd>QfClose<CR>", desc = "close" },
+    },
   },
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
