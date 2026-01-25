@@ -270,57 +270,20 @@ return {
         },
       })
     end,
+    -- stylua: ignore start
     keys = {
-      {
-        "<leader><space>",
-        function()
-          require("fzf-lua").files({ cwd = vim.uv.cwd() })
-        end,
-        desc = "Find Files",
-      },
-      {
-        "<leader>ff",
-        function()
-          require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h") })
-        end,
-        desc = "Find Files (current buffer dir)",
-      },
-      {
-        "<leader>fc",
-        "<cmd>FzfLua files cwd=$HOME/.config/nvim<CR>",
-        desc = "Open Configs",
-      },
-      {
-        "<leader>fl",
-        "<cmd>FzfLua files cwd=~/.config/nvim/lua/plugins/llm<cr>",
-        desc = "Open Configs(llm.nvim)",
-      },
-      {
-        "<leader>/",
-        "<cmd>FzfLua live_grep<cr>",
-        desc = "Live Grep",
-      },
-      {
-        "<leader>fr",
-        "<cmd>FzfLua oldfiles<cr>",
-        desc = "Open Recent Files",
-      },
-      {
-        "<leader>fb",
-        "<cmd>FzfLua buffers<cr>",
-        desc = "Open Buffers",
-      },
-      {
-        "<leader>cs",
-        "<cmd>FzfLua lsp_document_symbols<cr>",
-        desc = "Open Symbols",
-      },
-      {
-        "<leader>:",
-        "<cmd>FzfLua command_history<cr>",
-        desc = "Find Command History",
-      },
+      { "<leader><space>", function() require("fzf-lua").files({ cwd = vim.uv.cwd() }) end, desc = "Find Files" },
+      { "<leader>ff", function() require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h") }) end,
+        desc = "Find Files (current buffer dir)" },
+      { "<leader>fc", "<cmd>FzfLua files cwd=$HOME/.config/nvim<CR>", desc = "Open Configs" },
+      { "<leader>fl", "<cmd>FzfLua files cwd=~/.config/nvim/lua/plugins/llm<cr>", desc = "Open Configs(llm.nvim)" },
+      { "<leader>/", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
+      { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Open Recent Files" },
+      { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Open Buffers" },
+      { "<leader>cs", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Open Symbols" },
+      { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Find Command History" },
     },
+    -- stylua: ignore end
   },
 
   -- {
