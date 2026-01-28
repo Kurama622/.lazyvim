@@ -27,6 +27,7 @@ opt.undofile = true
 opt.undolevels = 10000
 opt.smartindent = true
 opt.laststatus = 3
+opt.timeoutlen = 1000
 
 local function setup_lsp()
   local config_files = fn.glob(fn.stdpath("config") .. "/lsp/*.lua", false, true)
