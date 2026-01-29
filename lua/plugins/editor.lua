@@ -450,8 +450,10 @@ return {
   },
   {
     "Kurama622/qfrun.nvim",
+    cmd = { "QfCompile", "QfRecompile" },
     opts = {
       parse_stdout_as_stderr = false,
+      enable_diagnostic = true,
     },
     keys = {
       { "<F5>", "<cmd>QfCompile<CR>", desc = "compile" },
@@ -508,9 +510,7 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
+      delay = 500,
     },
     keys = {
       {
