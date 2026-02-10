@@ -78,6 +78,7 @@ return {
     fetch_key = vim.env.GITHUB_TOKEN,
     temperature = 0.3,
     top_p = 0.7,
+    proxy = "127.0.0.1:7890",
   },
   DeepSeek = {
     name = "DeepSeek",
@@ -108,6 +109,7 @@ return {
     temperature = 0.3,
     top_p = 0.7,
     enable_thinking = true,
+    proxy = "noproxy",
   },
   Chatanywhere = {
     name = "Chatanywhere",
@@ -119,6 +121,7 @@ return {
     -- model = "gpt-5-mini",
     model = "gpt-4.1-mini",
     api_type = "openai",
+    proxy = "noproxy",
     -- max_tokens = 4096,
     -- temperature = 0.3,
     -- top_p = 0.7,
@@ -135,5 +138,12 @@ return {
     url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
     model = "qwen2-0.5b-instruct",
     api_type = "openai",
+  },
+  Copilot = {
+    name = "Copilot",
+    fetch_key = vim.env.COPILOT_TOKEN,
+    url = "https://api.githubcopilot.com/chat/completions",
+    model = "gpt-4.1",
+    api_type = "copilot",
   },
 }

@@ -1,4 +1,6 @@
 local api = vim.api
+
+-- sudo pacman -S lua51 # for image.nvim
 return {
   {
     "Kurama622/profile.nvim",
@@ -42,7 +44,7 @@ return {
             [[                                                                       ]],
           }
           for _, line in ipairs(header) do
-            comp:text_component_render({ comp:text_component(line, "center", "ProfileBlue") })
+            comp:text_component_render({ comp:text_component(line, "center", "function") })
           end
 
           comp:text_component_render({
@@ -71,7 +73,7 @@ return {
             },
           })
           comp:separator_render()
-          comp:git_contributions_render("ProfileGreen")
+          comp:git_contributions_render("String")
         end,
       })
       api.nvim_set_keymap("n", "<leader>p", "<cmd>Profile<cr>", { silent = true })

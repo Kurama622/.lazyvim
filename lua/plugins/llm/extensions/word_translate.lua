@@ -9,6 +9,7 @@ return {
     model = "glm-4.5-flash",
     enable_thinking = false,
     api_type = "zhipu",
+    proxy = "noproxy",
     win_opts = {
       zindex = 120,
     },

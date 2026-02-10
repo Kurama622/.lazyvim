@@ -449,11 +449,12 @@ return {
     -- stylua: ignore end
   },
   {
-    "Kurama622/qfrun.nvim",
+    dir = "~/Github/qfrun.nvim",
     cmd = { "QfCompile", "QfRecompile" },
     opts = {
       parse_stdout_as_stderr = false,
       enable_diagnostic = true,
+      rust = "rustc ${SRC} && ./${TARGET}",
     },
     keys = {
       { "<F5>", "<cmd>QfCompile<CR>", desc = "compile" },
