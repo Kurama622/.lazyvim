@@ -16,7 +16,7 @@ return {
           start_week = 1,
           end_week = 53,
           empty_char = " ",
-          full_char = { "", "󰧞", "", "", "" },
+          full_char = { "󰧞", "", "●", "●", "" },
           fake_contributions = nil,
         },
         hide = {
