@@ -20,7 +20,7 @@ return {
         mode = "n",
         keys = "<cr>",
       },
-      action = function()
+      action = function(self, opts)
         local contents = vim.api.nvim_buf_get_lines(0, 0, -1, true)
 
         local cmd = string.format('!git commit -m "%s"', table.concat(contents, '" -m "'))
