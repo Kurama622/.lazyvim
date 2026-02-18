@@ -498,14 +498,32 @@ return {
     end,
   },
 
+  -- {
+  --   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+  --   config = function()
+  --     diagnostic.config({
+  --       virtual_lines = true,
+  --     })
+  --     require("lsp_lines").setup()
+  --   end,
+  -- },
+
   {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    config = function()
-      diagnostic.config({
-        virtual_lines = true,
-      })
-      require("lsp_lines").setup()
-    end,
+    "Kurama622/clean-diagnostic",
+    event = "LspAttach",
+    opts = {
+      sign_text = { "", "", "", "" },
+      border = "rounded",
+      min_severity = 4,
+      max_width = 78,
+    },
+    keys = {
+      {
+        "<leader>sd",
+        "<cmd>lua require('clean-diagnostic').show()<cr>",
+        desc = "show the diagnostic of the current line",
+      },
+    },
   },
   {
     "folke/which-key.nvim",
