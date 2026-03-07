@@ -7,6 +7,7 @@ return {
     model = "glm-4-flash",
     api_type = "zhipu",
     enable_thinking = false,
+    proxy = "noproxy",
     accept = {
       action = function(self, opts)
         local res = vim.tbl_filter(function(item)

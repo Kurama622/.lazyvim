@@ -14,10 +14,7 @@ return {
   OpenRouter = {
     name = "OpenRouter",
     url = "https://openrouter.ai/api/v1/chat/completions",
-    -- model = "deepseek/deepseek-chat-v3-0324:free",
-    model = "tngtech/deepseek-r1t2-chimera:free",
-
-    max_tokens = 8000,
+    model = "openrouter/free",
     api_type = "openai",
     fetch_key = vim.env.OPENROUTER_KEY,
     temperature = 0.3,
@@ -28,6 +25,7 @@ return {
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
     model = "glm-4.5-flash",
     api_type = "zhipu",
+    proxy = "noproxy",
     max_tokens = 96000,
     fetch_key = vim.env.GLM_KEY,
     temperature = 0.3,
@@ -40,6 +38,7 @@ return {
     model = "moonshot-v1-8k", -- "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"
     api_type = "openai",
     max_tokens = 4096,
+    proxy = "noproxy",
     fetch_key = vim.env.KIMI_KEY,
     temperature = 0.3,
     top_p = 0.7,
@@ -73,7 +72,7 @@ return {
     model = "gpt-4.1-mini",
     api_type = "openai",
     -- max_tokens = 4096,
-    max_tokens = 8000,
+    -- max_tokens = 8000,
     -- model = "gpt-4o-mini",
     fetch_key = vim.env.GITHUB_TOKEN,
     temperature = 0.3,
@@ -90,6 +89,7 @@ return {
     temperature = 0.3,
     top_p = 0.7,
     enable_thinking = false,
+    proxy = "noproxy",
     -- thinking_budget = 512,
   },
   SiliconFlow = {
@@ -130,13 +130,14 @@ return {
     name = "santacoder-1b",
     url = "http://localhost:1234/v1/chat/completions",
     model = "santacoder-1b",
-    api_type = "openai",
+    api_type = "lmstudio",
   },
   DashScope = {
     name = "DashScope",
     fetch_key = vim.env.DASHSCOPE_KEY,
     url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
     model = "qwen2-0.5b-instruct",
+    proxy = "noproxy",
     api_type = "openai",
   },
   Copilot = {
