@@ -9,8 +9,11 @@ return {
     enable_thinking = false,
     accept = {
       action = function(self, opts)
-        vim.api.nvim_set_current_win(opts.winid)
-        vim.api.nvim_command("normal! gg^vGkk$hy")
+        local res = vim.tbl_filter(function(item)
+          return item ~= ""
+        end, vim.api.nvim_buf_get_lines(opts.bufnr, 0, -1, true))
+
+        vim.fn.setreg("+", table.concat(res, "\n"))
       end,
     },
 
