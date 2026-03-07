@@ -70,9 +70,9 @@ return {
 
         -- set models list
         models = {
-          -- models.Copilot,
           models.Chatanywhere,
           models.GithubModels,
+          models.Copilot,
           models.SiliconFlow,
           models.GLM,
           models.DeepSeek,

@@ -5,10 +5,14 @@ return {
     url = "https://api.siliconflow.cn/v1/chat/completions",
     api_type = "openai",
     max_tokens = 4096,
-    -- model = "Qwen/Qwen2.5-7B-Instruct",
     model = "Qwen/Qwen3-8B",
     fetch_key = vim.env.SILICONFLOW_TOKEN,
     enable_thinking = false,
+
+    -- fetch_key = vim.env.COPILOT_TOKEN,
+    -- url = "https://api.githubcopilot.com/chat/completions",
+    -- model = "gpt-4.1",
+    -- api_type = "copilot",
 
     -- url = "http://localhost:11434/api/chat",
     -- model = "qwen3:1.7b",

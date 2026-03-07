@@ -7,6 +7,7 @@ return {
     fetch_key = vim.env.CHAT_ANYWHERE_KEY,
     url = "https://api.chatanywhere.tech/v1/chat/completions",
     model = "gpt-4o-mini",
+    proxy = "noproxy",
     api_type = "openai",
     enter_flexible_window = true,
     apply_visual_selection = false,
