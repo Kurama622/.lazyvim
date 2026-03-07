@@ -449,7 +449,7 @@ return {
     -- stylua: ignore end
   },
   {
-    dir = "~/Github/qfrun.nvim",
+    "Kurama622/qfrun.nvim",
     cmd = { "QfCompile", "QfRecompile" },
     opts = {
       parse_stdout_as_stderr = false,
