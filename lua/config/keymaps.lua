@@ -122,6 +122,7 @@ set_keymap("n", "<C-g>", function()
             or s.kind == vim.lsp.protocol.SymbolKind.Method
             or s.kind == vim.lsp.protocol.SymbolKind.Class
             or s.kind == vim.lsp.protocol.SymbolKind.Namespace
+            or s.kind == vim.lsp.protocol.SymbolKind.Constructor
           )
         then
           table.insert(filtered, s)
@@ -137,7 +138,11 @@ set_keymap("n", "<C-g>", function()
     result[mid].children = filter(result[mid])
 
     local symbols = vim.tbl_filter(function(t)
-      return t.kind == "Function" or t.kind == "Method" or t.kind == "Class" or t.kind == "Namespace"
+      return t.kind == "Function"
+        or t.kind == "Method"
+        or t.kind == "Class"
+        or t.kind == "Namespace"
+        or t.kind == "Constructor"
     end, vim.lsp.util.symbols_to_items({ result[mid] }, 0, vim.lsp.get_clients({ bufnr = 0 })[1].offset_encoding))
 
     local symbol_name = vim.tbl_map(function(t)
@@ -154,4 +159,4 @@ set_keymap("n", "<C-g>", function()
       table.concat(symbol_name, "%#Conceal#" .. (sep_list[vim.o.ft] or "->"))
     )
   end)
-end, { desc = "Show Treesitter Context" })
+end, { desc = "Show Context" })
