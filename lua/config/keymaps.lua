@@ -121,6 +121,7 @@ set_keymap("n", "<C-g>", function()
             s.kind == vim.lsp.protocol.SymbolKind.Function
             or s.kind == vim.lsp.protocol.SymbolKind.Method
             or s.kind == vim.lsp.protocol.SymbolKind.Class
+            or s.kind == vim.lsp.protocol.SymbolKind.Namespace
           )
         then
           table.insert(filtered, s)
@@ -136,7 +137,7 @@ set_keymap("n", "<C-g>", function()
     result[mid].children = filter(result[mid])
 
     local symbols = vim.tbl_filter(function(t)
-      return t.kind == "Function" or t.kind == "Method" or t.kind == "Class"
+      return t.kind == "Function" or t.kind == "Method" or t.kind == "Class" or t.kind == "Namespace"
     end, vim.lsp.util.symbols_to_items({ result[mid] }, 0, vim.lsp.get_clients({ bufnr = 0 })[1].offset_encoding))
 
     local symbol_name = vim.tbl_map(function(t)
