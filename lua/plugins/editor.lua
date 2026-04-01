@@ -526,6 +526,18 @@ return {
     },
   },
   {
+    "Kurama622/context.lua",
+    keys = {
+      {
+        "<C-g>",
+        function()
+          require("context"):show()
+        end,
+        desc = "Show Context",
+      },
+    },
+  },
+  {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
