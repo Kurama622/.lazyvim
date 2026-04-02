@@ -27,4 +27,11 @@ return {
       })
     end,
   },
+  {
+    "Kurama622/context.lua",
+    cmd = "ShowContext",
+    keys = {
+      { "<C-g>", "<cmd>ShowContext<CR>", desc = "Show Context" },
+    },
+  },
 }

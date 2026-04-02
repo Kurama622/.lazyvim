@@ -280,7 +280,7 @@ return {
       { "<leader>/", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
       { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Open Recent Files" },
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Open Buffers" },
-      { "<leader>cs", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Open Symbols" },
+      { "<leader>cs", "<cmd>FzfLua lsp_document_symbols parent_postfix=▸ locate=true winopts.preview.layout=ivy<cr>", desc = "Open Symbols" },
       { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Find Command History" },
     },
     -- stylua: ignore end
@@ -522,18 +522,6 @@ return {
         "<leader>sd",
         "<cmd>lua require('clean-diagnostic').show()<cr>",
         desc = "show the diagnostic of the current line",
-      },
-    },
-  },
-  {
-    "Kurama622/context.lua",
-    keys = {
-      {
-        "<C-g>",
-        function()
-          require("context"):show()
-        end,
-        desc = "Show Context",
       },
     },
   },
