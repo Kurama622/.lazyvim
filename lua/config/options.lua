@@ -16,7 +16,6 @@ opt.completeopt = "menu,menuone,noselect"
 -- opt.fileencodings = { "utf-8", "gbk", "ucs-bom", "cp936" }
 opt.expandtab = true
 opt.number = true
-opt.relativenumber = true
 opt.clipboard = env.SSH_TTY and "" or "unnamedplus"
 opt.wrap = true
 opt.linebreak = false
