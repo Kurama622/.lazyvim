@@ -2,12 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local keymap = vim.keymap
-
-local function set_keymap(mode, lhs, rhs, opts)
-  opts = opts or {}
-  keymap.set(mode, lhs, rhs, opts)
-end
+local set = vim.keymap.set
 
 local all_maps = {
   -- Normal mode mappings
@@ -58,7 +53,7 @@ local all_maps = {
 }
 
 for _, mapping in ipairs(all_maps) do
-  set_keymap(mapping.mode, mapping.lhs, mapping.rhs, mapping.opts)
+  set(mapping.mode, mapping.lhs, mapping.rhs, mapping.opts or {})
 end
 
 -- require("lazy.view.config").keys.close = "<Esc>"
