@@ -445,6 +445,9 @@ return {
       { "<leader>E", desc = "Fsbuffer (Root Dir)",
         function() require("fsbuffer"):toggle(vim.fs.root(0, ".git") .. "/") end,
       },
+      { "<leader>cf", desc = "Fsbuffer (core file)",
+        function() require("fsbuffer"):toggle("/data/corefile/") end,
+      },
     },
     -- stylua: ignore end
   },
@@ -523,6 +526,14 @@ return {
         "<cmd>lua require('clean-diagnostic').show()<cr>",
         desc = "show the diagnostic of the current line",
       },
+    },
+  },
+  {
+    dir = "~/Github/corefile.nvim/",
+    dev = true,
+    opts = {
+      pattern = "core.*",
+      config_name = ".corefilerc",
     },
   },
   {
