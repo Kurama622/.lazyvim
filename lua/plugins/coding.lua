@@ -21,16 +21,6 @@ return {
     },
   },
 
-  -- comments
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    opts = {
-      config = {
-        cpp = "// %s",
-      },
-    },
-  },
-
   -- ai
   -- {
   --   "Exafunction/codeium.vim",

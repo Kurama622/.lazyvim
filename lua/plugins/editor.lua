@@ -458,6 +458,7 @@ return {
       parse_stdout_as_stderr = false,
       enable_diagnostic = true,
       rust = "rustc ${SRC} && ./${TARGET}",
+      cpp = { "g++ -Wall -g ${SRC} -o ${TARGET} && ./${TARGET}" },
     },
     keys = {
       { "<F5>", "<cmd>QfCompile<CR>", desc = "compile" },
@@ -532,7 +533,7 @@ return {
     dir = "~/Github/corefile.nvim/",
     dev = true,
     opts = {
-      pattern = "core.*",
+      pattern = "core__*",
       config_name = ".corefilerc",
     },
   },
