@@ -96,7 +96,7 @@ return {
     -- lazy = true,
     event = "BufRead",
     config = function()
-      api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comments" })
+      api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Conceal" })
       require("gitsigns").setup({
         signs = {
           add = { text = "┃" },
