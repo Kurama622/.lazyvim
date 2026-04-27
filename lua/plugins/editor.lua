@@ -436,7 +436,7 @@ return {
   {
     "Kurama622/fsbuffer.nvim",
     cmd = "Fsbuffer",
-    opts = { search = { cmd = "fzf-fd" } },
+    opts = { search = { cmd = "fzf-fd" }, keymap = { sort = "<C-r>" } },
     -- stylua: ignore start
     keys = {
       { "<leader>e", desc = "Fsbuffer (Current Buffer Dir)",
@@ -458,7 +458,16 @@ return {
       parse_stdout_as_stderr = false,
       enable_diagnostic = true,
       rust = "rustc ${SRC} && ./${TARGET}",
-      cpp = { "g++ -Wall -g ${SRC} -o ${TARGET} && ./${TARGET}" },
+      cpp = {
+        { cmd = "g++ -Wall -g ${SRC} -o ${TARGET} && ./${TARGET}", desc = "qf mode" },
+        { cmd = "g++ -Wall -g ${SRC} -o ${TARGET}", on_done = "./${TARGET}", desc = "term mode" },
+        { cmd = "make", desc = "build by make" },
+      },
+      c = "gcc -Wall ${SRC} -o ${TARGET} && ./${TARGET}",
+
+      -- popup_win_opts = {
+      --   relative = "editor",
+      -- },
     },
     keys = {
       { "<F5>", "<cmd>QfCompile<CR>", desc = "compile" },
