@@ -525,7 +525,9 @@ return {
     "Kurama622/clean-diagnostic",
     event = "LspAttach",
     opts = {
-      sign_text = { "", "", "", "" },
+      icons = { "", "", "", "" },
+      show_diagnostic_count = true,
+      always_show_message = true,
       border = "rounded",
       min_severity = 4,
       max_width = 78,
@@ -539,8 +541,7 @@ return {
     },
   },
   {
-    dir = "~/Github/corefile.nvim/",
-    dev = true,
+    "Kurama622/corefile.nvim",
     opts = {
       pattern = "core__*",
       config_name = ".corefilerc",

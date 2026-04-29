@@ -41,4 +41,4 @@ local function setup_lsp()
 end
 
 setup_lsp()
-diagnostic.config({ signs = { text = { "", "", "", "" } } })
+diagnostic.config({ signs = { text = { "", "", "", "" } }, float = { header = "" } })
