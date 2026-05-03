@@ -1,15 +1,15 @@
-local models = require("plugins.llm.models")
-local extensions = require("plugins.llm.extensions")
-local ui = require("plugins.llm.ui")
-local keymaps = require("plugins.llm.keymaps")
-local api, tbl_deep_extend, env = vim.api, vim.tbl_deep_extend, vim.env
-
 return {
   {
     "Kurama622/llm.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim", "Kurama622/windsurf.nvim" },
     cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
     opts = function()
+      local models = require("plugins.llm.models")
+      local extensions = require("plugins.llm.extensions")
+      local ui = require("plugins.llm.ui")
+      local keymaps = require("plugins.llm.keymaps")
+      local tbl_deep_extend, env = vim.tbl_deep_extend, vim.env
+
       return tbl_deep_extend("force", ui, extensions, keymaps, {
         prompt = "You are a helpful Chinese assistant.",
         enable_trace = false,

@@ -242,34 +242,30 @@ return {
   },
   {
     "ibhagwan/fzf-lua",
-    -- dependencies = {
-    --   "echasnovski/mini.icons",
-    -- },
-    config = function()
-      require("fzf-lua").setup({
-        -- defaults = {
-        --   file_icons = true,
-        --   git_icons = false, -- show git icons (requires a colorscheme that supports git signs)
-        --   color_icons = true, -- colorize file/git icons
-        -- },
-        fzf_opts = { ["--cycle"] = true },
-        fzf_colors = {
-          false, -- inherit fzf colors that aren't specified below from
-          -- the auto-generated theme similar to `fzf_colors=true`
-          ["fg"] = { "fg", "CursorLine" },
-          ["bg"] = { "bg", "Normal" },
-          ["hl"] = { "fg", "Comment" },
-          ["hl+"] = { "fg", "Statement" },
-          ["info"] = { "fg", "PreProc" },
-          ["prompt"] = { "fg", "Conditional" },
-          ["marker"] = { "bg", "Keyword" },
-          ["spinner"] = { "fg", "Label" },
-          ["pointer"] = { "fg", "Exception" },
-          ["header"] = { "fg", "Comment" },
-          ["gutter"] = "-1",
-        },
-      })
-    end,
+    cmd = "FzfLua",
+    opts = {
+      -- defaults = {
+      --   file_icons = true,
+      --   git_icons = false, -- show git icons (requires a colorscheme that supports git signs)
+      --   color_icons = true, -- colorize file/git icons
+      -- },
+      fzf_opts = { ["--cycle"] = true },
+      fzf_colors = {
+        false, -- inherit fzf colors that aren't specified below from
+        -- the auto-generated theme similar to `fzf_colors=true`
+        ["fg"] = { "fg", "CursorLine" },
+        ["bg"] = { "bg", "Normal" },
+        ["hl"] = { "fg", "Comment" },
+        ["hl+"] = { "fg", "Statement" },
+        ["info"] = { "fg", "PreProc" },
+        ["prompt"] = { "fg", "Conditional" },
+        ["marker"] = { "bg", "Keyword" },
+        ["spinner"] = { "fg", "Label" },
+        ["pointer"] = { "fg", "Exception" },
+        ["header"] = { "fg", "Comment" },
+        ["gutter"] = "-1",
+      },
+    },
     -- stylua: ignore start
     keys = {
       { "<leader><space>", function() require("fzf-lua").files({ cwd = vim.uv.cwd() }) end, desc = "Find Files" },
@@ -354,6 +350,7 @@ return {
     "saghen/blink.cmp",
     dependencies = { "Kurama622/llm.nvim" },
     version = "1.*",
+    event = "InsertEnter",
     opts = {
       fuzzy = {
         implementation = "lua",
@@ -511,15 +508,15 @@ return {
     end,
   },
 
-  -- {
-  --   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-  --   config = function()
-  --     diagnostic.config({
-  --       virtual_lines = true,
-  --     })
-  --     require("lsp_lines").setup()
-  --   end,
-  -- },
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      diagnostic.config({
+        virtual_lines = true,
+      })
+      require("lsp_lines").setup()
+    end,
+  },
 
   {
     "Kurama622/clean-diagnostic",
@@ -565,7 +562,6 @@ return {
   },
   {
     "Kurama622/dashboard-github.nvim",
-    dependencies = { "ibhagwan/fzf-lua" },
     opts = {
       username = "Kurama622",
       months_to_show = 8,
@@ -581,9 +577,10 @@ return {
       shortcuts = {
         { key = "f", desc = "Find Files", action = "<cmd>FzfLua files<CR>" },
         { key = "r", desc = "Recent Files", action = "<cmd>FzfLua oldfiles<CR>" },
-        { key = "n", desc = "New File", action = "<cmd>enew <CR>i" },
+        { key = "n", desc = "New File", action = "<cmd>enew | startinsert<CR>" },
         { key = "c", desc = "Open Neovim Config", action = "<cmd>FzfLua files cwd=~/.config/nvim<CR>" },
         { key = "/", desc = "Live Grep", action = "<cmd>FzfLua live_grep<CR>" },
+        { key = "l", desc = "Open Lazy UI", action = "<cmd>Lazy<CR>" },
         { key = "u", desc = "Update Plugins", action = "<cmd>Lazy update<CR>" },
         { key = "q", desc = "Quit", action = "<cmd>qa<CR>" },
       },
