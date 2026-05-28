@@ -58,14 +58,33 @@ return {
         c = { "clang-format" },
         cpp = { "clang-format" },
         json = { "clang-format" },
-        python = { "autopep8" },
+        python = { "yapf" },
       },
-      format_on_save = {
-        -- These options will be passed to conform.format()
-        timeout_ms = 500,
-        lsp_format = "fallback",
+
+      formatters = {
+        yapf = {
+          prepend_args = {
+            "--style",
+            "{ based_on_style: google, spaces_before_comment: 4, split_before_logical_operator: true }",
+          },
+        },
       },
+      -- log_level = vim.log.levels.DEBUG,
     },
+    config = function(_, opts)
+      if vim.g.autoformat then
+        opts.format_on_save = {
+          -- These options will be passed to conform.format()
+          timeout_ms = 500,
+          lsp_format = "fallback",
+        }
+      else
+        vim.keymap.set("x", "<leader>f", function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end)
+      end
+      require("conform").setup(opts)
+    end,
   },
 
   {
