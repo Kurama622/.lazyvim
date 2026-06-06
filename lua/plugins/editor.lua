@@ -67,7 +67,6 @@ return {
       -- LSP
       { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
       { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
-      { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
       { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
       { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
       { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
@@ -278,6 +277,8 @@ return {
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Open Buffers" },
       { "<leader>cs", "<cmd>FzfLua lsp_document_symbols parent_postfix=▸ locate=true winopts.preview.layout=ivy<cr>", desc = "Open Symbols" },
       { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Find Command History" },
+      { "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>", desc = "Find Code Actions" },
+      { "gr", "<cmd>FzfLua lsp_references<cr>", nowait = true, desc = "Find References" },
     },
     -- stylua: ignore end
   },
@@ -564,7 +565,7 @@ return {
     "Kurama622/dashboard-github.nvim",
     opts = {
       username = "Kurama622",
-      months_to_show = 8,
+      months_to_show = 7,
 
       layout = {
         gap = 8,
@@ -580,7 +581,7 @@ return {
         { key = "n", desc = "New File", action = "<cmd>enew | startinsert<CR>" },
         { key = "c", desc = "Open Neovim Config", action = "<cmd>FzfLua files cwd=~/.config/nvim<CR>" },
         { key = "/", desc = "Live Grep", action = "<cmd>FzfLua live_grep<CR>" },
-        -- { key = "l", desc = "Open Lazy UI", action = "<cmd>Lazy<CR>" },
+        { key = "l", desc = "Open Lazy UI", action = "<cmd>Lazy<CR>" },
         { key = "u", desc = "Update Plugins", action = "<cmd>Lazy update<CR>" },
         { key = "q", desc = "Quit", action = "<cmd>qa<CR>" },
       },
